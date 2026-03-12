@@ -92,10 +92,15 @@ class PricingModel:
         def _irls_fit(X_sub, y_sub):
             w = np.ones(len(y_sub))
             coeffs = None
+            lam = 1e-4  # Ridge penalty
+            n_feat = X_sub.shape[1]
             for _ in range(20):
                 Xw = X_sub * w[:, None]
                 yw = y_sub * w
-                coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
+                # Ridge: (X'X + λI)^-1 X'y
+                XtX = Xw.T @ Xw + lam * np.eye(n_feat)
+                Xty = Xw.T @ yw
+                coeffs = np.linalg.solve(XtX, Xty)
                 resid = y_sub - X_sub @ coeffs
                 mad = np.median(np.abs(resid)) + 1e-8
                 w = 1.0 / (1.0 + (resid / (1.5 * mad)) ** 2)
