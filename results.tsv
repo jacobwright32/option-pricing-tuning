@@ -407,3 +407,5 @@ n/a	2.013610	2.690685	0.002003	0.862069	29	discard	tier 2 ret_5d -0.045->-0.04 a
 n/a	2.029002	2.716338	0.002003	0.925926	27	discard	low_scale floor 0.0->0.1 no effect
 n/a	2.029002	2.716338	0.002003	0.925926	27	discard	tier 2 add ret_10d<-0.04 no effect
 n/a	2.027599	2.716338	0.005510	0.925926	27	discard	blend surface+raw IV at ATM worse MAPE
+n/a	2.026231	2.711720	0.002003	0.925926	27	discard	tier 2 signal 0.66->0.7
+b740516	2.031317	2.720197	0.002003	0.925926	27	keep	tier 2 signal 0.66->0.6
