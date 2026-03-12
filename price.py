@@ -120,25 +120,22 @@ class PricingModel:
 
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
         log_m = np.log(K / S)
+        sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
 
-        # Group by expiry and fit quadratic smile per group
-        unique_T = np.unique(T)
-        fitted_vol = np.copy(ivs)
-
-        for t_val in unique_T:
-            mask = T == t_val
-            if mask.sum() < 3:
-                # Not enough points — use median
-                fitted_vol[mask] = np.median(ivs[mask])
-                continue
-            m = log_m[mask]
-            v = ivs[mask]
-            # Fit quadratic: σ = a + b·m + c·m²
-            try:
-                coeffs = np.polyfit(m, v, 2)
-                fitted_vol[mask] = np.clip(np.polyval(coeffs, m), 0.01, 5.0)
-            except Exception:
-                fitted_vol[mask] = np.median(v)
+        # Fit 2D vol surface: σ(m, √T) = a + b·m + c·m² + d·√T + e·m·√T
+        # This captures skew, smile, AND term structure simultaneously
+        X = np.column_stack([
+            np.ones(len(log_m)),
+            log_m,
+            log_m ** 2,
+            sqrt_T,
+            log_m * sqrt_T,
+        ])
+        try:
+            coeffs, _, _, _ = np.linalg.lstsq(X, ivs, rcond=None)
+            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
+        except Exception:
+            fitted_vol = ivs
 
         fair_values = bs_price(S, K, T, r, fitted_vol, is_call)
         return np.maximum(fair_values, 0.01)
