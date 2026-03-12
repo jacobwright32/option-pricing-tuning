@@ -288,3 +288,13 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 285	1.701841	2.171098	0.002045	KEPT	IV pre-filter 0.08-1.5 — MAPE 0.2045%
 286	1.701841	2.171098	0.002044	KEPT	IV pre-filter 0.10-1.2 — MAPE 0.2044%
 287	1.701842	2.171098	0.002043	KEPT	IV pre-filter 0.12-1.0 — MAPE 0.2043%
+288	1.701833	2.171098	0.002066	DISCARD	IV pre-filter 0.15-0.8 — too tight, MAPE 0.2066%
+289	1.701842	2.171098	0.002043	DISCARD	Output clip 0.05-3.0 — identical
+290	1.701842	2.171098	0.002043	DISCARD	Min samples 12 — identical
+291	1.701842	2.171098	0.002043	DISCARD	RV trend filter on shorts — no effect
+292	1.306212	1.511716	0.002043	DISCARD	Extreme panic (IV/RV>2.5) long without momentum — 22 trades, dilutive
+293	1.701842	2.171098	0.002043	DISCARD	IV/RV>3.0 unconditional long — never fires
+294	1.697319	2.171098	0.013349	DISCARD	Price floor 0.005 — MAPE 1.33%, deep OTM relative error
+295	1.691262	2.171098	0.028494	DISCARD	Price floor 0.02 — MAPE 2.85%
+296	1.701842	2.171098	0.002043	DISCARD	IV guess OTM threshold 0.15 — identical
+297	1.701842	2.171098	0.002043	DISCARD	Long IV>0.35 filter — all longs already satisfy this
