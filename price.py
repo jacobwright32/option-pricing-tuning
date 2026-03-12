@@ -200,9 +200,6 @@ class PricingModel:
         if iv_rv_ratio > 1.8 and ret_5d < -0.02:
             # Extreme fear + price drop → contrarian long
             signal = 1.0
-        elif 0.70 < iv_rv_ratio < 0.78 and -0.05 < recent_ret < 0.03 and -0.03 < ret_5d < 0.03:
-            # Complacency + flat/sideways market → short
-            signal = -0.06
         else:
             signal = 0.0
 
