@@ -124,10 +124,10 @@ class PricingModel:
             log_m / sqrt_T,    # skew/sqrt(T) — matches ground truth skew term
         ])
 
-        def _irls_fit(X_sub, y_sub):
+        def _irls_fit(X_sub, y_sub, n_iter=20):
             w = np.ones(len(y_sub))
             coeffs = None
-            for _ in range(20):
+            for _ in range(n_iter):
                 Xw = X_sub * w[:, None]
                 yw = y_sub * w
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
@@ -158,7 +158,7 @@ class PricingModel:
             # Fit correction surface using only reliable corrections (high vega)
             corr_good = (np.abs(iv_correction) < 0.5) & (vega > 0.1)
             if corr_good.sum() > 8:
-                corr_coeffs = _irls_fit(X[corr_good], iv_correction[corr_good])
+                corr_coeffs = _irls_fit(X[corr_good], iv_correction[corr_good], n_iter=10)
                 smooth_corr = X @ corr_coeffs
                 fitted_vol = np.clip(base_vol - smooth_corr, 0.01, 5.0)
             else:
