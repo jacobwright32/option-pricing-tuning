@@ -614,3 +614,6 @@ n/a	2.198995	2.999661	0.002003	0.925926	27	discard	tier3 base 0.03->0.01
 n/a	2.198426	2.998712	0.002003	0.925926	27	discard	remove accel1 from tier1
 n/a	2.198414	2.998692	0.002003	0.925926	27	discard	remove skew_boost from tier1
 7f1d31e	2.199098	2.999831	0.002003	0.925926	27	keep	remove term_boost from tier1 (no effect)
+n/a	2.184956	2.976263	0.002003	0.960000	25	discard	remove skew_boost from tier3
+n/a	2.090916	2.819528	0.002003	0.925926	27	discard	remove term_boost from tier3
+13652ee	2.199245	3.000078	0.002003	0.925926	27	keep	remove ivrv_boost from tier1
