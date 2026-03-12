@@ -201,7 +201,7 @@ class PricingModel:
             return (0.55 + skew_boost * 0.3 + term_boost * 0.3) * low_scale
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
             # Acceleration: if most of the 10d loss is in last 5d, more recent = better
-            accel = min(0.2, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.4) * 0.5) if ret_10d < -0.01 else 0.0
+            accel = min(0.2, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.5) if ret_10d < -0.01 else 0.0
             return (0.4 + skew_boost + term_boost + accel) * low_scale
         else:
             return 0.0
