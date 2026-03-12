@@ -170,3 +170,27 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 165	1.348734	1.582589	0.002047	DISCARD	Mean vs median ATM IV — identical
 166	0.957390	0.930348	0.002047	DISCARD	Vol declining filter — too aggressive, 5 trades
 167	1.348734	1.582589	0.002047	DISCARD	Dual momentum filter (10d + 20d) — no improvement over 10d alone
+168	1.356807	1.596044	0.002047	KEPT	IV/RV threshold 0.755 — 11 trades, Sharpe 1.60, 82% win rate
+169	1.356807	1.596044	0.002047	DISCARD	Threshold 0.759 — identical to 0.755
+170	1.356807	1.596044	0.002047	DISCARD	Momentum threshold scan 0.025-0.06 — 0.05 already optimal
+171	0.855856	0.761124	0.002047	DISCARD	Max drawdown filter — too strict, only 1 trade
+172	0.855856	0.761124	0.002047	DISCARD	IV level filter — removed too many trades
+173	1.356556	1.596044	0.002676	DISCARD	IRLS 10-15 iters — slight MAPE regression
+174	1.356245	1.596044	0.003453	DISCARD	Vega-weighted IRLS — MAPE increased
+175	1.356126	1.596044	0.003751	DISCARD	|m| basis function — overfitting, MAPE worse
+176	1.297749	1.497614	0.002047	DISCARD	Asymmetric momentum filter — removes winners too
+177	1.356807	1.596044	0.002047	DISCARD	IV term structure filter — never triggered
+178	1.356807	1.596044	0.002047	DISCARD	OLS initial guess for IRLS — identical result
+179	0.961954	0.937955	0.002047	DISCARD	Price above MA filter — too restrictive, 4 trades
+180	-0.342017	-1.235331	0.002047	DISCARD	Pure price momentum — 414 trades, Sharpe -1.24, no edge
+181	1.356807	1.596044	0.002047	DISCARD	IV spread filter — never triggered, slower
+182	0.929828	0.884411	0.002047	DISCARD	Vol acceleration filter — too restrictive, 3 trades
+183	1.308536	1.596044	0.122727	DISCARD	Brenner-Subrahmanyam IV guess — poor for OTM, MAPE 12.3%
+184	1.356807	1.596044	0.002047	DISCARD	15 IV iterations — no change, 10 sufficient
+185	1.356808	1.596044	0.002047	DISCARD	Tighter pre-filter — no change
+186	1.356803	1.596044	0.002059	DISCARD	Halley method for IV — slightly slower, no improvement
+187	1.341979	1.571330	0.002047	DISCARD	Mispricing signal filter — either removes winners or no-op, slower
+188	1.068865	1.116139	0.002047	DISCARD	15-day momentum lookback — worse filter
+189	1.356807	1.596044	0.002047	DISCARD	Log return momentum — identical to simple return
+190	1.166775	1.279323	0.002047	DISCARD	Vol-normalized momentum z-score — raw 5% filter works better
+191	1.348734	1.582589	0.002047	DISCARD	Min IV > 0.20 filter — removed a winning trade

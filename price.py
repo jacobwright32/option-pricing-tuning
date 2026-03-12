@@ -202,7 +202,7 @@ class PricingModel:
         iv_rv_ratio = current_iv / max(realized_vol, 0.01)
 
         # Short when complacent AND price hasn't already dropped
-        if iv_rv_ratio < self.short_iv_rv_threshold and recent_ret < 0.05:
+        if 0.70 < iv_rv_ratio < self.short_iv_rv_threshold and recent_ret < 0.05:
             signal = -self.signal_strength
         else:
             signal = 0.0
