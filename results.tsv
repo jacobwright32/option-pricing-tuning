@@ -89,3 +89,7 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.836580	2.396215	0.002871	0.933333	15	discard	abs(log_m) basis term (MAPE worse)
 -	1.565467	1.943796	0.002026	0.937500	16	discard	ATM window 0.03 (worse signal)
 -	1.836918	2.396215	0.002026	0.933333	15	discard	low_scale min 0.3 (no change)
+-	1.565384	1.943657	0.002026	0.909091	11	discard	OTM put skew filter on moderate tier
+-	1.830720	2.385885	0.002026	0.875000	16	discard	3rd tier IV/RV>2.0 ret5d<-0.03 dist<0.06
+-	1.758736	2.265910	0.002026	0.833333	18	discard	15d low window
+06cf9a8	1.840785	2.402660	0.002026	0.933333	15	keep	moderate strength 0.75 (Sharpe 2.40, 93% win)
