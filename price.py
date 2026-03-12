@@ -138,7 +138,7 @@ class PricingModel:
         def _irls_fit(X_sub, y_sub):
             w = np.ones(len(y_sub))
             coeffs = None
-            for _ in range(20):
+            for _ in range(30):
                 Xw = X_sub * w[:, None]
                 yw = y_sub * w
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
