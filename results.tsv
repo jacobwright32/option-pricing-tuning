@@ -324,3 +324,13 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846398	2.412058	0.002092	1.000000	14	discard	IQR scale instead of MAD
 -	1.553288	1.923482	0.002003	0.842105	19	discard	ATM moneyness < 0.04
 -	1.843732	2.407555	0.002003	1.000000	14	discard	sig0 scaling 0.35
+-	1.846434	2.412058	0.002003	1.000000	14	discard	ret_5d < -0.044 (same)
+-	1.805900	2.343234	0.002003	0.875000	16	discard	ret_5d < -0.040 mod tier (losers)
+-	1.556107	1.928181	0.002003	0.857143	14	discard	trimmed mean ATM IV (10% trim)
+-	1.846060	2.411436	0.002003	1.000000	14	discard	low_scale denom 0.055
+-	1.846434	2.412058	0.002003	1.000000	14	discard	MAD epsilon 1e-6 (same)
+-	1.846433	2.412058	0.002005	1.000000	14	discard	MAD epsilon 1e-4
+-	1.846320	2.412058	0.002287	1.000000	14	discard	abs(log_m) 5th feature
+-	1.844106	2.412058	0.007822	1.000000	14	discard	separate call/put vol surface fits
+-	1.846433	2.412058	0.002005	1.000000	14	discard	ridge lambda=2.5e-4
+-	1.846434	2.412058	0.002003	1.000000	14	discard	time_val floor 0.005 (same)
