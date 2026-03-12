@@ -410,3 +410,9 @@ n/a	2.027599	2.716338	0.005510	0.925926	27	discard	blend surface+raw IV at ATM w
 n/a	2.026231	2.711720	0.002003	0.925926	27	discard	tier 2 signal 0.66->0.7
 b740516	2.031317	2.720197	0.002003	0.925926	27	keep	tier 2 signal 0.66->0.6
 67836ef	2.031337	2.720230	0.002003	0.925926	27	keep	tier 2 signal 0.6->0.55
+n/a	2.029399	2.717001	0.002003	0.925926	27	discard	tier 2 signal 0.55->0.5 too small
+n/a	2.027317	2.713531	0.002003	0.925926	27	discard	tier 3 signal 0.4->0.35
+n/a	2.030674	2.719126	0.002003	0.925926	27	discard	tier 1 signal 1.2->1.3
+n/a	2.028492	2.715489	0.002003	0.925926	27	discard	tier 1 wider low_scale denom 0.05
+n/a	0.943692	0.907489	0.002003	0.548077	104	discard	short signal iv_rv<0.9 ret_5d>0.03 too many losers
+fafd1ee	2.034967	2.726281	0.002003	0.925926	27	keep	OTM put skew boost tier 3
