@@ -185,7 +185,7 @@ class PricingModel:
 
         skew_boost = min(0.2, max(0.0, put_skew * 2))
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
-            return (1.2 + skew_boost * 0.7) * low_scale
+            return (1.2 + skew_boost * 0.9) * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return (0.55 + skew_boost * 0.3) * low_scale
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
