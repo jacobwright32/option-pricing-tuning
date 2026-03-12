@@ -42,7 +42,10 @@ def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-8):
     market_price = np.asarray(market_price, dtype=float)
     is_call = np.asarray(is_call, dtype=bool)
 
-    sigma = np.full(len(S), 0.3)
+    # Better initial guess based on ATM approximation
+    intrinsic = np.where(is_call, np.maximum(S - K, 0), np.maximum(K - S, 0))
+    time_value = np.maximum(market_price - intrinsic, 0.01)
+    sigma = np.clip(time_value / (S * 0.4 * np.sqrt(np.maximum(T, 1e-4))), 0.05, 2.0)
     active = np.ones(len(S), dtype=bool)
 
     for _ in range(max_iter):
