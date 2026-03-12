@@ -466,3 +466,6 @@ ae3f7e0	2.071167	2.786614	0.002003	0.925926	27	keep	ivrv_boost mult 3->5
 n/a	2.070501	2.785504	0.002003	0.925926	27	discard	ivrv_boost mult 10->20 overshoot
 n/a	1.989036	2.649728	0.002003	0.925926	27	discard	tier 3 ivrv_boost (iv_rv-1.5)*5 over-sizing
 n/a	2.069674	2.784125	0.002003	0.925926	27	discard	tier 1 ret_boost abs(ret_5d)*10 over-sizing
+n/a	2.071139	2.786568	0.002003	0.925926	27	discard	tier 2 ivrv_boost (iv_rv-1.6)*3
+n/a	2.070946	2.786245	0.002003	0.925926	27	discard	atm_count_boost tier 1
+n/a	2.071260	2.786769	0.002003	0.925926	27	discard	ret_1d day boost tier 1
