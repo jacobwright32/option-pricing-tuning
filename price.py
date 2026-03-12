@@ -155,8 +155,8 @@ class PricingModel:
             vega_safe = np.maximum(vega, 1e-12)
             iv_correction = price_err / vega_safe
 
-            # Fit correction surface to smooth it
-            corr_good = np.abs(iv_correction) < 0.5
+            # Fit correction surface using only reliable corrections (high vega)
+            corr_good = (np.abs(iv_correction) < 0.5) & (vega > 0.1)
             if corr_good.sum() > 8:
                 corr_coeffs = _irls_fit(X[corr_good], iv_correction[corr_good])
                 smooth_corr = X @ corr_coeffs
