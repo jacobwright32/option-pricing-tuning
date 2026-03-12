@@ -165,7 +165,7 @@ class PricingModel:
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
         # OTM put skew
-        otm_put = (~is_call) & (K < spot * 0.95)
+        otm_put = (~is_call) & (K < spot * 0.92)
         if otm_put.sum() > 2:
             otm_ivs = implied_vol_vec(S[otm_put], K[otm_put], T[otm_put], r, market_price[otm_put], is_call[otm_put])
             put_skew = np.median(otm_ivs) - current_iv
