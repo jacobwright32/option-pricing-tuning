@@ -249,3 +249,21 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.536412	1.895364	0.002016	0.909091	11	discard	3-day return for extreme tier
 -	1.844949	2.412058	0.005716	1.000000	14	discard	vega-weighted IRLS
 -	1.838672	2.399130	0.002016	1.000000	14	discard	sqrt low_scale for extreme tier
+-	1.846427	2.412058	0.002021	1.000000	14	discard	ensemble vol surface (avg two ridge lambdas)
+-	1.601575	2.003969	0.002016	0.875000	16	discard	vega-weighted mean ATM IV
+-	0.890772	0.819297	0.002016	0.617647	34	discard	EWMA realized vol (lambda=0.94)
+-	1.696429	2.162059	0.002016	1.000000	11	discard	percentile rank in 20d range
+-	1.846429	2.412058	0.002016	1.000000	14	discard	OLS-init IRLS (same result)
+-	1.712580	2.188977	0.002016	1.000000	12	discard	IV confidence multiplier from ATM IV spread
+-	1.846429	2.412058	0.002016	1.000000	14	discard	30 IV solver iterations (same result)
+-	1.846304	2.412058	0.002328	1.000000	14	discard	vol surface bias correction
+-	1.846429	2.412058	0.002016	1.000000	14	discard	ridge lambda=1.5e-4 (same score)
+-	1.846275	2.412058	0.002400	1.000000	14	discard	Huber loss IRLS weights
+-	1.846429	2.412058	0.002016	1.000000	14	discard	centered sqrt_T-0.3 basis (same)
+-	1.846429	2.412058	0.002016	1.000000	14	discard	IV term structure 3rd tier (no new trades)
+-	1.845837	2.412058	0.003495	1.000000	14	discard	blend surface+raw IV for outliers
+-	1.846429	2.412058	0.002016	1.000000	14	discard	Halley method IV solver (same result, faster)
+-	1.846418	2.412058	0.002041	1.000000	14	discard	tighter IV filter [0.08, 0.8]
+-	1.846429	2.412058	0.002016	1.000000	14	discard	IV filter [0.08, 1.2] (same score)
+-	1.846429	2.412058	0.002016	1.000000	14	discard	OTM put skew boost (no effect)
+c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in IRLS
