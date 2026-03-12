@@ -146,7 +146,7 @@ class PricingModel:
         sig0 = np.clip(time_val / (S_atm * 0.4 * np.sqrt(np.maximum(T_atm, 1e-4))), 0.05, 2.0)
         # Newton-Raphson with custom start
         sigma_atm = sig0.copy()
-        for _ in range(20):
+        for _ in range(10):
             p = bs_price(S_atm, K_atm, T_atm, r, sigma_atm, ic_atm)
             v = bs_vega(S_atm, K_atm, T_atm, r, sigma_atm)
             diff = p - mp_atm
