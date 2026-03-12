@@ -201,3 +201,7 @@ a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same scor
 -	1.633748	2.057598	0.002026	0.937500	16	discard	extreme ret_5d threshold -0.012
 -	1.846424	2.412058	0.002026	1.000000	14	discard	signal IV 15 iterations (no improvement)
 0f06010	1.846428	2.412058	0.002018	1.000000	14	keep	ridge regularization lambda=1e-4 in IRLS
+-	1.846361	2.412058	0.002185	1.000000	14	discard	ridge lambda=1e-3
+-	1.846427	2.412058	0.002021	1.000000	14	discard	ridge lambda=5e-5
+-	1.846428	2.412058	0.002016	1.000000	14	discard	ridge lambda=2e-4 (same combined)
+-	1.846427	2.412058	0.002021	1.000000	14	discard	ridge lambda=3e-4

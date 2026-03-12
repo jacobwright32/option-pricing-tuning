@@ -92,7 +92,7 @@ class PricingModel:
         def _irls_fit(X_sub, y_sub):
             w = np.ones(len(y_sub))
             coeffs = None
-            lam = 1e-4  # Ridge penalty
+            lam = 2e-4  # Ridge penalty
             n_feat = X_sub.shape[1]
             for _ in range(20):
                 Xw = X_sub * w[:, None]
