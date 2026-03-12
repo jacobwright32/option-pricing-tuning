@@ -281,3 +281,7 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 278	1.688671	2.149150	0.002047	DISCARD	Long ret threshold -0.025 — loses 1 long
 279	1.596318	1.995229	0.002047	DISCARD	Short + 5d>-1% filter — 100% win rate but loses 3 trades
 280	1.623334	2.040255	0.002047	DISCARD	Short + 5d>-3% filter — loses 1 winner
+281	1.140149	1.234946	0.002047	DISCARD	Price rank near 20d low + IV/RV>1.3 — 74 trades, too loose
+282	1.701840	2.171098	0.002047	DISCARD	Swap signal priority (long first) — identical, mutually exclusive
+283	1.623334	2.040255	0.002047	DISCARD	Short ret>-5% filter — removes a winner, not the loser
+284	1.701841	2.171098	0.002046	KEPT	IV pre-filter 0.05-2.0 — MAPE 0.2046%, marginal improvement
