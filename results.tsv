@@ -317,3 +317,10 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846434	2.412058	0.002003	1.000000	14	discard	15 signal IV iterations (same)
 -	1.654190	2.090318	0.002003	1.000000	9	discard	IV/RV>1.88 ret_5d<-0.013 (too tight)
 -	1.846390	2.412058	0.002112	1.000000	14	discard	two-pass IRLS with inner filter
+-	1.846431	2.412058	0.002009	1.000000	14	discard	IV init guess 0.25
+-	1.846434	2.412058	0.002003	1.000000	14	discard	IV init guess 0.35 (same)
+-	1.845773	2.412058	0.003654	1.000000	14	discard	T instead of sqrt_T basis
+-	1.843732	2.407555	0.002003	1.000000	14	discard	damped signal IV solver (0.85x)
+-	1.846398	2.412058	0.002092	1.000000	14	discard	IQR scale instead of MAD
+-	1.553288	1.923482	0.002003	0.842105	19	discard	ATM moneyness < 0.04
+-	1.843732	2.407555	0.002003	1.000000	14	discard	sig0 scaling 0.35
