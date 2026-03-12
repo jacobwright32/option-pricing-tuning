@@ -101,7 +101,8 @@ class PricingModel:
     def price_chain(self, chain):
         """
         Price an entire options chain for one asset on one day.
-        Baseline: compute IV from market prices, use flat vol = median IV.
+        Vol surface fit: sigma(m,T) = a + b*m^2 + c*sqrt(T) + d*m/sqrt(T)
+        with IRLS robust regression.
         """
         S = chain["S"]
         K = chain["K"]
@@ -111,9 +112,39 @@ class PricingModel:
         market_price = chain["market_price"]
 
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
-        flat_vol = np.median(ivs)
+        log_m = np.log(K / S)
+        sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
+        X = np.column_stack([
+            np.ones(len(log_m)),
+            log_m ** 2,
+            sqrt_T,
+            log_m / sqrt_T,
+        ])
 
-        fair_values = bs_price(S, K, T, r, flat_vol, is_call)
+        def _irls_fit(X_sub, y_sub):
+            w = np.ones(len(y_sub))
+            coeffs = None
+            for _ in range(20):
+                Xw = X_sub * w[:, None]
+                yw = y_sub * w
+                coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
+                resid = y_sub - X_sub @ coeffs
+                mad = np.median(np.abs(resid)) + 1e-8
+                w = 1.0 / (1.0 + (resid / (1.5 * mad)) ** 2)
+            return coeffs
+
+        fitted_vol = np.copy(ivs)
+        try:
+            good = (ivs > 0.02) & (ivs < 3.0)
+            if good.sum() > 8:
+                coeffs = _irls_fit(X[good], ivs[good])
+            else:
+                coeffs = _irls_fit(X, ivs)
+            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
+        except Exception:
+            fitted_vol = ivs
+
+        fair_values = bs_price(S, K, T, r, fitted_vol, is_call)
         return np.maximum(fair_values, 0.01)
 
     def generate_signal(self, chain, price_history):
