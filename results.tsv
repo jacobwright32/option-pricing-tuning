@@ -874,3 +874,10 @@ n/a	2.255197	3.093331	0.002003	0.862069	29	discard	tier3 accel trigger -0.01->-0
 n/a	2.255195	3.093331	0.002010	0.862069	29	discard	ridge lambda 2e-4->3e-4
 n/a	2.251694	3.087492	0.002003	0.862069	29	discard	add iv_short_div to tier1
 PENDING	2.257686	3.097480	0.002003	0.862069	29	keep	remove low_scale from tier3 (dist_from_low already tight)
+n/a	2.241671	3.070786	0.002003	0.862069	29	discard	remove coherence from tier3
+n/a	2.257686	3.097480	0.002003	0.862069	29	discard	remove low_scale from tier2 (same score)
+n/a	2.257017	3.096364	0.002003	0.862069	29	discard	tier3 accel cap 0.35->0.38
+n/a	2.250030	3.084718	0.002003	0.862069	29	discard	tier3 term_boost weight 1.2
+n/a	2.256438	3.095399	0.002003	0.862069	29	discard	tier3 term_boost weight 0.8
+n/a	2.221556	3.037261	0.002003	0.862069	29	discard	remove low_scale from tier1
+PENDING	2.258670	3.099119	0.002003	0.862069	29	keep	tier3 skew_boost weight 0.8
