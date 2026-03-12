@@ -164,6 +164,14 @@ class PricingModel:
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
+        # OTM put skew
+        otm_put = (~is_call) & (K < spot * 0.95)
+        if otm_put.sum() > 2:
+            otm_ivs = implied_vol_vec(S[otm_put], K[otm_put], T[otm_put], r, market_price[otm_put], is_call[otm_put])
+            put_skew = np.median(otm_ivs) - current_iv
+        else:
+            put_skew = 0.0
+
         if realized_vol < 0.01:
             return 0.0
         iv_rv_ratio = current_iv / realized_vol
@@ -180,7 +188,8 @@ class PricingModel:
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return 0.55 * low_scale
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
-            return 0.4 * low_scale
+            skew_boost = min(0.2, max(0.0, put_skew * 2))
+            return (0.4 + skew_boost) * low_scale
         else:
             return 0.0
 
