@@ -149,7 +149,7 @@ class PricingModel:
         iv_rv_ratio = current_iv / realized_vol
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
 
-        if iv_rv_ratio > 1.85 and ret_5d < -0.02:
+        if iv_rv_ratio > 1.85 and ret_5d < -0.015:
             return 1.0
         else:
             return 0.0
