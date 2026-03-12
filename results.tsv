@@ -473,3 +473,7 @@ n/a	2.068349	2.781916	0.002003	0.925926	27	discard	dynamic low_scale denom based
 n/a	2.071314	2.786859	0.002004	0.925926	27	discard	ridge lambda 2e-4->1.5e-4 same score
 n/a	1.994304	2.658508	0.002003	0.913043	23	discard	call-only ATM IV fewer trades
 n/a	1.764508	2.275515	0.002003	0.812500	32	discard	60th percentile ATM IV too many losers
+n/a	2.071257	2.786764	0.002003	0.925926	27	discard	tier 1 ret_depth boost
+n/a	2.071314	2.786859	0.002003	0.925926	27	discard	rv_expand boost no effect
+n/a	2.071314	2.786859	0.002003	0.925926	27	discard	tier 1 dist 0.03->0.025 no change
+n/a	2.071314	2.786859	0.002003	0.925926	27	discard	tier 1 dist 0.03->0.035 no change
