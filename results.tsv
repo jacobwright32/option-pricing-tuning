@@ -205,3 +205,12 @@ a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same scor
 -	1.846427	2.412058	0.002021	1.000000	14	discard	ridge lambda=5e-5
 -	1.846428	2.412058	0.002016	1.000000	14	discard	ridge lambda=2e-4 (same combined)
 -	1.846427	2.412058	0.002021	1.000000	14	discard	ridge lambda=3e-4
+-	1.846428	2.412058	0.002017	1.000000	14	discard	no-intercept ridge penalty
+-	1.846424	2.412058	0.002026	1.000000	14	discard	Tikhonov variance-scaled ridge
+-	1.846428	2.412058	0.002016	1.000000	14	discard	good IV upper bound 1.5
+-	1.845587	2.412058	0.004120	1.000000	14	discard	shrink deep OTM toward market price
+-	1.846300	2.412058	0.002337	1.000000	14	discard	T^2 basis function
+-	1.844648	2.412058	0.006467	1.000000	14	discard	1/sqrt_T basis instead of sqrt_T
+-	1.845683	2.412058	0.003880	1.000000	14	discard	log_T basis instead of sqrt_T
+-	1.846428	2.412058	0.002016	1.000000	14	discard	sqrt_T-0.3 centering (same score)
+ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0]
