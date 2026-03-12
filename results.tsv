@@ -885,3 +885,4 @@ PENDING	2.270025	3.118044	0.002003	0.892857	28	keep	tier3 skew_boost weight 0.8-
 n/a	2.265515	3.110527	0.002003	0.892857	28	discard	tier3 skew_boost weight 0.6->0.4
 n/a	2.267897	3.114497	0.002003	0.892857	28	discard	tier3 skew_boost weight 0.6->0.5
 PENDING	2.271910	3.121185	0.002003	0.892857	28	keep	tier3 skew_boost weight 0.6->0.7
+PENDING	2.272764	3.122608	0.002003	0.892857	28	keep	tier3 skew_boost weight 0.7->0.75
