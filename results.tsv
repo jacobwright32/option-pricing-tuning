@@ -369,3 +369,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.596736	1.995895	0.002003	0.850000	20	discard	60th percentile ATM IV
 -	1.846434	2.412058	0.002003	1.000000	14	discard	ATM option count confidence (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	14 IRLS iters (same)
+-	1.807755	2.347594	0.002003	1.000000	14	discard	ret_5d continuous scaling
+-	1.845455	2.412058	0.004451	1.000000	14	discard	vol premium -0.001
+-	1.846434	2.412058	0.002003	1.000000	14	discard	sig0 upper 1.5 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	IV filter [0.10, 0.91] (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	smile coeff floor 0.01 (same)
