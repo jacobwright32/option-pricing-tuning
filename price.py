@@ -148,7 +148,9 @@ class PricingModel:
         fitted_vol = np.copy(ivs)
         try:
             coeffs = _irls_fit(X, ivs)
-            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
+            irls_vol = np.clip(X @ coeffs, 0.01, 5.0)
+            # Blend: 95% IRLS fit + 5% raw IV to capture local structure
+            fitted_vol = 0.95 * irls_vol + 0.05 * ivs
         except Exception:
             fitted_vol = ivs
 
