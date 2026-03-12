@@ -806,3 +806,12 @@ n/a	2.248259	3.081766	0.002003	0.862069	29	discard	rv_spike mult 0.5->0.4
 PENDING	2.249603	3.084008	0.002003	0.862069	29	keep	rv_spike mult 0.5->0.6
 n/a	2.249138	3.083232	0.002003	0.862069	29	discard	coherence power 1.2->1.15
 PENDING	2.249642	3.084073	0.002003	0.862069	29	keep	coherence power 1.2->1.25
+n/a	1.025797	1.044331	0.002003	0.535714	112	discard	use MAD-based RV for iv_rv_ratio
+n/a	2.249032	3.083056	0.002003	0.862069	29	discard	rv window 5d->7d
+n/a	2.249642	3.084073	0.002003	0.862069	29	discard	term structure short<30 long>50 (same score)
+n/a	2.248836	3.082728	0.002003	0.862069	29	discard	add ivrv_boost 0.5 mult tier1
+n/a	2.243386	3.073645	0.002003	0.862069	29	discard	low_scale sqrt power
+n/a	2.242592	3.072323	0.002003	0.862069	29	discard	low_scale power 1.5
+n/a	2.219746	3.034245	0.002003	0.862069	29	discard	tier2 iv_rv 1.6->1.65
+n/a	2.246082	3.078139	0.002003	0.862069	29	discard	add selloff_depth to tier1
+PENDING	2.250088	3.084815	0.002003	0.862069	29	keep	skew_boost mult 1.3->1.2
