@@ -364,3 +364,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846434	2.412058	0.002003	1.000000	14	discard	MAD 1.32 (same)
 -	1.769927	2.283879	0.002003	0.882353	17	discard	15-day low instead of 20
 -	1.846434	2.412058	0.002003	1.000000	14	discard	min history 20 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	intercept floor 0.05 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	RV guard 0.02 (same)
+-	1.596736	1.995895	0.002003	0.850000	20	discard	60th percentile ATM IV
+-	1.846434	2.412058	0.002003	1.000000	14	discard	ATM option count confidence (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	14 IRLS iters (same)
