@@ -267,3 +267,6 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.846429	2.412058	0.002016	1.000000	14	discard	IV filter [0.08, 1.2] (same score)
 -	1.846429	2.412058	0.002016	1.000000	14	discard	OTM put skew boost (no effect)
 c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in IRLS
+-	1.846420	2.412058	0.002037	1.000000	14	discard	MAD scaling 1.0x (too aggressive)
+-	1.846427	2.412058	0.002019	1.000000	14	discard	MAD scaling 1.1x
+2b833f6	1.846432	2.412058	0.002006	1.000000	14	keep	MAD scaling 1.3x in IRLS
