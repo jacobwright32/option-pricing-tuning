@@ -827,3 +827,6 @@ n/a	2.250372	3.085289	0.002003	0.862069	29	discard	add skew_boost*0.5 to tier2
 n/a	2.155171	2.926620	0.002003	0.846154	26	discard	tier3 iv_rv 1.5->1.55
 n/a	2.249844	3.084409	0.002003	0.862069	29	discard	term_boost mult 100->80
 PENDING	2.252048	3.088082	0.002003	0.862069	29	keep	tier2 rv_spike weight 1.0->0.7
+n/a	2.251236	3.086728	0.002003	0.862069	29	discard	tier2 rv_spike 0.7->0.5
+n/a	2.251037	3.086397	0.002003	0.862069	29	discard	tier1 rv_spike weight 1.0->0.8
+PENDING	2.252405	3.088678	0.002003	0.862069	29	keep	pc_boost cap 0.70->0.68
