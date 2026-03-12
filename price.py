@@ -123,7 +123,6 @@ class PricingModel:
         is_call_f = is_call.astype(float)
         X = np.column_stack([
             np.ones(len(log_m)),
-            log_m,
             log_m ** 2,
             sqrt_T,
             is_call_f,         # call/put offset
