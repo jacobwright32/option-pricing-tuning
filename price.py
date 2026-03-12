@@ -153,7 +153,7 @@ class PricingModel:
             # Use final weights to downweight outlier raw IVs
             w_norm = final_w / final_w.sum() * len(final_w)  # normalize to mean=1
             denoised_raw = ivs * w_norm + irls_vol * (1 - w_norm)
-            fitted_vol = 0.95 * irls_vol + 0.05 * denoised_raw
+            fitted_vol = 0.80 * irls_vol + 0.20 * denoised_raw
         except Exception:
             fitted_vol = ivs
 
