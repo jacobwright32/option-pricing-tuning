@@ -121,7 +121,7 @@ class PricingModel:
         return np.maximum(fair_values, 0.01)
 
     def generate_signal(self, chain, price_history):
-        """Baseline: simple IV vs RV ratio."""
+        """Multi-factor contrarian signal with vol surface features."""
         S = chain["S"]
         K = chain["K"]
         T = chain["T"]
@@ -160,6 +160,7 @@ class PricingModel:
             sigma_atm = np.clip(sigma_atm, 0.01, 5.0)
         atm_ivs = sigma_atm
         current_iv = np.median(atm_ivs)
+        iv_std = np.std(atm_ivs)
 
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
@@ -186,6 +187,8 @@ class PricingModel:
         # Normalized skew: put_skew / current_iv captures relative fear level
         norm_skew = put_skew / (current_iv + 1e-8)
         skew_boost = max(0.0, norm_skew * 0.7)
+        # IV coherence: penalize when ATM IVs are very dispersed
+        coherence = max(0.8, 1.0 - iv_std / (current_iv + 1e-8))
         # IV term structure boost: short-term vs long-term ATM IV
         short_T = T[atm_mask] < 20/252
         long_T = T[atm_mask] > 45/252
@@ -197,14 +200,14 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             ivrv_boost = (iv_rv_ratio - 1.85) * 10
             accel1 = min(0.15, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.5) if ret_10d < -0.01 else 0.0
-            return (1.2 + skew_boost + term_boost + ivrv_boost + accel1) * low_scale
+            return (1.2 + skew_boost + term_boost + ivrv_boost + accel1) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             accel2 = min(0.1, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.3) if ret_10d < -0.01 else 0.0
-            return (0.55 + skew_boost * 0.3 + term_boost * 0.3 + accel2) * low_scale
+            return (0.55 + skew_boost * 0.3 + term_boost * 0.3 + accel2) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
             # Acceleration: if most of the 10d loss is in last 5d, more recent = better
             accel = min(0.2, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.7) if ret_10d < -0.01 else 0.0
-            return (0.4 + skew_boost + term_boost + accel) * low_scale
+            return (0.4 + skew_boost + term_boost + accel) * low_scale * coherence
         else:
             return 0.0
 
