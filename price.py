@@ -151,10 +151,12 @@ class PricingModel:
         low_20d = np.min(price_history[-20:])
         dist_from_low = (price_history[-1] / low_20d) - 1.0
 
+        low_scale = max(0.0, 1.0 - dist_from_low / 0.05)
+
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
-            return 1.0
+            return 1.0 * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
-            return 0.80
+            return 0.80 * low_scale
         else:
             return 0.0
 
