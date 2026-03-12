@@ -39,3 +39,9 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.791623	2.320722	0.002026	0.842105	19	discard	moderate+10d filter (no effect)
 -	1.544838	1.909415	0.002026	0.772727	22	discard	extreme threshold 1.82
 -	1.791623	2.320722	0.002026	0.842105	19	discard	IRLS 30 iter (no change)
+-	1.791623	2.320722	0.002026	0.842105	19	discard	deep selloff bounce signal (never fired)
+-	1.318922	1.532887	0.002026	0.791667	24	discard	IV/RV>1.5 ret5d<-6%
+-	1.781639	2.304082	0.002026	0.0	20	discard	moderate ret5d -0.042
+-	1.715877	2.194479	0.002026	0.0	18	discard	moderate ret5d -0.048
+-	1.715966	2.194628	0.002026	0.714286	35	discard	vol acceleration signal
+-	1.790873	2.319472	0.002026	0.842105	19	discard	extreme strength 0.9
