@@ -104,3 +104,11 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.843675	2.407476	0.002026	0.933333	15	discard	IV mean/median skew bonus (never fires)
 -	1.843675	2.407476	0.002026	0.933333	15	discard	below 20d SMA filter (no effect)
 -	1.842823	2.407476	0.004157	0.933333	15	discard	maturity-split IRLS (MAPE worse, slower)
+-	1.558781	1.932653	0.002026	0.928571	14	discard	trimmed mean ATM IV
+-	1.843247	2.406762	0.002026	0.933333	15	discard	low_scale denominator 0.045
+-	1.843129	2.406565	0.002026	0.933333	15	discard	low_scale denominator 0.055
+-	1.834946	2.392927	0.002026	0.875000	16	discard	3rd tier IV/RV>2.0 dist<0.05 str=0.4
+-	1.843675	2.407476	0.002026	0.933333	15	discard	tighter IV filter 0.08-1.5 (no change)
+-	1.843675	2.407476	0.002026	0.933333	15	discard	vol surface residual stress scaling
+-	1.813803	2.357690	0.002026	0.928571	14	discard	moderate IV/RV 1.65
+-	1.843675	2.407476	0.002026	0.933333	15	discard	IV solver 40 iter tol 1e-10 (no change)
