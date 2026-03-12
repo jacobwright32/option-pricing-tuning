@@ -6,6 +6,4 @@ venv/
 dist/
 build/
 run.log
-results.tsv
-progress.png
 .cache/

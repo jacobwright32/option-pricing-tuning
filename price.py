@@ -206,6 +206,155 @@ class PricingModel:
         return np.clip(signal, -1.0, 1.0)
 
 
+# ─── Plot & README Update ────────────────────────────────────────────────────
+
+def update_progress_plot():
+    """Generate progress.png from results.tsv and update README."""
+    from pathlib import Path
+    import pandas as pd
+
+    tsv = Path("results.tsv")
+    if not tsv.exists() or tsv.stat().st_size == 0:
+        return
+
+    df = pd.read_csv(tsv, sep="\t")
+    if len(df) < 1:
+        return
+
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+        fig.suptitle("Option Pricing Tuning - Real Data Experiment Progress", fontsize=14)
+
+        colors = {"keep": "#2ecc71", "discard": "#e74c3c", "crash": "#95a5a6"}
+
+        # 1. Combined score
+        ax = axes[0, 0]
+        for status, color in colors.items():
+            mask = df["status"] == status
+            if mask.any():
+                ax.scatter(df.index[mask], df.loc[mask, "combined_score"],
+                          c=color, s=30, alpha=0.7, label=status)
+        running_best = df["combined_score"].cummax()
+        ax.plot(running_best, "k-", linewidth=1.5, alpha=0.5, label="running best")
+        ax.set_xlabel("Experiment #")
+        ax.set_ylabel("Combined Score")
+        ax.set_title("Score Progress")
+        ax.legend(fontsize=8)
+        ax.grid(True, alpha=0.3)
+
+        # 2. Sharpe ratio
+        ax = axes[0, 1]
+        if "sharpe" in df.columns:
+            for status, color in colors.items():
+                mask = df["status"] == status
+                if mask.any():
+                    ax.scatter(df.index[mask], df.loc[mask, "sharpe"],
+                              c=color, s=30, alpha=0.7)
+            ax.axhline(y=0, color="gray", linestyle="--", alpha=0.5)
+            ax.set_xlabel("Experiment #")
+            ax.set_ylabel("Sharpe Ratio")
+            ax.set_title("Signal Quality (Sharpe)")
+            ax.grid(True, alpha=0.3)
+
+        # 3. Pricing MAPE
+        ax = axes[1, 0]
+        if "mape" in df.columns:
+            for status, color in colors.items():
+                mask = df["status"] == status
+                if mask.any():
+                    ax.scatter(df.index[mask], df.loc[mask, "mape"],
+                              c=color, s=30, alpha=0.7)
+            ax.set_xlabel("Experiment #")
+            ax.set_ylabel("MAPE")
+            ax.set_title("Pricing Accuracy (lower = better)")
+            ax.grid(True, alpha=0.3)
+
+        # 4. Pareto front
+        ax = axes[1, 1]
+        if "sharpe" in df.columns and "mape" in df.columns:
+            for status, color in colors.items():
+                mask = df["status"] == status
+                if mask.any():
+                    ax.scatter(df.loc[mask, "mape"], df.loc[mask, "sharpe"],
+                              c=color, s=30, alpha=0.7, label=status)
+            ax.set_xlabel("MAPE (lower = better)")
+            ax.set_ylabel("Sharpe (higher = better)")
+            ax.set_title("Pareto Front")
+            ax.legend(fontsize=8)
+            ax.grid(True, alpha=0.3)
+
+        plt.tight_layout()
+        plt.savefig("progress.png", dpi=150)
+        plt.close(fig)
+
+    except Exception:
+        return
+
+    # Update README with latest results and plot
+    best = df.loc[df["combined_score"].idxmax()]
+    n_total = len(df)
+    n_kept = (df["status"] == "keep").sum()
+
+    readme = f"""# Option Pricing Tuning
+
+Autonomous AI-driven optimization of options pricing models and CFD trading
+signals using **real stock market data** from Yahoo Finance.
+
+## Latest Results
+
+![Experiment Progress](progress.png)
+
+| Metric | Value |
+|---|---|
+| Combined Score | {best['combined_score']:.4f} |
+| Sharpe Ratio | {best['sharpe']:.4f} |
+| MAPE | {best['mape']:.6f} |
+| Win Rate | {best.get('win_rate', 0):.1%} |
+| Trades | {int(best.get('n_trades', 0))} |
+| Experiments | {n_total} ({n_kept} kept) |
+
+## How It Works
+
+An AI agent (Claude) runs an experiment loop:
+
+1. Edits `price.py` with a new idea (better vol surface, smarter signals, etc.)
+2. Runs the model against **real stock prices** (SPY, QQQ, AAPL, MSFT, NVDA, TSLA, etc.)
+3. Measures **pricing accuracy** (MAPE vs ground truth) and **CFD signal quality** (Sharpe ratio)
+4. Keeps improvements, discards regressions, loops
+
+## Data
+
+- **20 real US stocks** from Yahoo Finance (~2 years of daily prices)
+- Synthetic options generated on real prices with realistic vol surfaces
+- CFD simulation with Trading 212 costs (0.1% spread, ~3% annual overnight financing)
+
+## Files
+
+| File | Purpose |
+|---|---|
+| `price.py` | **The only file the agent edits.** Pricing model + signal generator. |
+| `prepare.py` | Data pipeline (real prices + synthetic options), evaluation, CFD simulator. |
+| `program.md` | Agent instructions - the autonomous experiment protocol. |
+| `analysis.py` | Post-run visualization of experiment progress. |
+| `results.tsv` | Experiment log (tab-separated). |
+| `progress.png` | Auto-generated experiment progress chart. |
+
+## Scoring
+
+```
+combined_score = 0.4 * pricing_score + 0.6 * signal_score
+```
+
+- **pricing_score** = `max(0, 1 - MAPE)` - accuracy vs ground truth option prices
+- **signal_score** = annualized Sharpe ratio of simulated CFD trades
+"""
+    Path("README.md").write_text(readme, encoding="utf-8")
+
+
 # ─── Main Entry Point ────────────────────────────────────────────────────────
 
 def main():
@@ -214,7 +363,7 @@ def main():
     from prepare import evaluate
 
     print("=" * 60)
-    print("Option Pricing Tuning — Experiment Run (REAL DATA)")
+    print("Option Pricing Tuning - Experiment Run (REAL DATA)")
     print("=" * 60)
 
     t0 = _time.time()
@@ -225,6 +374,9 @@ def main():
     print("=" * 60)
     print(f"Wall time: {elapsed:.1f}s")
     print("=" * 60)
+
+    # Update plot and README
+    update_progress_plot()
 
 
 if __name__ == "__main__":
