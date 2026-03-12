@@ -378,3 +378,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 ebe4285	1.888825	2.482710	0.002003	1.000000	15	keep	Add 3rd tier: iv_rv>1.7 ret_10d<-0.06 dist<0.02 ret_5d<-0.01 sig=0.5
 9c0241b	1.923972	2.541288	0.002003	0.941176	17	keep	3rd tier iv_rv 1.7->1.6
 e7859b0	2.023346	2.706913	0.002003	0.925926	27	keep	3rd tier iv_rv 1.6->1.5
+n/a	1.956907	2.596181	0.002003	0.828571	35	discard	3rd tier iv_rv 1.5->1.4 too many losers
+n/a	1.676567	2.128948	0.002003	0.763158	38	discard	3rd tier ret_10d -0.06->-0.05 too loose
+n/a	1.888346	2.481912	0.002003	0.956522	23	discard	3rd tier ret_10d -0.06->-0.07 too tight
+n/a	1.440706	1.735846	0.002003	0.892857	28	discard	3rd tier dist_from_low 0.02->0.03 too many losers
+0272dda	2.024882	2.709471	0.002003	0.925926	27	keep	3rd tier signal 0.5->0.4
