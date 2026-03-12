@@ -189,7 +189,7 @@ class PricingModel:
         long_T = T[atm_mask] > 60/252
         if short_T.sum() > 0 and long_T.sum() > 0:
             term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
-            term_boost = min(0.15, max(0.0, term_spread * 10))
+            term_boost = min(0.20, max(0.0, term_spread * 15))
         else:
             term_boost = 0.0
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
