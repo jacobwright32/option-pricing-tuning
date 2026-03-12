@@ -171,7 +171,7 @@ class PricingModel:
         low_20d = np.min(price_history[-20:])
         dist_from_low = (price_history[-1] / low_20d) - 1.0
 
-        low_scale = max(0.0, 1.0 - dist_from_low / 0.05)
+        low_scale = max(0.0, 1.0 - dist_from_low / 0.04)
 
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
 
