@@ -185,8 +185,8 @@ class PricingModel:
 
         skew_boost = min(0.2, max(0.0, put_skew * 2))
         # IV term structure boost: short-term vs long-term ATM IV
-        short_T = T[atm_mask] < 30/252
-        long_T = T[atm_mask] > 60/252
+        short_T = T[atm_mask] < 20/252
+        long_T = T[atm_mask] > 45/252
         if short_T.sum() > 0 and long_T.sum() > 0:
             term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
             term_boost = max(0.0, term_spread * 50)
