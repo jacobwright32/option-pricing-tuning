@@ -725,3 +725,4 @@ n/a	2.208700	3.015835	0.002003	0.862069	29	discard	skew_boost power 0.7
 n/a	2.219358	3.033599	0.002003	0.862069	29	discard	tier1 pc_boost sqrt
 n/a	2.221687	3.037481	0.002003	0.862069	29	discard	add capped term_boost to tier1 (no effect)
 70c7672	2.223723	3.040873	0.002003	0.862069	29	keep	range_boost thresh 0.03->0.04
+1832ed9	2.225348	3.043582	0.002003	0.862069	29	keep	range_boost thresh 0.04->0.05
