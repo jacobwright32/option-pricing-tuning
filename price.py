@@ -217,7 +217,7 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             accel1 = min(0.15, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.5) if ret_10d < -0.01 else 0.0
             return (0.50 + skew_boost + accel1 + pc_boost + range_boost) * low_scale * coherence
-        elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
+        elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.03:
             return (0.35 + pc_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
             # Acceleration: if most of the 10d loss is in last 5d, more recent = better
