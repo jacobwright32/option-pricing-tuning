@@ -213,3 +213,4 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 208	1.394617	1.659060	0.002047	DISCARD	(√T-0.3) vs √T — identical, affine shift absorbed by intercept
 209	1.394358	1.659060	0.002695	DISCARD	Fit-IV blend for deep OTM — MAPE worse, fit better everywhere
 210	1.372332	1.659060	0.057759	DISCARD	Per-expiry IRLS fits — overfitting, MAPE 5.78%
+211	1.394617	1.659060	0.002047	DISCARD	IRLS early stopping — same result, IRLS already converges early
