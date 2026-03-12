@@ -173,10 +173,14 @@ class PricingModel:
 
         low_scale = max(0.0, 1.0 - dist_from_low / 0.05)
 
+        ret_10d = (price_history[-1] / price_history[-10]) - 1.0
+
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             return 1.0 * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return 0.66 * low_scale
+        elif iv_rv_ratio > 1.7 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
+            return 0.5 * low_scale
         else:
             return 0.0
 
