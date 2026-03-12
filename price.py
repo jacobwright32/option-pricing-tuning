@@ -145,24 +145,7 @@ class PricingModel:
             else:
                 coeffs = _irls_fit(X, ivs)
 
-            # Refine: adjust coefficients to minimize price error (not IV error)
-            base_vol = np.clip(X @ coeffs, 0.01, 5.0)
-            base_prices = bs_price(S, K, T, r, base_vol, is_call)
-            price_err = base_prices - market_price
-
-            # Convert price error to IV correction via vega
-            vega = bs_vega(S, K, T, r, base_vol)
-            vega_safe = np.maximum(vega, 1e-12)
-            iv_correction = price_err / vega_safe
-
-            # Fit correction surface using only reliable corrections (high vega)
-            corr_good = (np.abs(iv_correction) < 0.5) & (vega > 0.1)
-            if corr_good.sum() > 8:
-                corr_coeffs = _irls_fit(X[corr_good], iv_correction[corr_good], n_iter=10)
-                smooth_corr = X @ corr_coeffs
-                fitted_vol = np.clip(base_vol - smooth_corr, 0.01, 5.0)
-            else:
-                fitted_vol = base_vol
+            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
         except Exception:
             fitted_vol = ivs
 
