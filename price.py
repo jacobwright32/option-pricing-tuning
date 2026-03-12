@@ -198,10 +198,10 @@ class PricingModel:
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
 
         if iv_rv_ratio > 1.8 and ret_5d < -0.02:
-            # Extreme fear + recent price drop → contrarian long
+            # Extreme fear + price drop → contrarian long
             signal = 1.0
-        elif 0.70 < iv_rv_ratio < 0.80 and recent_ret < 0.05:
-            # Complacency + no strong rally → short
+        elif 0.70 < iv_rv_ratio < 0.78 and -0.05 < recent_ret < 0.03 and -0.03 < ret_5d < 0.03:
+            # Complacency + flat/sideways market → short
             signal = -0.35
         else:
             signal = 0.0
