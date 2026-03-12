@@ -816,3 +816,4 @@ n/a	2.219746	3.034245	0.002003	0.862069	29	discard	tier2 iv_rv 1.6->1.65
 n/a	2.246082	3.078139	0.002003	0.862069	29	discard	add selloff_depth to tier1
 PENDING	2.250088	3.084815	0.002003	0.862069	29	keep	skew_boost mult 1.3->1.2
 PENDING	2.250615	3.085693	0.002003	0.862069	29	keep	skew_boost mult 1.2->1.1
+PENDING	2.250919	3.086201	0.002003	0.862069	29	keep	skew_boost mult 1.1->1.0
