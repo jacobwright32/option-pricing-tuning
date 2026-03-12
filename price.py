@@ -141,7 +141,7 @@ class PricingModel:
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
                 resid = y_sub - X_sub @ coeffs
                 mad = np.median(np.abs(resid)) + 1e-8
-                w = 1.0 / (1.0 + (resid / (3 * mad)) ** 2)
+                w = 1.0 / (1.0 + (resid / (2.0 * mad)) ** 2)
             return coeffs
 
         # Single fit with call/put indicator terms
