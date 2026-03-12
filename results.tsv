@@ -440,3 +440,4 @@ n/a	1.288920	1.482869	0.002003	0.545455	33	discard	EWMA RV lambda=0.94 way worse
 563d091	2.039419	2.733700	0.002003	0.925926	27	keep	IV term structure boost
 n/a	2.039419	2.733700	0.002003	0.925926	27	discard	term_boost cap 0.1->0.15 (mult=2) no change
 85eddd1	2.040615	2.735694	0.002003	0.925926	27	keep	term_boost mult 2->3 cap 0.15
+a9b6d04	2.041781	2.737637	0.002003	0.925926	27	keep	term_boost mult 3->4
