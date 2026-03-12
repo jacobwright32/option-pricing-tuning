@@ -617,3 +617,11 @@ n/a	2.198414	2.998692	0.002003	0.925926	27	discard	remove skew_boost from tier1
 n/a	2.184956	2.976263	0.002003	0.960000	25	discard	remove skew_boost from tier3
 n/a	2.090916	2.819528	0.002003	0.925926	27	discard	remove term_boost from tier3
 13652ee	2.199245	3.000078	0.002003	0.925926	27	keep	remove ivrv_boost from tier1
+n/a	2.198865	2.999444	0.002003	0.925926	27	discard	remove range_boost from tier1
+n/a	2.154250	2.925085	0.002003	0.925926	27	discard	add pc_boost to tier3
+n/a	2.199031	2.999721	0.002003	0.925926	27	discard	pc_boost mult 70->75
+n/a	2.198595	2.998993	0.002003	0.925926	27	discard	pc_boost mult 70->65
+n/a	2.199242	3.000073	0.002003	0.925926	27	discard	accel1 cap 0.15->0.10
+n/a	2.198603	2.999007	0.002003	0.925926	27	discard	accel1 mult 0.5->0.3
+n/a	2.197414	2.997026	0.002003	0.925926	27	discard	low_scale denom 0.04->0.035
+675fe33	2.200395	3.001994	0.002003	0.925926	27	keep	coherence floor 0.85->0.80

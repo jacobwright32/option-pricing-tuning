@@ -9,12 +9,12 @@ signals using **real stock market data** from Yahoo Finance.
 
 | Metric | Value |
 |---|---|
-| Combined Score | 2.1991 |
-| Sharpe Ratio | 2.9998 |
+| Combined Score | 2.1992 |
+| Sharpe Ratio | 3.0001 |
 | MAPE | 0.002003 |
 | Win Rate | 92.6% |
 | Trades | 27 |
-| Experiments | 617 (127 kept) |
+| Experiments | 625 (128 kept) |
 
 ## How It Works
 
