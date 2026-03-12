@@ -208,7 +208,7 @@ class PricingModel:
         coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8))
         # IV term structure boost: short-term vs long-term ATM IV
         short_T = T[atm_mask] < 25/252
-        long_T = T[atm_mask] > 45/252
+        long_T = T[atm_mask] > 40/252
         if short_T.sum() > 0 and long_T.sum() > 0:
             term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
             term_boost = max(0.0, term_spread * 100)
