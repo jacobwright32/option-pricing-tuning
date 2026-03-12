@@ -107,15 +107,9 @@ class PricingModel:
         """
         Price an entire options chain for one asset on one day.
 
-        chain: dict with keys:
-            S            (n,) underlying prices (all same value)
-            K            (n,) strike prices
-            T            (n,) time to expiry in years
-            r            float risk-free rate
-            is_call      (n,) bool
-            market_price (n,) observed market prices
-
-        Returns: (n,) array of model fair values.
+        Uses a quadratic vol smile fit per expiry bucket:
+            σ(m) = a + b·m + c·m²
+        where m = ln(K/S). This captures skew and smile per maturity.
         """
         S = chain["S"]
         K = chain["K"]
@@ -124,13 +118,29 @@ class PricingModel:
         is_call = chain["is_call"]
         market_price = chain["market_price"]
 
-        # Baseline: compute IV from each market price, then use flat median vol
-        # to re-price. This is barely better than returning market_price directly.
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
-        avg_vol = np.median(ivs)  # single flat vol for the whole chain
+        log_m = np.log(K / S)
 
-        # Re-price with the flat vol estimate
-        fair_values = bs_price(S, K, T, r, avg_vol, is_call)
+        # Group by expiry and fit quadratic smile per group
+        unique_T = np.unique(T)
+        fitted_vol = np.copy(ivs)
+
+        for t_val in unique_T:
+            mask = T == t_val
+            if mask.sum() < 3:
+                # Not enough points — use median
+                fitted_vol[mask] = np.median(ivs[mask])
+                continue
+            m = log_m[mask]
+            v = ivs[mask]
+            # Fit quadratic: σ = a + b·m + c·m²
+            try:
+                coeffs = np.polyfit(m, v, 2)
+                fitted_vol[mask] = np.clip(np.polyval(coeffs, m), 0.01, 5.0)
+            except Exception:
+                fitted_vol[mask] = np.median(v)
+
+        fair_values = bs_price(S, K, T, r, fitted_vol, is_call)
         return np.maximum(fair_values, 0.01)
 
     def generate_signal(self, chain, price_history):
