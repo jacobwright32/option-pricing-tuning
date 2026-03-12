@@ -44,7 +44,7 @@ def bs_vega(S, K, T, r, sigma):
 
 # ─── Implied Volatility Solver ───────────────────────────────────────────────
 
-def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=10, tol=1e-7):
+def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-8):
     """
     Fully vectorized Newton-Raphson IV solver.
     Operates on entire arrays at once — no Python loops.
@@ -55,9 +55,8 @@ def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=10, tol=1e-7):
     market_price = np.asarray(market_price, dtype=float)
     is_call = np.asarray(is_call, dtype=bool)
 
-    # Initial guess: 0.30 for ATM, 0.50 for OTM (higher vol expected)
-    log_m = np.abs(np.log(S / K))
-    sigma = np.where(log_m > 0.10, 0.50, 0.30)
+    # Initial guess: flat 0.3
+    sigma = np.full(len(S), 0.3)
     active = np.ones(len(S), dtype=bool)
 
     for _ in range(max_iter):
@@ -97,17 +96,12 @@ class PricingModel:
     """
 
     def __init__(self):
-        # ── Signal parameters ──
-        self.short_iv_rv_threshold = 0.755  # short when IV/RV < this
-        self.signal_strength = 0.35
+        pass
 
     def price_chain(self, chain):
         """
         Price an entire options chain for one asset on one day.
-
-        Uses a quadratic vol smile fit per expiry bucket:
-            σ(m) = a + b·m + c·m²
-        where m = ln(K/S). This captures skew and smile per maturity.
+        Baseline: compute IV from market prices, use flat vol = median IV.
         """
         S = chain["S"]
         K = chain["K"]
@@ -117,41 +111,9 @@ class PricingModel:
         market_price = chain["market_price"]
 
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
-        log_m = np.log(K / S)
-        sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
-        X = np.column_stack([
-            np.ones(len(log_m)),
-            log_m ** 2,
-            sqrt_T,
-            log_m / sqrt_T,    # skew/sqrt(T) — matches ground truth skew term
-        ])
+        flat_vol = np.median(ivs)
 
-        def _irls_fit(X_sub, y_sub):
-            w = np.ones(len(y_sub))
-            coeffs = None
-            for _ in range(20):
-                Xw = X_sub * w[:, None]
-                yw = y_sub * w
-                coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
-                resid = y_sub - X_sub @ coeffs
-                mad = np.median(np.abs(resid)) + 1e-8
-                w = 1.0 / (1.0 + (resid / (1.5 * mad)) ** 2)
-            return coeffs
-
-        fitted_vol = np.copy(ivs)
-        try:
-            # Pre-filter: only fit on options with reasonable IVs
-            good = (ivs > 0.12) & (ivs < 1.0)
-            if good.sum() > 8:
-                coeffs = _irls_fit(X[good], ivs[good])
-            else:
-                coeffs = _irls_fit(X, ivs)
-
-            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
-        except Exception:
-            fitted_vol = ivs
-
-        fair_values = bs_price(S, K, T, r, fitted_vol, is_call)
+        fair_values = bs_price(S, K, T, r, flat_vol, is_call)
         return np.maximum(fair_values, 0.01)
 
     def generate_signal(self, chain, price_history):
@@ -176,10 +138,10 @@ class PricingModel:
         if len(S) == 0 or len(price_history) < 10:
             return 0.0
 
-        # ── Compute ATM implied vol (vectorized) ──
+        # ── Compute ATM implied vol ──
         spot = S[0]
         moneyness = np.abs(np.log(K / spot))
-        atm_mask = (moneyness < 0.05) & (T > 20 / 252) & (T < 45 / 252)
+        atm_mask = moneyness < 0.05
         if atm_mask.sum() == 0:
             atm_mask = moneyness < 0.10
         if atm_mask.sum() == 0:
@@ -195,22 +157,19 @@ class PricingModel:
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
-        # ── Price momentum (10-day return) ──
-        recent_ret = (price_history[-1] / price_history[-10]) - 1.0
+        # ── Simple IV vs RV signal ──
+        if realized_vol < 0.01:
+            return 0.0
+        iv_rv_ratio = current_iv / realized_vol
 
-        # ── IV vs RV signal ──
-        iv_rv_ratio = current_iv / max(realized_vol, 0.01)
-
-        # Short when complacent AND price hasn't already dropped
-        if 0.70 < iv_rv_ratio < self.short_iv_rv_threshold and recent_ret < 0.05:
-            signal = -self.signal_strength
-        elif iv_rv_ratio > 1.7 and (price_history[-1] / price_history[-5] - 1.0) < -0.02:
-            # Extreme fear + price drop → contrarian long
-            signal = 1.0
+        if iv_rv_ratio > 1.5:
+            # IV much higher than RV = fear is high → contrarian long
+            return 0.5
+        elif iv_rv_ratio < 0.8:
+            # IV much lower than RV = complacency → short
+            return -0.3
         else:
-            signal = 0.0
-
-        return np.clip(signal, -1.0, 1.0)
+            return 0.0
 
 
 # ─── Main Entry Point ────────────────────────────────────────────────────────
@@ -221,7 +180,7 @@ def main():
     from prepare import evaluate
 
     print("=" * 60)
-    print("Option Pricing Tuning — Experiment Run")
+    print("Option Pricing Tuning — Experiment Run (REAL DATA)")
     print("=" * 60)
 
     t0 = _time.time()

@@ -1,15 +1,12 @@
 """
-Option Pricing Tuning – Data & Evaluation Pipeline
-===================================================
-READ-ONLY: The autonomous agent must NEVER modify this file.
+Option Pricing Tuning – Data & Evaluation Pipeline (Real Data Edition)
+======================================================================
+Uses REAL stock prices from Yahoo Finance with synthetic options generated
+on those real prices. Vol surface parameters are derived from each stock's
+actual realized volatility.
 
-Generates a synthetic options market with realistic volatility surfaces,
-evaluates pricing accuracy, simulates Trading 212-style CFD trades from
-model signals, and returns a combined score.
-
-The ground truth uses asset-specific vol surfaces with skew, smile, and
-term structure — Black-Scholes with flat vol will systematically misprice,
-giving the agent room to improve.
+This tests the model against real market dynamics (crashes, rallies, regime
+changes) while keeping the evaluation framework intact.
 """
 
 import time
@@ -21,11 +18,18 @@ from scipy.stats import norm
 # ─── Configuration ────────────────────────────────────────────────────────────
 
 CACHE_DIR = Path.home() / ".cache" / "option-pricing-tuning"
-DATA_FILE = CACHE_DIR / "market_data.npz"
+DATA_FILE = CACHE_DIR / "market_data_real.npz"
 TIME_BUDGET = 120  # seconds per experiment run
 SEED = 42
 
-N_ASSETS = 20
+# 20 liquid US stocks available as CFDs on Trading 212
+TICKERS = [
+    "SPY", "QQQ", "AAPL", "MSFT", "AMZN",
+    "GOOGL", "META", "NVDA", "TSLA", "JPM",
+    "BAC", "XOM", "JNJ", "PFE", "DIS",
+    "NFLX", "AMD", "INTC", "GS", "BA",
+]
+N_ASSETS = len(TICKERS)
 N_DAYS = 504            # ~2 trading years
 SNAPSHOT_EVERY = 5      # option snapshots every 5 days
 LOOKBACK = 60           # price history provided to signal generator
@@ -62,64 +66,102 @@ def _true_vol(log_moneyness, T_years, params):
 
         σ(m, T) = σ₀ + skew · ln(K/S) / √T + smile · ln(K/S)² + term · (√T − 0.3)
 
-    Each asset has unique (σ₀, skew, smile, term) parameters, producing
-    realistic equity-like vol surfaces with negative skew and convex smile.
+    Each asset has unique (σ₀, skew, smile, term) parameters derived from
+    its actual realized volatility, producing realistic equity-like vol
+    surfaces with negative skew and convex smile.
     """
     sigma0, skew, smile, term = params
     sqrt_T = np.sqrt(np.maximum(T_years, 1.0 / 252))
     vol = sigma0 + skew * log_moneyness / sqrt_T + smile * log_moneyness ** 2 + term * (sqrt_T - 0.3)
     return np.clip(vol, 0.05, 2.0)
 
+# ─── Real Data Download ──────────────────────────────────────────────────────
+
+def _download_real_prices():
+    """
+    Download ~2 years of daily close prices for all tickers from Yahoo Finance.
+    Returns (N_ASSETS, N_DAYS) array of prices.
+    """
+    import yfinance as yf
+
+    print(f"Downloading {N_DAYS} trading days of price data for {N_ASSETS} stocks...")
+    # Request extra days to ensure we get N_DAYS trading days after dropping NaNs
+    raw = yf.download(
+        TICKERS,
+        period="3y",
+        auto_adjust=True,
+        progress=True,
+    )
+
+    # Extract close prices
+    if isinstance(raw.columns, pd.MultiIndex) if 'pd' in dir() else hasattr(raw.columns, 'levels'):
+        close = raw["Close"]
+    else:
+        close = raw
+
+    # Drop any rows with NaN (weekends/holidays already excluded by yfinance)
+    close = close.dropna()
+
+    # Take the last N_DAYS trading days
+    if len(close) < N_DAYS:
+        raise ValueError(
+            f"Only got {len(close)} trading days, need {N_DAYS}. "
+            f"Try reducing N_DAYS or using longer period."
+        )
+    close = close.iloc[-N_DAYS:]
+
+    # Convert to numpy array (N_ASSETS, N_DAYS)
+    prices = np.zeros((N_ASSETS, N_DAYS))
+    for i, ticker in enumerate(TICKERS):
+        if ticker in close.columns:
+            prices[i] = close[ticker].values
+        else:
+            # Fallback: try without suffix
+            matching = [c for c in close.columns if ticker in str(c)]
+            if matching:
+                prices[i] = close[matching[0]].values
+            else:
+                raise ValueError(f"Could not find price data for {ticker}")
+
+    print(f"Got {N_DAYS} trading days from {close.index[0].date()} to {close.index[-1].date()}")
+    return prices
+
+
 # ─── Data Generation ─────────────────────────────────────────────────────────
 
 def _generate_dataset():
     """
-    Generate the full synthetic market dataset.
+    Generate market dataset using REAL stock prices from Yahoo Finance
+    with synthetic options generated on those real prices.
 
-    Returns dict with:
-        prices          (N_ASSETS, N_DAYS)       underlying daily closes
-        vol_params      (N_ASSETS, 4)            true vol surface parameters
-        snapshot_days   (N_SNAPSHOTS,)            day indices of option snapshots
-        opt_asset       (N_OPTIONS,)              asset index per option
-        opt_snap        (N_OPTIONS,)              snapshot index per option
-        opt_S           (N_OPTIONS,)              underlying price
-        opt_K           (N_OPTIONS,)              strike price
-        opt_T           (N_OPTIONS,)              time to expiry in years
-        opt_is_call     (N_OPTIONS,)              True = call, False = put
-        opt_true_iv     (N_OPTIONS,)              true implied vol
-        opt_true_price  (N_OPTIONS,)              true option price (from vol surface)
-        opt_market_price(N_OPTIONS,)              noisy "market" price
+    Returns dict with same structure as original synthetic version.
     """
     rng = np.random.default_rng(SEED)
 
-    # ── 1. Simulate underlying prices ──
-    prices = np.zeros((N_ASSETS, N_DAYS))
-    for i in range(N_ASSETS):
-        S0 = rng.uniform(30, 500)
-        mu = rng.uniform(0.02, 0.15)       # annual drift
-        base_vol = rng.uniform(0.15, 0.50)  # base annual vol
+    # ── 1. Get real underlying prices ──
+    prices = _download_real_prices()
 
-        # Mean-reverting stochastic vol (Ornstein-Uhlenbeck on log-vol)
-        log_v = np.log(base_vol)
-        kappa = rng.uniform(2.0, 8.0)       # mean-reversion speed
-        xi = rng.uniform(0.3, 0.8)          # vol of vol
-        S = S0
-        for t in range(N_DAYS):
-            log_v += kappa * (np.log(base_vol) - log_v) / 252 + xi / np.sqrt(252) * rng.standard_normal()
-            v = np.exp(np.clip(log_v, np.log(0.05), np.log(1.5)))
-            S *= np.exp((mu - 0.5 * v ** 2) / 252 + v / np.sqrt(252) * rng.standard_normal())
-            prices[i, t] = S
-
-    # ── 2. Vol surface parameters per asset ──
+    # ── 2. Vol surface parameters per asset (derived from real realized vol) ──
     vol_params = np.zeros((N_ASSETS, 4))
     for i in range(N_ASSETS):
-        rv = np.std(np.diff(np.log(prices[i]))) * np.sqrt(252)  # realized vol
+        log_ret = np.diff(np.log(prices[i]))
+        rv = np.std(log_ret) * np.sqrt(252)  # realized vol
+
+        # Derive vol surface params from realized vol
+        # σ₀ slightly above RV (IV typically trades at premium to RV)
         vol_params[i] = [
-            rv * rng.uniform(0.9, 1.3),          # σ₀: base IV (near realized)
-            rng.uniform(-0.20, -0.05),            # skew: negative (equity-like)
-            rng.uniform(0.05, 0.25),              # smile: convex
-            rng.uniform(-0.03, 0.03),             # term structure tilt
+            rv * rng.uniform(1.0, 1.3),           # σ₀: base IV (at or above realized)
+            rng.uniform(-0.20, -0.05),              # skew: negative (equity-like)
+            rng.uniform(0.05, 0.25),                # smile: convex
+            rng.uniform(-0.03, 0.03),               # term structure tilt
         ]
+
+    print("Asset vol params (sigma0, skew, smile, term):")
+    for i, t in enumerate(TICKERS):
+        rv = np.std(np.diff(np.log(prices[i]))) * np.sqrt(252)
+        print(f"  {t:5s}: RV={rv:.3f}, s0={vol_params[i,0]:.3f}, "
+              f"skew={vol_params[i,1]:.3f}, smile={vol_params[i,2]:.3f}, "
+              f"term={vol_params[i,3]:.3f}")
 
     # ── 3. Generate option snapshots ──
     snapshot_days = np.arange(LOOKBACK, N_DAYS - HOLD_DAYS, SNAPSHOT_EVERY)
@@ -194,7 +236,7 @@ def load_data():
         data["opt_is_call"] = data["opt_is_call"].astype(bool)
         return data
 
-    print("Generating synthetic market data (first run only)...")
+    print("Generating real-data market dataset (first run only)...")
     t0 = time.time()
     data = _generate_dataset()
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
