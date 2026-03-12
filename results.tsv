@@ -270,3 +270,16 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846420	2.412058	0.002037	1.000000	14	discard	MAD scaling 1.0x (too aggressive)
 -	1.846427	2.412058	0.002019	1.000000	14	discard	MAD scaling 1.1x
 2b833f6	1.846432	2.412058	0.002006	1.000000	14	keep	MAD scaling 1.3x in IRLS
+-	1.846432	2.412058	0.002007	1.000000	14	discard	MAD scaling 1.35x (marginally worse)
+-	1.846432	2.412058	0.002007	1.000000	14	discard	MAD scaling 1.25x
+-	1.846339	2.412058	0.002239	1.000000	14	discard	IRLS degree 4 weights (too aggressive)
+-	1.846429	2.412058	0.002015	1.000000	14	discard	ridge lambda=3e-4
+-	1.846432	2.412058	0.002006	1.000000	14	discard	good-data threshold 6 (same)
+-	1.631467	2.053782	0.002006	0.933333	15	discard	ultra-high IV/RV>2.0 tier (1 loser added)
+-	1.839194	2.412058	0.020101	1.000000	14	discard	log-space IRLS fitting
+-	1.846432	2.412058	0.002007	1.000000	14	discard	ridge skip intercept penalty
+-	1.844314	2.412058	0.007302	1.000000	14	discard	Brenner-Subrahmanyam IV init guess
+-	1.846333	2.412058	0.002255	1.000000	14	discard	5th feature log_m*sqrt_T (overfits)
+-	1.846432	2.412058	0.002006	1.000000	14	discard	IV solver tol=1e-10 (same)
+-	1.841804	2.412058	0.013578	1.000000	14	discard	pricing floor 0.005 (too low)
+-	1.846432	2.412058	0.002007	1.000000	14	discard	25 IRLS iterations (same)
