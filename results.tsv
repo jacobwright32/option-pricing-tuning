@@ -131,3 +131,10 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	1.843628	2.407555	0.002263	0.933333	15	discard	log_m linear basis (MAPE slightly worse)
 -	1.843723	2.407555	0.002026	0.933333	15	discard	IV rank boost on extreme tier (no effect)
 -	1.843723	2.407555	0.002026	0.933333	15	discard	IRLS min good=5 (no change)
+-	1.842836	2.406078	0.002026	0.933333	15	discard	IV IQR dispersion scaling
+-	1.843510	2.407555	0.002558	0.933333	15	discard	Huber loss IRLS (MAPE slightly worse)
+-	1.556098	1.928181	0.002026	0.928571	14	discard	blended median/mean ATM IV
+-	1.843723	2.407555	0.002026	0.933333	15	discard	extreme ret_5d -0.013 (no change)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	dist_from_low 0.025 (no change)
+-	1.843586	2.407555	0.002367	0.933333	15	discard	Tikhonov regularized IRLS
+-	1.753302	2.256854	0.002026	0.928571	14	discard	extreme ret_5d -0.017 (loses 1 trade)
