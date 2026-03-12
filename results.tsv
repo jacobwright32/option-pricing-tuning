@@ -770,3 +770,4 @@ n/a	2.181666	2.970779	0.002003	0.812500	32	discard	tier1 iv_rv thresh 1.85->1.80
 n/a	2.118746	2.865913	0.002003	0.833333	24	discard	tier1 iv_rv thresh 1.85->1.90
 n/a	2.229402	3.050339	0.002003	0.833333	30	discard	dist_from_low thresh 0.035->0.04 tiers 1&2
 PENDING	2.242338	3.071900	0.002003	0.862069	29	keep	add rv_spike boost to tier1 (5d RV / full RV)
+PENDING	2.243950	3.074585	0.002003	0.862069	29	keep	add rv_spike to tier2
