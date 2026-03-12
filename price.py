@@ -213,7 +213,7 @@ class PricingModel:
             term_boost = 0.0
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.035:
             accel1 = min(0.15, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.7) if ret_10d < -0.01 else 0.0
-            return (0.34 + skew_boost + accel1 + pc_boost) * low_scale * coherence
+            return (0.30 + skew_boost + accel1 + pc_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.035:
             return (0.31 + pc_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.005:
