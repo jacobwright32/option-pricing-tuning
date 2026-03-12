@@ -134,7 +134,7 @@ class PricingModel:
         try:
             # IRLS: 2 rounds of reweighted least squares for robustness
             w = np.ones(len(ivs))
-            for _ in range(2):
+            for _ in range(3):
                 Xw = X * w[:, None]
                 yw = ivs * w
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
