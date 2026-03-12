@@ -214,3 +214,7 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 209	1.394358	1.659060	0.002695	DISCARD	Fit-IV blend for deep OTM — MAPE worse, fit better everywhere
 210	1.372332	1.659060	0.057759	DISCARD	Per-expiry IRLS fits — overfitting, MAPE 5.78%
 211	1.394617	1.659060	0.002047	DISCARD	IRLS early stopping — same result, IRLS already converges early
+212	1.549427	1.917077	0.002047	KEPT	Contrarian long: IV/RV>1.8 + ret<-3% — Sharpe 1.92, 13 trades, 92% WR
+213	1.549427	1.917077	0.002047	DISCARD	Long threshold scan 1.8-2.5 — all same at 1.8-2.0, set to 1.8
+214	1.511378	1.853661	0.002047	DISCARD	Long momentum -0.025 — 14th trade is loser, -0.03 optimal
+215	1.158751	1.265950	0.002047	DISCARD	Extreme fear long without momentum — 24 trades, dilutive

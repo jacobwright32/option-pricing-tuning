@@ -206,7 +206,7 @@ class PricingModel:
             signal = -self.signal_strength
         elif iv_rv_ratio > 1.8 and recent_ret < -0.03:
             # Extreme fear + price drop → contrarian long
-            signal = self.signal_strength
+            signal = 1.0
         else:
             signal = 0.0
 
