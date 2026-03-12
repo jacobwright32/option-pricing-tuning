@@ -481,3 +481,6 @@ n/a	1.646198	2.078332	0.002003	0.743590	39	discard	tier 3 OR condition ret_10d<-
 n/a	2.071222	2.786706	0.002003	0.925926	27	discard	tier 1 base 1.2->1.15
 n/a	1.646198	2.078332	0.002003	0.743590	39	discard	duplicate exp 479 entry
 668731d	2.079640	2.800736	0.002003	0.925926	27	keep	normalized skew boost
+de60b68	2.080819	2.802700	0.002003	0.925926	27	keep	norm skew mult 0.5->0.7
+n/a	2.080220	2.801702	0.002003	0.925926	27	discard	norm skew mult 0.7->1.0 over
+10a9215	2.080819	2.802700	0.002003	0.925926	27	keep	skew_boost remove cap (same score)
