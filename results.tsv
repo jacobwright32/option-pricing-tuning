@@ -334,3 +334,9 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.844106	2.412058	0.007822	1.000000	14	discard	separate call/put vol surface fits
 -	1.846433	2.412058	0.002005	1.000000	14	discard	ridge lambda=2.5e-4
 -	1.846434	2.412058	0.002003	1.000000	14	discard	time_val floor 0.005 (same)
+-	1.846322	2.412058	0.002283	1.000000	14	discard	Tukey biweight IRLS
+-	1.846434	2.412058	0.002003	1.000000	14	discard	vega threshold 1e-10 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	vega threshold 1e-8 (same)
+-	0.493701	0.157504	0.002003	0.533333	45	discard	short signal (IV/RV<0.8 + extended up)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	fitted_vol clip [0.02, 3.0] (same)
+-	1.778349	2.298583	0.002003	0.882353	17	discard	RV rank 3rd tier (losers added)
