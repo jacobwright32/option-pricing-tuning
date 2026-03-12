@@ -486,3 +486,8 @@ n/a	2.080220	2.801702	0.002003	0.925926	27	discard	norm skew mult 0.7->1.0 over
 10a9215	2.080819	2.802700	0.002003	0.925926	27	keep	skew_boost remove cap (same score)
 n/a	2.071547	2.787247	0.002003	0.925926	27	discard	normalized term_spread worse
 7d5f76d	2.088712	2.815855	0.002003	0.925926	27	keep	tier 3 momentum acceleration boost
+127ceec	2.093503	2.823840	0.002003	0.925926	27	keep	accel threshold 0.4->0.3
+n/a	2.083680	2.807469	0.002003	0.925926	27	discard	accel threshold 0.3->0.2 overshoots
+98ef707	2.095069	2.826451	0.002003	0.925926	27	keep	accel mult 0.5->0.7
+n/a	2.092283	2.821807	0.002003	0.925926	27	discard	accel mult 0.7->1.0 overshoot
+n/a	2.089235	2.816727	0.002003	0.925926	27	discard	accel cap 0.2->0.3 overshoot
