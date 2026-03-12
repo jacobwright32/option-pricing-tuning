@@ -160,3 +160,13 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 155	1.007174	1.013321	0.002047	DISCARD	Threshold 0.74 — 11 trades, Sharpe 1.01
 156	1.077982	1.131334	0.002047	DISCARD	Put-call skew filter on signal — removed good trades
 157	1.181500	1.303864	0.002047	DISCARD	Signal strength 1.0 — same Sharpe, higher return but score identical
+158	1.348734	1.582589	0.002047	KEPT	Momentum filter: only short when 10d return < 5% — Sharpe 1.30→1.58
+159	1.009037	1.016427	0.002047	DISCARD	Momentum lookback 5d and 20d both worse than 10d
+160	1.070027	1.118077	0.002047	DISCARD	Contrarian long signal (IV/RV > 1.5-3.0) — all longs unprofitable
+161	1.348734	1.582589	0.002047	DISCARD	Wider ATM maturity range (15-60d) — no change
+162	1.348734	1.582589	0.002047	DISCARD	OTM put skew filter — never triggered, no change
+163	0.923364	0.873638	0.002047	DISCARD	Threshold 0.76 with momentum filter — 12 trades worse
+164	1.348734	1.582589	0.002047	DISCARD	Vol surface fitted IV for signal — identical results, more complex
+165	1.348734	1.582589	0.002047	DISCARD	Mean vs median ATM IV — identical
+166	0.957390	0.930348	0.002047	DISCARD	Vol declining filter — too aggressive, 5 trades
+167	1.348734	1.582589	0.002047	DISCARD	Dual momentum filter (10d + 20d) — no improvement over 10d alone

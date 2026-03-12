@@ -98,7 +98,7 @@ class PricingModel:
 
     def __init__(self):
         # ── Signal parameters ──
-        self.short_iv_rv_threshold = 0.75  # short when IV/RV < this
+        self.short_iv_rv_threshold = 0.755  # short when IV/RV < this
         self.signal_strength = 0.5
 
     def price_chain(self, chain):
