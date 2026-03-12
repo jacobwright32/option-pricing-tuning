@@ -374,3 +374,5 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846434	2.412058	0.002003	1.000000	14	discard	sig0 upper 1.5 (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	IV filter [0.10, 0.91] (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	smile coeff floor 0.01 (same)
+-	1.846332	2.412058	0.002256	1.000000	14	discard	asymmetric Cauchy weights
+ebe4285	1.888825	2.482710	0.002003	1.000000	15	keep	Add 3rd tier: iv_rv>1.7 ret_10d<-0.06 dist<0.02 ret_5d<-0.01 sig=0.5
