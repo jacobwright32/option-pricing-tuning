@@ -201,7 +201,7 @@ class PricingModel:
 
         # Normalized skew: put_skew / current_iv captures relative fear level
         norm_skew = put_skew / (current_iv + 1e-8)
-        skew_boost = min(0.5, max(0.0, norm_skew * 1.2))
+        skew_boost = min(0.5, max(0.0, norm_skew * 1.1))
         # IV coherence: penalize when ATM IVs are very dispersed
         coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.25
         # IV term structure boost: short-term vs long-term ATM IV
