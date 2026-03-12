@@ -314,30 +314,36 @@ def evaluate(model):
     snapshot_days = data["snapshot_days"]
     n_snaps = len(snapshot_days)
 
-    # ── 1. Pricing accuracy ──
-    model_prices = np.zeros_like(data["opt_true_price"])
-    n_opts = len(model_prices)
+    # Pre-build group index: (asset, snapshot) -> array of option indices
+    # This avoids repeated O(n) mask lookups in the inner loop.
+    group_idx = {}
+    for i in range(len(data["opt_asset"])):
+        key = (int(data["opt_asset"][i]), int(data["opt_snap"][i]))
+        if key not in group_idx:
+            group_idx[key] = []
+        group_idx[key].append(i)
+    group_idx = {k: np.array(v) for k, v in group_idx.items()}
 
-    # Group options by (asset, snapshot) for chain-level calls
-    for ai in range(N_ASSETS):
-        for si in range(n_snaps):
-            mask = (data["opt_asset"] == ai) & (data["opt_snap"] == si)
-            if not mask.any():
-                continue
-            chain = {
-                "S": data["opt_S"][mask],
-                "K": data["opt_K"][mask],
-                "T": data["opt_T"][mask],
-                "r": RISK_FREE_RATE,
-                "is_call": data["opt_is_call"][mask],
-                "market_price": data["opt_market_price"][mask],
-            }
-            try:
-                fv = model.price_chain(chain)
-                model_prices[mask] = np.asarray(fv).flatten()
-            except Exception as e:
-                # On crash, fall back to market price (no improvement)
-                model_prices[mask] = data["opt_market_price"][mask]
+    def _make_chain(idx):
+        return {
+            "S": data["opt_S"][idx],
+            "K": data["opt_K"][idx],
+            "T": data["opt_T"][idx],
+            "r": RISK_FREE_RATE,
+            "is_call": data["opt_is_call"][idx],
+            "market_price": data["opt_market_price"][idx],
+        }
+
+    # ── 1. Pricing accuracy ──
+    model_prices = np.copy(data["opt_market_price"])  # fallback = market price
+
+    for (ai, si), idx in group_idx.items():
+        chain = _make_chain(idx)
+        try:
+            fv = model.price_chain(chain)
+            model_prices[idx] = np.asarray(fv).flatten()
+        except Exception:
+            pass  # keeps market_price fallback
 
     # MAPE against TRUE prices (not market prices)
     true_p = data["opt_true_price"]
@@ -351,15 +357,10 @@ def evaluate(model):
     signals = np.zeros((N_ASSETS, n_snaps))
     for ai in range(N_ASSETS):
         for si, day in enumerate(snapshot_days):
-            mask = (data["opt_asset"] == ai) & (data["opt_snap"] == si)
-            chain = {
-                "S": data["opt_S"][mask],
-                "K": data["opt_K"][mask],
-                "T": data["opt_T"][mask],
-                "r": RISK_FREE_RATE,
-                "is_call": data["opt_is_call"][mask],
-                "market_price": data["opt_market_price"][mask],
-            }
+            key = (ai, si)
+            if key not in group_idx:
+                continue
+            chain = _make_chain(group_idx[key])
             history_start = max(0, day - LOOKBACK)
             price_history = prices[ai, history_start:day + 1]
             try:

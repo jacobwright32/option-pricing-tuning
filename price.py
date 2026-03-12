@@ -19,7 +19,6 @@ Ideas the agent might explore:
 
 import numpy as np
 from scipy.stats import norm
-from scipy.optimize import brentq
 
 
 # ─── Black-Scholes Formulas ──────────────────────────────────────────────────
@@ -45,58 +44,43 @@ def bs_vega(S, K, T, r, sigma):
 
 # ─── Implied Volatility Solver ───────────────────────────────────────────────
 
-def implied_vol(S, K, T, r, market_price, is_call, max_iter=50, tol=1e-6):
+def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=15, tol=1e-5):
     """
-    Newton-Raphson IV solver for a single option.
-    Falls back to Brent's method if Newton fails.
+    Fully vectorized Newton-Raphson IV solver.
+    Operates on entire arrays at once — no Python loops.
     """
-    # Intrinsic value check
-    if is_call:
-        intrinsic = max(S - K * np.exp(-r * T), 0)
-    else:
-        intrinsic = max(K * np.exp(-r * T) - S, 0)
-    if market_price <= intrinsic + 1e-10:
-        return 0.05  # floor
+    S = np.asarray(S, dtype=float)
+    K = np.asarray(K, dtype=float)
+    T = np.asarray(T, dtype=float)
+    market_price = np.asarray(market_price, dtype=float)
+    is_call = np.asarray(is_call, dtype=bool)
 
-    # Newton-Raphson
-    sigma = 0.30  # initial guess
+    sigma = np.full_like(S, 0.30)  # initial guess
+    active = np.ones(len(S), dtype=bool)
+
     for _ in range(max_iter):
-        price = float(bs_price(S, K, T, r, sigma, is_call))
-        vega = float(bs_vega(S, K, T, r, sigma))
-        if vega < 1e-12:
+        if not active.any():
             break
-        diff = price - market_price
-        if abs(diff) < tol:
-            return max(sigma, 0.01)
-        sigma -= diff / vega
-        sigma = max(sigma, 0.01)
-        sigma = min(sigma, 5.0)
+        price = bs_price(S[active], K[active], T[active], r, sigma[active], is_call[active])
+        vega = bs_vega(S[active], K[active], T[active], r, sigma[active])
+        diff = price - market_price[active]
 
-    # Fallback: Brent's method
-    try:
-        def objective(s):
-            return float(bs_price(S, K, T, r, s, is_call)) - market_price
-        sigma = brentq(objective, 0.01, 5.0, xtol=tol)
-    except (ValueError, RuntimeError):
-        sigma = 0.30  # give up, return default
+        # Update where vega is meaningful
+        updatable = vega > 1e-12
+        converged = np.abs(diff) < tol
 
-    return max(sigma, 0.01)
+        # Apply Newton step
+        step = np.zeros_like(diff)
+        step[updatable] = diff[updatable] / vega[updatable]
+        new_sigma = sigma[active] - step
+        sigma[active] = np.clip(new_sigma, 0.01, 5.0)
 
+        # Mark converged or zero-vega as done
+        done_mask = converged | ~updatable
+        idx = np.where(active)[0]
+        active[idx[done_mask]] = False
 
-def implied_vol_vec(S, K, T, r, market_price, is_call):
-    """Vectorized IV solver — loops over individual options."""
-    n = len(S) if hasattr(S, '__len__') else 1
-    if n == 1:
-        return np.array([implied_vol(S, K, T, r, market_price, is_call)])
-    ivs = np.zeros(n)
-    for i in range(n):
-        s = S[i] if hasattr(S, '__len__') else S
-        k = K[i] if hasattr(K, '__len__') else K
-        t = T[i] if hasattr(T, '__len__') else T
-        mp = market_price[i] if hasattr(market_price, '__len__') else market_price
-        ic = is_call[i] if hasattr(is_call, '__len__') else is_call
-        ivs[i] = implied_vol(s, k, t, r, mp, ic)
-    return ivs
+    return np.clip(sigma, 0.01, 5.0)
 
 
 # ─── Pricing Model ───────────────────────────────────────────────────────────
@@ -115,13 +99,9 @@ class PricingModel:
         self.default_vol = 0.30  # flat vol assumption (baseline)
 
         # ── Signal parameters ──
-        self.iv_lookback = 60           # rolling window for IV percentile
-        self.long_threshold = 0.25      # go long when IV percentile below this
-        self.short_threshold = 0.75     # go short when IV percentile above this
+        self.long_threshold = 0.25      # go long when IV/RV ratio below (1 - this)
+        self.short_threshold = 0.75     # go short when IV/RV ratio above (1 + this)
         self.signal_strength = 0.5      # base signal magnitude
-
-        # State for rolling IV tracking
-        self._iv_history = {}  # asset_key -> list of ATM IVs
 
     def price_chain(self, chain):
         """
@@ -144,7 +124,7 @@ class PricingModel:
         is_call = chain["is_call"]
         market_price = chain["market_price"]
 
-        # Baseline: compute IV from each market price, then use flat average vol
+        # Baseline: compute IV from each market price, then use flat median vol
         # to re-price. This is barely better than returning market_price directly.
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
         avg_vol = np.median(ivs)  # single flat vol for the whole chain
@@ -172,16 +152,14 @@ class PricingModel:
         is_call = chain["is_call"]
         market_price = chain["market_price"]
 
-        if len(S) == 0 or len(price_history) < 5:
+        if len(S) == 0 or len(price_history) < 10:
             return 0.0
 
-        # ── Compute ATM implied vol ──
+        # ── Compute ATM implied vol (vectorized) ──
         spot = S[0]
         moneyness = np.abs(np.log(K / spot))
-        # Find near-ATM, ~30-day options
         atm_mask = (moneyness < 0.05) & (T > 20 / 252) & (T < 45 / 252)
         if atm_mask.sum() == 0:
-            # Broaden search
             atm_mask = moneyness < 0.10
         if atm_mask.sum() == 0:
             return 0.0
@@ -193,22 +171,17 @@ class PricingModel:
         current_iv = np.median(atm_ivs)
 
         # ── Compute realized vol from price history ──
-        if len(price_history) < 10:
-            return 0.0
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
         # ── Simple IV vs RV signal ──
-        # When IV >> RV: market is pricing in more vol than realized → mean reversion
-        # likely → sell vol → but for CFD we interpret as: market is fearful → contrarian long
-        # When IV << RV: market is complacent → potential for vol expansion → short
+        # When IV >> RV: market pricing more vol than realized → fearful → contrarian long
+        # When IV << RV: market complacent → potential vol expansion → short
         iv_rv_ratio = current_iv / max(realized_vol, 0.01)
 
         if iv_rv_ratio > (1.0 + self.short_threshold):
-            # IV much higher than RV → market fearful → contrarian long
             signal = self.signal_strength
         elif iv_rv_ratio < (1.0 - self.long_threshold):
-            # IV much lower than RV → complacent → cautious short
             signal = -self.signal_strength
         else:
             signal = 0.0
