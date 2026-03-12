@@ -14,7 +14,7 @@ signals using **real stock market data** from Yahoo Finance.
 | MAPE | 0.002003 |
 | Win Rate | 92.6% |
 | Trades | 27 |
-| Experiments | 642 (138 kept) |
+| Experiments | 647 (139 kept) |
 
 ## How It Works
 
