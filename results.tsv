@@ -151,3 +151,8 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 3528000	1.844179	2.412058	0.007641	1.000000	14	keep	moneyness IV initial guess (Sharpe 2.41, 100% win, score 1.844)
 0079a2e	1.846424	2.412058	0.002026	1.000000	14	keep	separate signal IV solver (Sharpe 2.41, 100% win, MAPE 0.2%, score 1.846)
 a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same score, 3s faster)
+-	1.845775	2.410977	0.002026	1.000000	14	discard	moderate strength 0.70 (with new IV solver)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	signal IV init coeff 0.35
+-	1.846424	2.412058	0.002026	1.000000	14	discard	signal IV init coeff 0.45 (no change)
+-	1.750434	2.252074	0.002026	0.882353	17	discard	extreme IV/RV 1.83 with new solver
+-	1.845776	2.410978	0.002026	1.000000	14	discard	moderate strength 0.62 (new solver)
