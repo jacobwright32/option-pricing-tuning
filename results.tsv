@@ -190,3 +190,13 @@ a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same scor
 -	1.845167	2.409962	0.002026	1.000000	14	discard	low_scale denom 0.06
 -	1.825658	2.377448	0.002026	1.000000	14	discard	quadratic low_scale
 -	1.562549	2.412058	0.711714	1.000000	14	discard	log_m^2/sqrt_T basis (lost skew)
+-	0.504702	0.175854	0.002026	0.478261	46	discard	short signal complacency near highs
+-	1.816049	2.361433	0.002026	0.800000	20	discard	moderate ret_5d<-0.03 dist_from_low<0.005
+-	1.644533	2.075573	0.002026	0.933333	15	discard	tier3 IV/RV>2.0 ret_5d<-0.01 dfl<0.01
+-	1.716607	2.195695	0.002026	0.809524	21	discard	tier3 IV/RV>1.7 ret_5d<-0.02 dfl<0.001
+-	1.825195	2.376676	0.002026	0.933333	15	discard	tier3 IV/RV>1.8 ret_5d<-0.02 dfl<0.001
+-	1.838196	2.398344	0.002026	1.000000	14	discard	concave low_scale exponent 0.7
+-	1.841801	2.412058	0.013586	1.000000	14	discard	fair value floor 0.005
+-	1.846415	2.412058	0.002049	1.000000	14	discard	floor matching for cheap options
+-	1.633748	2.057598	0.002026	0.937500	16	discard	extreme ret_5d threshold -0.012
+-	1.846424	2.412058	0.002026	1.000000	14	discard	signal IV 15 iterations (no improvement)
