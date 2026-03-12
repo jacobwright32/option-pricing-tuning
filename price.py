@@ -156,7 +156,7 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             return 1.0 * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
-            return 0.80 * low_scale
+            return 0.75 * low_scale
         else:
             return 0.0
 
