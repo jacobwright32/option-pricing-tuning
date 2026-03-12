@@ -179,7 +179,7 @@ class PricingModel:
             return 1.0 * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return 0.66 * low_scale
-        elif iv_rv_ratio > 1.6 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
+        elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
             return 0.5 * low_scale
         else:
             return 0.0
