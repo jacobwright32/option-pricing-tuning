@@ -703,3 +703,5 @@ n/a	2.213646	3.024078	0.002003	0.862069	29	discard	pc_boost cap 0.8->0.6
 n/a	2.217511	3.030520	0.002003	0.862069	29	discard	pc_boost cap 0.8->0.7
 n/a	2.216682	3.029139	0.002003	0.862069	29	discard	pc_boost cap 0.8->0.9
 53f3144	2.217994	3.031325	0.002003	0.862069	29	keep	cap skew_boost at 0.5 (no effect)
+n/a	2.211345	3.020243	0.002003	0.862069	29	discard	term_boost cap 0.5
+23f0bd5	2.217994	3.031325	0.002003	0.862069	29	keep	cap term_boost at 1.0 (no effect)
