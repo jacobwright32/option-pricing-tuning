@@ -145,3 +145,6 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	0.340470	-0.097866	0.002026	0.769231	13	discard	ret_7d window (completely different signals)
 -	1.843723	2.407555	0.002026	0.933333	15	discard	40d IV/RV confirmation (no effect)
 -	1.843544	2.407257	0.002026	0.933333	15	discard	moderate strength 0.64
+-	1.243689	1.407499	0.002026	0.550000	20	discard	EWMA realized vol
+-	1.843723	2.407555	0.002026	0.933333	15	discard	IV/RV>3.0 data quality filter (no effect)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	min 30d history (no effect)
