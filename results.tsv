@@ -783,3 +783,13 @@ n/a	2.245272	3.076790	0.002003	0.862069	29	discard	OTM put strike thresh 0.92->0
 n/a	2.243075	3.073127	0.002003	0.862069	29	discard	tier3 accel offset 0.3->0.4
 n/a	2.247280	3.080136	0.002003	0.862069	29	discard	add term_boost to tier1
 PENDING	2.248226	3.081711	0.002003	0.862069	29	keep	tier2 base 0.24->0.20
+n/a	2.247171	3.079954	0.002003	0.862069	29	discard	tier2 base 0.20->0.16
+n/a	2.066786	2.779311	0.002003	0.838710	31	discard	tier1 ret_5d thresh -0.015->-0.012
+n/a	2.243499	3.073834	0.002003	0.862069	29	discard	rv_spike offset 1.0->0.8
+n/a	2.246298	3.078499	0.002003	0.862069	29	discard	rv_spike offset 1.0->1.2
+n/a	2.241964	3.071276	0.002003	0.862069	29	discard	ivrv_scale continuous in tier1
+n/a	2.248226	3.081711	0.002003	0.862069	29	discard	add term_boost to tier2 (no effect)
+n/a	2.246807	3.079346	0.002003	0.862069	29	discard	add ret_asym to tier1
+n/a	2.247770	3.080952	0.002003	0.862069	29	discard	rv window 5d->3d
+n/a	1.140050	1.234753	0.002003	0.833333	30	discard	tier3 dist_from_low 0.02->0.025
+PENDING	2.249590	3.083986	0.002003	0.862069	29	keep	pc_boost cap 0.75->0.70
