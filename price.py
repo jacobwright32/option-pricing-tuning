@@ -197,7 +197,7 @@ class PricingModel:
         recent_ret = (price_history[-1] / price_history[-10]) - 1.0
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
 
-        if iv_rv_ratio > 1.8 and ret_5d < -0.02:
+        if iv_rv_ratio > 1.85 and ret_5d < -0.02:
             # Extreme fear + price drop → contrarian long
             signal = 1.0
         else:
