@@ -853,3 +853,15 @@ n/a	1.649534	2.083892	0.002003	0.764706	34	discard	atm_mask thresh 0.05->0.04
 PENDING	2.252851	3.089420	0.002003	0.862069	29	keep	tier3 accel mult 0.9->1.0
 n/a	2.251680	3.087469	0.002003	0.862069	29	discard	tier3 accel mult 1.0->1.1
 PENDING	2.255099	3.093167	0.002003	0.862069	29	keep	tier3 accel cap 0.30->0.35
+n/a	2.252437	3.088730	0.002003	0.862069	29	discard	tier3 accel cap 0.35->0.40
+n/a	2.245955	3.077926	0.002003	0.862069	29	discard	tier3 accel offset 0.3->0.25
+n/a	2.251494	3.087159	0.002003	0.862069	29	discard	tier3 accel offset 0.3->0.35
+n/a	2.255099	3.093167	0.002003	0.862069	29	discard	tier3 ret_5d -0.005->-0.003 (same score)
+n/a	2.255013	3.093024	0.002003	0.862069	29	discard	coherence power 1.25->1.30
+n/a	2.255099	3.093167	0.002003	0.862069	29	discard	term_boost cap 1.0->0.8 (same score)
+n/a	2.255099	3.093167	0.002003	0.862069	29	discard	OTM put strike 0.92->0.93 (same)
+n/a	2.254957	3.092930	0.002003	0.862069	29	discard	tier1 base 0.16->0.15 (retry)
+n/a	2.241100	3.069835	0.002003	0.862069	29	discard	add tier3 base 0.05
+n/a	2.252456	3.088763	0.002003	0.862069	29	discard	tier2 pc_boost weight 0.9
+n/a	2.254112	3.091522	0.002003	0.862069	29	discard	rv window 5d->4d
+PENDING	2.255178	3.093299	0.002003	0.862069	29	keep	tier1 base 0.16->0.17
