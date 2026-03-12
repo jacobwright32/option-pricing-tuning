@@ -112,3 +112,10 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.843675	2.407476	0.002026	0.933333	15	discard	vol surface residual stress scaling
 -	1.813803	2.357690	0.002026	0.928571	14	discard	moderate IV/RV 1.65
 -	1.843675	2.407476	0.002026	0.933333	15	discard	IV solver 40 iter tol 1e-10 (no change)
+-	0.830449	0.718765	0.002026	0.444444	45	discard	RMS-based realized vol (too many trades)
+-	1.699900	2.167852	0.002026	0.833333	18	discard	extreme IV/RV 1.80 (too loose)
+-	1.808658	2.349115	0.002026	0.928571	14	discard	25d low window
+-	1.843675	2.407476	0.002026	0.933333	15	discard	max daily loss filter (no effect)
+-	1.277708	1.464198	0.002026	0.708333	24	discard	continuous fear formula (poor discrimination)
+-	1.843327	2.406896	0.002026	0.933333	15	discard	moderate strength 0.63
+aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (score 1.8437)
