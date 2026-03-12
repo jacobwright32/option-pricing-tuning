@@ -886,3 +886,7 @@ n/a	2.265515	3.110527	0.002003	0.892857	28	discard	tier3 skew_boost weight 0.6->
 n/a	2.267897	3.114497	0.002003	0.892857	28	discard	tier3 skew_boost weight 0.6->0.5
 PENDING	2.271910	3.121185	0.002003	0.892857	28	keep	tier3 skew_boost weight 0.6->0.7
 PENDING	2.272764	3.122608	0.002003	0.892857	28	keep	tier3 skew_boost weight 0.7->0.75
+n/a	2.258670	3.099119	0.002003	0.862069	29	discard	tier3 skew_boost weight 0.75->0.80
+n/a	2.258747	3.099247	0.002003	0.862069	29	discard	tier3 skew_boost weight 0.75->0.77
+n/a	2.271824	3.121042	0.002003	0.892857	28	discard	tier3 accel cap 0.35->0.33
+PENDING	2.273059	3.123100	0.002003	0.892857	28	keep	tier3 accel mult 1.0->1.05
