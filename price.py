@@ -135,7 +135,6 @@ class PricingModel:
             log_T,
             log_m * log_T,
             is_call_f,         # call/put offset
-            is_call_f * log_m, # call/put skew difference
         ])
 
         def _irls_fit(X_sub, y_sub):
