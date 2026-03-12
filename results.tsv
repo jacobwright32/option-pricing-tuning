@@ -156,3 +156,37 @@ a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same scor
 -	1.846424	2.412058	0.002026	1.000000	14	discard	signal IV init coeff 0.45 (no change)
 -	1.750434	2.252074	0.002026	0.882353	17	discard	extreme IV/RV 1.83 with new solver
 -	1.845776	2.410978	0.002026	1.000000	14	discard	moderate strength 0.62 (new solver)
+-	1.846424	2.412058	0.002026	1.000000	14	discard	Brenner-Subrahmanyam IV approx for signal initial guess
+-	1.243689	1.407499	0.002026	0.550000	20	discard	EWMA realized vol lambda=0.94
+-	0.882642	0.805755	0.002026	0.440000	50	discard	20-day RV window
+-	1.211033	1.353073	0.002026	0.564103	39	discard	30-day RV window
+-	1.846424	2.412058	0.002026	1.000000	14	discard	ultra-extreme tier IV/RV>2.2 ret_5d<-0.005
+-	1.846424	2.412058	0.002026	1.000000	14	discard	dist_from_10d_high>0.01 filter
+-	1.711835	2.187743	0.002026	1.000000	11	discard	dist_from_10d_high>0.03 filter
+-	1.846424	2.412058	0.002026	1.000000	14	discard	put-call skew boost
+-	1.846328	2.412058	0.002266	1.000000	14	discard	add log_m*sqrt_T basis term
+-	1.846330	2.412058	0.002263	1.000000	14	discard	add linear log_m basis term
+-	1.846424	2.412058	0.002026	1.000000	14	discard	IV term structure boost (slower)
+-	1.830229	2.385067	0.002026	1.000000	14	discard	continuous IV/RV strength scaling
+-	1.601571	2.003969	0.002026	0.875000	16	discard	vega-weighted ATM IV
+-	0.859933	0.767907	0.002026	0.875000	16	discard	ret_10d<-0.06 for moderate tier
+-	1.846212	2.412058	0.002558	1.000000	14	discard	Huber weights in IRLS
+-	1.846376	2.412058	0.002147	1.000000	14	discard	Cauchy MAD scaling 1.0
+-	1.846424	2.412058	0.002026	1.000000	14	discard	OTM put skew fear tier (not triggered)
+-	1.832754	2.389274	0.002026	0.863636	22	discard	relaxed OTM put skew fear tier
+-	1.845819	2.412058	0.003540	1.000000	14	discard	80/20 blend surface/raw IV
+-	1.846424	2.412058	0.002026	1.000000	14	discard	IRLS 40 iterations (no improvement)
+-	1.279660	1.467451	0.002026	0.619469	113	discard	momentum tier IV/RV<0.9 ret_5d>0.02
+-	1.829532	2.383904	0.002026	0.894737	19	discard	20-day RV tier iv_rv20>2.5
+-	1.668826	2.116061	0.002026	1.000000	12	discard	add ret_3d<0 filter
+-	1.236563	1.395622	0.002026	0.653846	26	discard	continuous composite scoring
+-	1.844179	2.412058	0.007641	1.000000	14	discard	intrinsic-based IV initial guess for pricing
+-	1.845417	2.412058	0.004545	1.000000	14	discard	separate call/put vol surface fits
+-	1.846424	2.412058	0.002026	1.000000	14	discard	IV solver 30 iters tol=1e-10
+-	1.846424	2.412058	0.002027	1.000000	14	discard	good IV threshold 0.03
+-	1.845881	2.412058	0.003385	1.000000	14	discard	cubic log_m^3 basis term
+-	1.845769	2.412058	0.003664	1.000000	14	discard	linear T basis instead of sqrt_T
+-	1.843144	2.406591	0.002026	1.000000	14	discard	low_scale denom 0.04
+-	1.845167	2.409962	0.002026	1.000000	14	discard	low_scale denom 0.06
+-	1.825658	2.377448	0.002026	1.000000	14	discard	quadratic low_scale
+-	1.562549	2.412058	0.711714	1.000000	14	discard	log_m^2/sqrt_T basis (lost skew)
