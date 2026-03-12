@@ -185,7 +185,7 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         # Short-term price range as vol proxy
         range_5d = (np.max(price_history[-5:]) - np.min(price_history[-5:])) / spot
-        range_boost = max(0.0, min(0.20, (range_5d - 0.04) * 7.0))
+        range_boost = max(0.0, min(0.20, (range_5d - 0.05) * 7.0))
 
         # Put-call IV spread (near ATM): put IV vs call IV
         near_atm = moneyness < 0.10
