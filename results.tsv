@@ -460,3 +460,6 @@ n/a	2.065515	2.777194	0.002003	0.925926	27	discard	term bounds short<15d long>75
 n/a	2.070578	2.785632	0.002003	0.925926	27	discard	term bounds short<25d long>50d same score
 n/a	2.070578	2.785632	0.002003	0.925926	27	discard	tier 2 term_boost 0.3->0.5 no change
 e4450e3	2.070802	2.786006	0.002003	0.925926	27	keep	tier 1 ivrv_boost capped at 0.3
+6c21d66	2.070985	2.786311	0.002003	0.925926	27	keep	ivrv_boost uncapped mult 3
+ae3f7e0	2.071167	2.786614	0.002003	0.925926	27	keep	ivrv_boost mult 3->5
+4c53940	2.071314	2.786859	0.002003	0.925926	27	keep	ivrv_boost mult 5->10
