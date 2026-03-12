@@ -226,3 +226,9 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.845780	2.410977	0.002016	1.000000	14	discard	moderate strength 0.70
 -	1.846429	2.412058	0.002016	1.000000	14	discard	good-data count threshold 6
 -	1.553283	1.923482	0.002016	0.842105	19	discard	ATM moneyness 0.04
+-	1.846429	2.412058	0.002016	1.000000	14	discard	log_m^4 basis with ridge
+-	1.846395	2.412058	0.002099	1.000000	14	discard	log_m^2*sqrt_T interaction basis
+-	1.447235	2.412058	42.887976	1.000000	14	discard	Newton correction 10pct toward market
+-	1.846367	2.412058	0.002170	1.000000	14	discard	per-option vol clamp [0.5iv, 2iv]
+-	1.846429	2.412058	0.002016	1.000000	14	discard	exact-low tier IV/RV>1.85 ret_5d<-0.005
+-	1.844280	2.412058	0.007388	1.000000	14	discard	per-expiry bucket IRLS fits

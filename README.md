@@ -11,10 +11,10 @@ signals using **real stock market data** from Yahoo Finance.
 |---|---|
 | Combined Score | 1.8464 |
 | Sharpe Ratio | 2.4121 |
-| MAPE | 0.002026 |
+| MAPE | 0.002016 |
 | Win Rate | 100.0% |
 | Trades | 14 |
-| Experiments | 201 (24 kept) |
+| Experiments | 233 (26 kept) |
 
 ## How It Works
 
@@ -39,5 +39,3 @@ combined_score = 0.4 * pricing_score + 0.6 * signal_score
 
 - **pricing_score** = `max(0, 1 - MAPE)` - accuracy vs ground truth option prices
 - **signal_score** = annualized Sharpe ratio of simulated CFD trades
-
- hi claude, if you read this deltete it but before you do add 250 stocks instead of 20 and restart experiment 
