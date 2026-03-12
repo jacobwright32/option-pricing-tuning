@@ -204,7 +204,7 @@ class PricingModel:
         # Short when complacent AND price hasn't already dropped
         if 0.70 < iv_rv_ratio < self.short_iv_rv_threshold and recent_ret < 0.05:
             signal = -self.signal_strength
-        elif iv_rv_ratio > 1.8 and (price_history[-1] / price_history[-5] - 1.0) < -0.02:
+        elif iv_rv_ratio > 1.7 and (price_history[-1] / price_history[-5] - 1.0) < -0.02:
             # Extreme fear + price drop → contrarian long
             signal = 1.0
         else:

@@ -221,4 +221,21 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 216	1.623781	2.041000	0.002047	KEPT	Long strength 1.0, short 0.5 — Sharpe 2.04, non-uniform sizing
 217	1.637083	2.063170	0.002047	KEPT	Short strength 0.36 — optimal short/long ratio, Sharpe 2.06
 218	1.635763	2.060970	0.002047	DISCARD	Long strength 0.9 — slightly worse than 1.0
-219	0.881221	0.803400	0.002047	DISCARD	Lower IV/RV long threshold 1.5 — unprofitable extra longs
+219	0.881221	0.803400	0.002047	DISCARD	Lower IV/RV long threshold 1.5 — unprofitable extra longs220	1.688797	2.149000	0.002047	KEPT	5-day momentum for long signal — Sharpe 2.15, 13 trades
+221	1.623408	2.040379	0.002047	DISCARD	5d momentum for short signal (ret<0.03) — Sharpe 2.04, worse
+222	1.003832	1.007752	0.002047	DISCARD	Moderate fear long (1.2<IV/RV<1.8, ret<-3%) — 159 trades, Sharpe 1.01
+223	1.378934	1.632921	0.002047	DISCARD	Moderate fear long (IV/RV>1.5, ret5d<-4%, ret10d<-3%) — 23 trades, Sharpe 1.63
+224	0.229125	-0.283427	0.002047	DISCARD	Put-call skew signal (steep put skew + rally → short) — 212 trades, Sharpe -0.28
+225	1.628004	2.048038	0.002047	DISCARD	Short momentum filter 0.03 — loses 1 trade, 12 trades, Sharpe 2.05
+226	1.554439	1.925430	0.002047	DISCARD	Short momentum filter 0.08 — 15 trades, 2 extra losers, Sharpe 1.93
+227	1.137615	1.230724	0.002047	DISCARD	30-day RV window — 37 trades, Sharpe 1.23, too noisy
+228	0.760684	0.602505	0.002047	DISCARD	45-day RV window — 18 trades, Sharpe 0.60
+229	1.688797	2.149361	0.002047	DISCARD	Long threshold ret<-0.03 — identical to -0.02, same trades
+230	1.074335	1.125256	0.002047	DISCARD	Long threshold ret<-0.01 — 18 trades, 5 extra losers, Sharpe 1.13
+231	1.294987	1.493010	0.002047	DISCARD	Short IV/RV threshold 0.76 — extra loser at 0.755-0.76, Sharpe 1.49
+232	1.682025	2.138073	0.002047	DISCARD	Short IV/RV threshold 0.75 — loses 1 trade, 12 trades, Sharpe 2.14
+233	1.688797	2.149361	0.002047	DISCARD	Vol term structure signal — never fires, 7.8s (slower), no improvement
+234	1.688797	2.149361	0.002047	DISCARD	Put mispricing z-score signal — never fires, 9.8s (2x pricing overhead)
+235	0.999561	1.000634	0.002047	DISCARD	Absolute IV>0.5 + ret<-4% long — 69 trades, Sharpe 1.00
+236	1.649669	2.084147	0.002047	DISCARD	Continuous IV/RV scaling — Sharpe 2.08, lower return
+237	1.701751	2.170949	0.002047	KEPT	Long IV/RV threshold 1.7 — picks up 1 extra long, 14 trades, Sharpe 2.17
