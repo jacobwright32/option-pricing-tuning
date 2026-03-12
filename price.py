@@ -184,6 +184,19 @@ class PricingModel:
 
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
 
+        # Put-call IV spread (ATM): put IV vs call IV
+        atm_puts = atm_mask & (~is_call)
+        atm_calls = atm_mask & is_call
+        if atm_puts.sum() > 0 and atm_calls.sum() > 0:
+            put_iv_med = np.median(implied_vol_vec(S[atm_puts], K[atm_puts], T[atm_puts], r,
+                                                    market_price[atm_puts], is_call[atm_puts], max_iter=8))
+            call_iv_med = np.median(implied_vol_vec(S[atm_calls], K[atm_calls], T[atm_calls], r,
+                                                     market_price[atm_calls], is_call[atm_calls], max_iter=8))
+            pc_spread = (put_iv_med - call_iv_med) / (current_iv + 1e-8)
+            pc_boost = max(0.0, pc_spread * 0.5)
+        else:
+            pc_boost = 0.0
+
         # Normalized skew: put_skew / current_iv captures relative fear level
         norm_skew = put_skew / (current_iv + 1e-8)
         skew_boost = max(0.0, norm_skew * 0.7)
@@ -200,7 +213,7 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             ivrv_boost = (iv_rv_ratio - 1.85) * 10
             accel1 = min(0.15, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.5) if ret_10d < -0.01 else 0.0
-            return (1.2 + skew_boost + term_boost + ivrv_boost + accel1) * low_scale * coherence
+            return (1.2 + skew_boost + term_boost + ivrv_boost + accel1 + pc_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             accel2 = min(0.1, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.3) if ret_10d < -0.01 else 0.0
             return (0.55 + skew_boost * 0.3 + term_boost * 0.3 + accel2) * low_scale * coherence
