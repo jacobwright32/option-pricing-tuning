@@ -456,3 +456,7 @@ n/a	2.055054	2.759759	0.002003	0.925926	27	discard	term_boost mult 50->70 oversh
 n/a	2.045178	2.743299	0.002003	0.925926	27	discard	skew_boost no cap mult 5 too aggressive
 n/a	2.060247	2.768414	0.002003	0.925926	27	discard	skew_boost mult 2->3 cap 0.25
 37ce4c7	2.070578	2.785632	0.002003	0.925926	27	keep	term boundaries short<20d long>45d
+n/a	2.065515	2.777194	0.002003	0.925926	27	discard	term bounds short<15d long>75d too narrow
+n/a	2.070578	2.785632	0.002003	0.925926	27	discard	term bounds short<25d long>50d same score
+n/a	2.070578	2.785632	0.002003	0.925926	27	discard	tier 2 term_boost 0.3->0.5 no change
+e4450e3	2.070802	2.786006	0.002003	0.925926	27	keep	tier 1 ivrv_boost capped at 0.3
