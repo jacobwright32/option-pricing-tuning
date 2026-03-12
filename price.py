@@ -130,6 +130,7 @@ class PricingModel:
             log_T,
             log_m * log_T,
             is_call_f,         # call/put offset
+            log_m / sqrt_T,    # skew/sqrt(T) — matches ground truth skew term
         ])
 
         def _irls_fit(X_sub, y_sub):
