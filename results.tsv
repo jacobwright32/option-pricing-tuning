@@ -283,3 +283,14 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846432	2.412058	0.002006	1.000000	14	discard	IV solver tol=1e-10 (same)
 -	1.841804	2.412058	0.013578	1.000000	14	discard	pricing floor 0.005 (too low)
 -	1.846432	2.412058	0.002007	1.000000	14	discard	25 IRLS iterations (same)
+-	1.844856	2.412058	0.005948	1.000000	14	discard	vega-weighted IRLS vol surface
+-	1.070163	1.118275	0.002006	0.506494	77	discard	10-day realized vol (too many trades)
+-	1.771153	2.286592	0.002006	1.000000	12	discard	call-only ATM IV (lost 2 trades)
+-	1.846432	2.412058	0.002006	1.000000	14	discard	sqrt_T floor 1/504 (same)
+-	1.846354	2.412058	0.002202	1.000000	14	discard	5% price correction toward market
+-	1.846432	2.412058	0.002006	1.000000	14	discard	ret_5d < -0.014 (same)
+-	1.756126	2.262059	0.002006	1.000000	13	discard	ret_5d < -0.016 (lost 1 trade)
+-	1.846432	2.412058	0.002006	1.000000	14	discard	dist_from_low < 0.035 (same)
+-	1.846431	2.412058	0.002009	1.000000	14	discard	vega-based IV/surface blend
+-	1.846432	2.412058	0.002006	1.000000	14	discard	IV filter [0.10, 0.95] (same)
+78f80c0	1.846433	2.412058	0.002006	1.000000	14	keep	IV filter [0.10, 0.90]
