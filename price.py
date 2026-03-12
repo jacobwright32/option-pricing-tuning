@@ -121,6 +121,7 @@ class PricingModel:
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
         log_m = np.log(K / S)
         sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
+        log_T = np.log(np.maximum(T, 1 / 252))
 
         X = np.column_stack([
             np.ones(len(log_m)),
@@ -128,6 +129,7 @@ class PricingModel:
             log_m ** 2,
             sqrt_T,
             log_m * sqrt_T,
+            log_T,           # additional term structure flexibility
         ])
 
         def _irls_fit(X_sub, y_sub):
