@@ -201,7 +201,7 @@ class PricingModel:
 
         # Normalized skew: put_skew / current_iv captures relative fear level
         norm_skew = put_skew / (current_iv + 1e-8)
-        skew_boost = min(0.5, max(0.0, norm_skew * 0.9))
+        skew_boost = min(0.30, max(0.0, norm_skew * 0.9))
         # IV coherence: penalize when ATM IVs are very dispersed
         coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.20
         # IV term structure boost: short-term vs long-term ATM IV
@@ -214,9 +214,17 @@ class PricingModel:
             term_boost = 0.0
         # Short-term RV spike boost: recent vol > longer-term vol
         rv_spike = min(0.3, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.6))
+        # IV convexity: how much the vol surface curves (high = tail risk premium)
+        otm_call = is_call & (K > spot * 1.08)
+        if otm_put.sum() > 1 and otm_call.sum() > 1:
+            otm_call_ivs = implied_vol_vec(S[otm_call], K[otm_call], T[otm_call], r, market_price[otm_call], is_call[otm_call], max_iter=8)
+            iv_convex = max(0.0, (np.median(otm_ivs) + np.median(otm_call_ivs)) / 2 - current_iv)
+            convex_boost = min(0.2, iv_convex * 1.5)
+        else:
+            convex_boost = 0.0
 
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.035:
-            return (0.15 + skew_boost + pc_boost + rv_spike) * low_scale * coherence
+            return (0.15 + skew_boost + pc_boost + rv_spike + convex_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.035:
             return (0.18 + pc_boost + rv_spike * 0.7) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.005:
