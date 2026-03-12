@@ -56,3 +56,9 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.533723	1.890888	0.002026	0.866667	15	discard	1d negative return filter (too restrictive)
 -	1.270241	1.451752	0.002026	0.714286	28	discard	75th percentile ATM IV
 70098e4	1.814664	2.359124	0.002026	0.933333	15	keep	near-20d-low filter dist<3% (Sharpe 2.36, 93% win, 15 trades)
+-	1.725954	2.211274	0.002026	0.882353	17	discard	dist_from_low 5% (too loose)
+-	1.748157	2.248280	0.002026	0.928571	14	discard	dist_from_low 2% (too tight)
+-	1.727173	2.213305	0.002026	0.833333	18	discard	dist_from_low only on extreme tier
+-	1.706952	2.179605	0.002026	0.875000	16	discard	dist_from_low 4%
+-	1.700311	2.168536	0.002026	0.833333	18	discard	dist from 10d low (20d better)
+94fd804	1.836918	2.396215	0.002026	0.933333	15	keep	continuous low-distance scaling (Sharpe 2.40, 93% win)
