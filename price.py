@@ -209,7 +209,7 @@ class PricingModel:
         long_T = T[atm_mask] > 40/252
         if short_T.sum() > 0 and long_T.sum() > 0:
             term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
-            term_boost = min(1.0, max(0.0, term_spread * 90))
+            term_boost = min(1.0, max(0.0, term_spread * 95))
         else:
             term_boost = 0.0
         # Short-term RV spike boost: recent vol > longer-term vol
