@@ -148,3 +148,4 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	1.243689	1.407499	0.002026	0.550000	20	discard	EWMA realized vol
 -	1.843723	2.407555	0.002026	0.933333	15	discard	IV/RV>3.0 data quality filter (no effect)
 -	1.843723	2.407555	0.002026	0.933333	15	discard	min 30d history (no effect)
+3528000	1.844179	2.412058	0.007641	1.000000	14	keep	moneyness IV initial guess (Sharpe 2.41, 100% win, score 1.844)
