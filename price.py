@@ -44,7 +44,7 @@ def bs_vega(S, K, T, r, sigma):
 
 # ─── Implied Volatility Solver ───────────────────────────────────────────────
 
-def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=15, tol=1e-5):
+def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-7):
     """
     Fully vectorized Newton-Raphson IV solver.
     Operates on entire arrays at once — no Python loops.
