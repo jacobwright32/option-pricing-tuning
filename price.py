@@ -188,19 +188,25 @@ class PricingModel:
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
-        # ── Simple IV vs RV signal ──
+        # ── IV vs RV signal with momentum filters ──
         if realized_vol < 0.01:
             return 0.0
         iv_rv_ratio = current_iv / realized_vol
 
-        if iv_rv_ratio > 1.5:
-            # IV much higher than RV = fear is high → contrarian long
-            return 0.5
-        elif iv_rv_ratio < 0.8:
-            # IV much lower than RV = complacency → short
-            return -0.3
+        # Price momentum
+        recent_ret = (price_history[-1] / price_history[-10]) - 1.0
+        ret_5d = (price_history[-1] / price_history[-5]) - 1.0
+
+        if iv_rv_ratio > 1.8 and ret_5d < -0.02:
+            # Extreme fear + recent price drop → contrarian long
+            signal = 1.0
+        elif 0.70 < iv_rv_ratio < 0.80 and recent_ret < 0.05:
+            # Complacency + no strong rally → short
+            signal = -0.35
         else:
-            return 0.0
+            signal = 0.0
+
+        return np.clip(signal, -1.0, 1.0)
 
 
 # ─── Main Entry Point ────────────────────────────────────────────────────────
