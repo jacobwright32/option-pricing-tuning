@@ -138,7 +138,12 @@ class PricingModel:
 
         fitted_vol = np.copy(ivs)
         try:
-            coeffs = _irls_fit(X, ivs)
+            # Pre-filter: only fit on options with reasonable IVs
+            good = (ivs > 0.02) & (ivs < 3.0)
+            if good.sum() > 8:
+                coeffs = _irls_fit(X[good], ivs[good])
+            else:
+                coeffs = _irls_fit(X, ivs)
             fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
         except Exception:
             fitted_vol = ivs
