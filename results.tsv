@@ -119,3 +119,9 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.277708	1.464198	0.002026	0.708333	24	discard	continuous fear formula (poor discrimination)
 -	1.843327	2.406896	0.002026	0.933333	15	discard	moderate strength 0.63
 aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (score 1.8437)
+-	1.294729	1.492566	0.002026	0.846154	13	discard	short-dated ATM IV for signal
+-	1.823965	2.374625	0.002026	0.933333	15	discard	drawdown boost on extreme tier
+-	1.843689	2.407500	0.002026	0.933333	15	discard	moderate ret_5d -0.043 (no change)
+-	1.674746	2.125927	0.002026	1.000000	10	discard	extreme IV/RV 1.87 (too selective)
+-	1.843578	2.407314	0.002026	0.933333	15	discard	moderate strength 0.68
+578e2b8	1.843723	2.407555	0.002026	0.933333	15	keep	moderate strength 0.66 (score 1.8437)
