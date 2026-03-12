@@ -141,3 +141,7 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	0.615291	0.360169	0.002026	0.494253	87	discard	fitted ATM vol for signal (completely wrong IV readings)
 -	1.015303	1.026856	0.002026	1.000000	2	discard	min ATM IV (too conservative)
 -	1.753302	2.256854	0.002026	0.928571	14	discard	extreme ret_5d -0.016 (loses 1 trade)
+-	0.964402	0.942021	0.002026	0.544828	145	discard	sigmoid composite score (way too many trades)
+-	0.340470	-0.097866	0.002026	0.769231	13	discard	ret_7d window (completely different signals)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	40d IV/RV confirmation (no effect)
+-	1.843544	2.407257	0.002026	0.933333	15	discard	moderate strength 0.64
