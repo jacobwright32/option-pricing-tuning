@@ -447,3 +447,7 @@ a9b6d04	2.041781	2.737637	0.002003	0.925926	27	keep	term_boost mult 3->4
 feb1684	2.048125	2.748211	0.002003	0.925926	27	keep	term_boost mult 8->10
 n/a	2.048125	2.748211	0.002003	0.925926	27	discard	term_boost cap 0.15->0.20 mult=10 no change
 59ea380	2.052588	2.755650	0.002003	0.925926	27	keep	term_boost cap 0.20 mult 15
+40ea82f	2.056335	2.761893	0.002003	0.925926	27	keep	term_boost cap 0.25 mult 20
+f1916fb	2.061800	2.771003	0.002003	0.925926	27	keep	term_boost cap 0.30 mult 30
+n/a	2.061800	2.771003	0.002003	0.925926	27	discard	term_boost no cap mult=30 same score
+6ee2f6d	2.065515	2.777194	0.002003	0.925926	27	keep	term_boost no cap mult 50
