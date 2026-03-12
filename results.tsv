@@ -306,3 +306,14 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846434	2.412058	0.002003	1.000000	14	discard	14 IRLS iters (same)
 -	1.846411	2.412058	0.002059	1.000000	14	discard	10 IRLS iters (too few)
 -	1.846428	2.412058	0.002017	1.000000	14	discard	11 IRLS iters (still not enough)
+-	1.846335	2.412058	0.002251	1.000000	14	discard	5th feature log_m (overfits)
+-	1.674739	2.125058	0.002003	1.000000	10	discard	ddof=1 realized vol (lost 4 trades)
+-	1.843732	2.412058	0.002003	0.933333	15	discard	IV/RV > 1.84 (1 new loser)
+-	1.822419	2.370058	0.002003	1.000000	13	discard	IV/RV > 1.86 (lost 1 trade)
+-	1.834477	2.392130	0.002003	1.000000	14	discard	moderate tier signal 0.50
+-	1.839440	2.400402	0.002003	1.000000	14	discard	moderate tier signal 0.80
+-	1.844360	2.408603	0.002003	1.000000	14	discard	extreme tier signal 0.90
+-	1.649657	2.083428	0.002003	0.944444	18	discard	IV/RV > 1.58 moderate tier
+-	1.846434	2.412058	0.002003	1.000000	14	discard	15 signal IV iterations (same)
+-	1.654190	2.090318	0.002003	1.000000	9	discard	IV/RV>1.88 ret_5d<-0.013 (too tight)
+-	1.846390	2.412058	0.002112	1.000000	14	discard	two-pass IRLS with inner filter
