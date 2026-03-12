@@ -34,3 +34,8 @@ cc484c5	1.755116	2.259877	0.002026	0.842105	19	keep	moderate strength 0.50 (Shar
 ba16b7c	1.775124	2.293224	0.002026	0.842105	19	keep	moderate strength 0.60 (Sharpe 2.29)
 34e285d	1.786907	2.312863	0.002026	0.842105	19	keep	moderate strength 0.70 (Sharpe 2.31)
 cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Sharpe 2.32)
+-	1.790496	2.318845	0.002026	0.842105	19	discard	moderate strength 0.90
+-	1.791623	2.320722	0.002026	0.842105	19	discard	IV pre-filter [0.10,1.5] (no change)
+-	1.791623	2.320722	0.002026	0.842105	19	discard	moderate+10d filter (no effect)
+-	1.544838	1.909415	0.002026	0.772727	22	discard	extreme threshold 1.82
+-	1.791623	2.320722	0.002026	0.842105	19	discard	IRLS 30 iter (no change)
