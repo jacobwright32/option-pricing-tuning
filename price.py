@@ -95,13 +95,9 @@ class PricingModel:
     """
 
     def __init__(self):
-        # ── Pricing parameters ──
-        self.default_vol = 0.30  # flat vol assumption (baseline)
-
         # ── Signal parameters ──
-        self.long_threshold = 0.25      # go long when IV/RV ratio below (1 - this)
-        self.short_threshold = 0.75     # go short when IV/RV ratio above (1 + this)
-        self.signal_strength = 0.5      # base signal magnitude
+        self.short_iv_rv_threshold = 0.75  # short when IV/RV < this
+        self.signal_strength = 0.5
 
     def price_chain(self, chain):
         """
@@ -206,7 +202,7 @@ class PricingModel:
         iv_rv_ratio = current_iv / max(realized_vol, 0.01)
 
         # Short-only: low IV/RV → complacent → short
-        if iv_rv_ratio < (1.0 - self.long_threshold):
+        if iv_rv_ratio < self.short_iv_rv_threshold:
             signal = -self.signal_strength
         else:
             signal = 0.0
