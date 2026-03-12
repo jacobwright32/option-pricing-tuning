@@ -496,3 +496,4 @@ n/a	2.095321	2.826870	0.002003	0.925926	27	discard	tier 1 accel cap 0.15->0.2 mu
 22d6b7f	2.096034	2.828059	0.002003	0.925926	27	keep	tier 2 accel boost capped 0.1
 n/a	1.876493	2.462157	0.002003	0.857143	28	discard	vega-weighted ATM IV worse
 n/a	2.096021	2.828037	0.002003	0.925926	27	discard	ret_20d drawdown boost tier 1
+3eead32	2.097005	2.829677	0.002003	0.925926	27	keep	IV coherence scaling
