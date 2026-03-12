@@ -428,3 +428,7 @@ da58e7b	2.035895	2.727827	0.002003	0.925926	27	keep	tier 1 skew boost 0.5->0.7
 9890097	2.036020	2.728035	0.002003	0.925926	27	keep	tier 1 skew boost 0.9->1.0 (full)
 n/a	2.035932	2.727889	0.002003	0.925926	27	discard	tier 2 skew boost 0.3->0.5
 d107f27	2.036930	2.729551	0.002003	0.925926	27	keep	OTM put threshold 0.95->0.92
+n/a	2.035929	2.727884	0.002003	0.925926	27	discard	OTM put 0.92->0.90 too deep
+n/a	2.036930	2.729551	0.002003	0.925926	27	discard	OTM put min count 2->3 no change
+n/a	2.032664	2.722442	0.002003	0.925926	27	discard	OTM put mean instead of median
+n/a	2.024338	2.708566	0.002003	0.925926	27	discard	skew asymmetry (put-call) worse and slow
