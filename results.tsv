@@ -232,3 +232,10 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.846367	2.412058	0.002170	1.000000	14	discard	per-option vol clamp [0.5iv, 2iv]
 -	1.846429	2.412058	0.002016	1.000000	14	discard	exact-low tier IV/RV>1.85 ret_5d<-0.005
 -	1.844280	2.412058	0.007388	1.000000	14	discard	per-expiry bucket IRLS fits
+-	1.846042	2.412058	0.002983	1.000000	14	discard	abs(log_m) V-shape instead of quadratic
+-	1.446682	1.745814	0.002016	0.900000	10	discard	mean ATM IV instead of median
+-	1.556102	1.928181	0.002016	0.928571	14	discard	trimmed mean ATM IV
+-	1.810006	2.351353	0.002016	1.000000	13	discard	25-day low instead of 20-day
+-	1.769922	2.284547	0.002016	0.882353	17	discard	15-day low instead of 20-day
+-	1.771149	2.286592	0.002016	1.000000	12	discard	call-only ATM IV for signal
+-	1.674734	2.125901	0.002016	1.000000	10	discard	bias-corrected RV (ddof=1)
