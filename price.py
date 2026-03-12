@@ -124,15 +124,18 @@ class PricingModel:
         log_T = np.log(np.maximum(T, 1 / 252))
 
         T_safe = np.maximum(T, 1 / 252)
+        is_call_f = is_call.astype(float)
         X = np.column_stack([
             np.ones(len(log_m)),
             log_m,
             log_m ** 2,
             sqrt_T,
-            T_safe,           # linear term structure
+            T_safe,
             log_m * sqrt_T,
             log_T,
             log_m * log_T,
+            is_call_f,         # call/put offset
+            is_call_f * log_m, # call/put skew difference
         ])
 
         def _irls_fit(X_sub, y_sub):
@@ -147,18 +150,11 @@ class PricingModel:
                 w = 1.0 / (1.0 + (resid / (3 * mad)) ** 2)
             return coeffs
 
-        # Fit separate surfaces for calls and puts
+        # Single fit with call/put indicator terms
         fitted_vol = np.copy(ivs)
         try:
-            call_mask = is_call
-            put_mask = ~is_call
-            if call_mask.sum() >= 5:
-                c_coeffs = _irls_fit(X[call_mask], ivs[call_mask])
-                fitted_vol[call_mask] = X[call_mask] @ c_coeffs
-            if put_mask.sum() >= 5:
-                p_coeffs = _irls_fit(X[put_mask], ivs[put_mask])
-                fitted_vol[put_mask] = X[put_mask] @ p_coeffs
-            fitted_vol = np.clip(fitted_vol, 0.01, 5.0)
+            coeffs = _irls_fit(X, ivs)
+            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
         except Exception:
             fitted_vol = ivs
 
