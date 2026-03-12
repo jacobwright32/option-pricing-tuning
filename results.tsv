@@ -218,3 +218,4 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 213	1.549427	1.917077	0.002047	DISCARD	Long threshold scan 1.8-2.5 — all same at 1.8-2.0, set to 1.8
 214	1.511378	1.853661	0.002047	DISCARD	Long momentum -0.025 — 14th trade is loser, -0.03 optimal
 215	1.158751	1.265950	0.002047	DISCARD	Extreme fear long without momentum — 24 trades, dilutive
+216	1.623781	2.041000	0.002047	KEPT	Long strength 1.0, short 0.5 — Sharpe 2.04, non-uniform sizing
