@@ -224,7 +224,7 @@ class PricingModel:
             convex_boost = 0.0
 
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.035:
-            return (0.15 + skew_boost + pc_boost + rv_spike + convex_boost) * low_scale * coherence
+            return (0.15 + skew_boost + pc_boost + rv_spike + convex_boost * 1.5) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.035:
             return (0.18 + pc_boost + rv_spike * 0.7) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.005:
