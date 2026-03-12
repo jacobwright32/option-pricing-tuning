@@ -138,3 +138,6 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	1.843723	2.407555	0.002026	0.933333	15	discard	dist_from_low 0.025 (no change)
 -	1.843586	2.407555	0.002367	0.933333	15	discard	Tikhonov regularized IRLS
 -	1.753302	2.256854	0.002026	0.928571	14	discard	extreme ret_5d -0.017 (loses 1 trade)
+-	0.615291	0.360169	0.002026	0.494253	87	discard	fitted ATM vol for signal (completely wrong IV readings)
+-	1.015303	1.026856	0.002026	1.000000	2	discard	min ATM IV (too conservative)
+-	1.753302	2.256854	0.002026	0.928571	14	discard	extreme ret_5d -0.016 (loses 1 trade)
