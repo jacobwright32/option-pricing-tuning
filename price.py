@@ -148,10 +148,12 @@ class PricingModel:
             return 0.0
         iv_rv_ratio = current_iv / realized_vol
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
+        low_20d = np.min(price_history[-20:])
+        dist_from_low = (price_history[-1] / low_20d) - 1.0
 
-        if iv_rv_ratio > 1.85 and ret_5d < -0.015:
+        if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             return 1.0
-        elif iv_rv_ratio > 1.6 and ret_5d < -0.045:
+        elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return 0.80
         else:
             return 0.0
