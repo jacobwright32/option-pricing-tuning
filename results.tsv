@@ -451,3 +451,7 @@ n/a	2.048125	2.748211	0.002003	0.925926	27	discard	term_boost cap 0.15->0.20 mul
 f1916fb	2.061800	2.771003	0.002003	0.925926	27	keep	term_boost cap 0.30 mult 30
 n/a	2.061800	2.771003	0.002003	0.925926	27	discard	term_boost no cap mult=30 same score
 6ee2f6d	2.065515	2.777194	0.002003	0.925926	27	keep	term_boost no cap mult 50
+n/a	2.055513	2.760524	0.002003	0.925926	27	discard	term_boost mult 50->100 overshoot
+n/a	2.055054	2.759759	0.002003	0.925926	27	discard	term_boost mult 50->70 overshoot
+n/a	2.045178	2.743299	0.002003	0.925926	27	discard	skew_boost no cap mult 5 too aggressive
+n/a	2.060247	2.768414	0.002003	0.925926	27	discard	skew_boost mult 2->3 cap 0.25
