@@ -150,3 +150,4 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 -	1.843723	2.407555	0.002026	0.933333	15	discard	min 30d history (no effect)
 3528000	1.844179	2.412058	0.007641	1.000000	14	keep	moneyness IV initial guess (Sharpe 2.41, 100% win, score 1.844)
 0079a2e	1.846424	2.412058	0.002026	1.000000	14	keep	separate signal IV solver (Sharpe 2.41, 100% win, MAPE 0.2%, score 1.846)
+a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same score, 3s faster)
