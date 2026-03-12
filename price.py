@@ -194,7 +194,7 @@ class PricingModel:
             call_iv_med = np.median(implied_vol_vec(S[atm_calls], K[atm_calls], T[atm_calls], r,
                                                      market_price[atm_calls], is_call[atm_calls], max_iter=8))
             pc_spread = (put_iv_med - call_iv_med) / (current_iv + 1e-8)
-            pc_boost = min(0.8, max(0.0, pc_spread * 70.0))
+            pc_boost = min(0.75, max(0.0, pc_spread * 70.0))
         else:
             pc_boost = 0.0
 
