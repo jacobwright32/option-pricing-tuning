@@ -349,3 +349,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846412	2.412058	0.002057	1.000000	14	discard	moneyness-weighted IRLS
 -	1.846434	2.412058	0.002003	1.000000	14	discard	lambda=1.8e-4 (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	lambda=1.6e-4 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	lstsq instead of solve (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	fallback ATM mask 0.08 (same)
+-	1.846100	2.412058	0.002838	1.000000	14	discard	blended MAD+mean scale
+-	1.846402	2.412058	0.002082	1.000000	14	discard	40th pctile abs resid scale
+-	1.846433	2.412058	0.002006	1.000000	14	discard	IRLS early stopping
