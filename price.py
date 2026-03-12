@@ -183,6 +183,9 @@ class PricingModel:
         low_scale = max(0.0, 1.0 - dist_from_low / 0.04)
 
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
+        # Short-term price range as vol proxy
+        range_5d = (np.max(price_history[-5:]) - np.min(price_history[-5:])) / spot
+        range_boost = max(0.0, min(0.15, (range_5d - 0.03) * 3.0))
 
         # Put-call IV spread (near ATM): put IV vs call IV
         near_atm = moneyness < 0.10
@@ -214,7 +217,7 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
             ivrv_boost = (iv_rv_ratio - 1.85) * 5
             accel1 = min(0.15, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 0.5) if ret_10d < -0.01 else 0.0
-            return (0.60 + skew_boost + term_boost + ivrv_boost + accel1 + pc_boost) * low_scale * coherence
+            return (0.60 + skew_boost + term_boost + ivrv_boost + accel1 + pc_boost + range_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return (0.35 + pc_boost) * low_scale * coherence
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
