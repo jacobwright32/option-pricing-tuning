@@ -62,3 +62,30 @@ cdad43a	1.791623	2.320722	0.002026	0.842105	19	keep	moderate strength 0.80 (Shar
 -	1.706952	2.179605	0.002026	0.875000	16	discard	dist_from_low 4%
 -	1.700311	2.168536	0.002026	0.833333	18	discard	dist from 10d low (20d better)
 94fd804	1.836918	2.396215	0.002026	0.933333	15	keep	continuous low-distance scaling (Sharpe 2.40, 93% win)
+-	1.805616	2.344045	0.002026	0.933333	15	discard	low_scale denominator 0.03
+-	1.837264	2.396790	0.002026	0.933333	15	discard	low_scale denominator 0.07 (marginal)
+-	1.814548	2.358931	0.002026	0.875000	16	discard	remove dist_from_low hard cutoff (continuous only)
+-	1.828600	2.382351	0.002026	0.933333	15	discard	IV/RV ratio strength scaling
+-	1.831772	2.387637	0.002026	0.933333	15	discard	moderate strength 0.85
+-	1.794341	2.325253	0.002026	1.000000	12	discard	drawdown>3%/5% filter (100% win but too few trades)
+-	1.836822	2.396215	0.002266	0.933333	15	discard	add log_m*sqrt_T cross term (MAPE slightly worse)
+-	1.806600	2.345684	0.002026	0.933333	15	discard	drawdown scaling (low_scale*dd_scale)
+-	1.646770	2.079302	0.002026	1.000000	9	discard	IV/RV threshold 1.90 (too selective)
+-	1.809352	2.350271	0.002026	0.933333	15	discard	exponential low_scale exp(-d*50)
+-	1.836870	2.396215	0.002147	0.933333	15	discard	IRLS tuning 1.0 MAD (MAPE slightly worse)
+-	1.451799	1.754349	0.002026	0.888889	9	discard	vol_rising filter (too restrictive)
+-	0.924956	0.876278	0.002026	0.522727	44	discard	single tier IV/RV>1.6 ret5d<-0.015 (too loose)
+-	1.701143	2.169922	0.002026	0.933333	15	discard	ret_5d magnitude scaling
+-	1.537922	1.897887	0.002026	0.909091	11	discard	3d return for extreme tier (too few trades)
+-	1.744846	2.242760	0.002026	1.000000	11	discard	min RV 0.15 (too few trades)
+-	1.480815	1.802709	0.002026	0.857143	21	discard	moderate IV/RV 1.55 (too loose)
+-	1.836918	2.396215	0.002026	0.933333	15	discard	IV term structure bonus (never fires, 3s slower)
+-	1.810005	2.351359	0.002026	0.933333	15	discard	quadratic low_scale
+-	1.749132	2.249904	0.002026	1.000000	13	discard	extreme ret_5d -0.02 (too strict)
+-	0.687579	0.480649	0.002026	0.833333	18	discard	extreme ret_5d -0.01 (too loose, bad trades)
+-	1.835327	2.393562	0.002026	0.933333	15	discard	sqrt low_scale
+-	1.836918	2.396215	0.002026	0.933333	15	discard	moderate dist_from_low 0.02 (no change)
+-	1.787431	2.313736	0.002026	0.823529	17	discard	moderate ret_5d -0.04
+-	1.836580	2.396215	0.002871	0.933333	15	discard	abs(log_m) basis term (MAPE worse)
+-	1.565467	1.943796	0.002026	0.937500	16	discard	ATM window 0.03 (worse signal)
+-	1.836918	2.396215	0.002026	0.933333	15	discard	low_scale min 0.3 (no change)
