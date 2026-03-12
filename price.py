@@ -183,7 +183,9 @@ class PricingModel:
 
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
 
-        skew_boost = min(0.2, max(0.0, put_skew * 2))
+        # Normalized skew: put_skew / current_iv captures relative fear level
+        norm_skew = put_skew / (current_iv + 1e-8)
+        skew_boost = min(0.2, max(0.0, norm_skew * 0.5))
         # IV term structure boost: short-term vs long-term ATM IV
         short_T = T[atm_mask] < 20/252
         long_T = T[atm_mask] > 45/252
