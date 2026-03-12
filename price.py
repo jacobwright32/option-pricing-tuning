@@ -123,14 +123,16 @@ class PricingModel:
         sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
         log_T = np.log(np.maximum(T, 1 / 252))
 
+        T_safe = np.maximum(T, 1 / 252)
         X = np.column_stack([
             np.ones(len(log_m)),
             log_m,
             log_m ** 2,
             sqrt_T,
+            T_safe,           # linear term structure
             log_m * sqrt_T,
             log_T,
-            log_m * log_T,   # skew × term structure cross term
+            log_m * log_T,
         ])
 
         def _irls_fit(X_sub, y_sub):
