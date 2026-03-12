@@ -132,7 +132,15 @@ class PricingModel:
             log_m * sqrt_T,
         ])
         try:
-            coeffs, _, _, _ = np.linalg.lstsq(X, ivs, rcond=None)
+            # IRLS: 2 rounds of reweighted least squares for robustness
+            w = np.ones(len(ivs))
+            for _ in range(2):
+                Xw = X * w[:, None]
+                yw = ivs * w
+                coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
+                resid = ivs - X @ coeffs
+                mad = np.median(np.abs(resid)) + 1e-8
+                w = 1.0 / (1.0 + (resid / (3 * mad)) ** 2)  # Cauchy weights
             fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
         except Exception:
             fitted_vol = ivs
