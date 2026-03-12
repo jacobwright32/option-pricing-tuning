@@ -354,3 +354,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846100	2.412058	0.002838	1.000000	14	discard	blended MAD+mean scale
 -	1.846402	2.412058	0.002082	1.000000	14	discard	40th pctile abs resid scale
 -	1.846433	2.412058	0.002006	1.000000	14	discard	IRLS early stopping
+-	1.846434	2.412058	0.002003	1.000000	14	discard	dist_from_low < 0.025 (same)
+-	1.756164	2.262059	0.002003	1.000000	13	discard	dist_from_low < 0.02 (lost 1)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	low_scale min 0.1 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	Cholesky solve (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	OTM shrink toward raw IV (same)
