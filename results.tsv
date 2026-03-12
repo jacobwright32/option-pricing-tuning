@@ -312,3 +312,12 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 310	1.699221	2.166730	0.002043	DISCARD	Vol-scaled short strength — slightly worse
 311	1.695670	2.160812	0.002043	DISCARD	Drawdown-scaled long strength — some longs get <1.0
 312	1.701842	2.171098	0.002043	DISCARD	ATM mask 15-35d — identical
+313	1.670811	2.119380	0.002043	DISCARD	Put-only ATM IV — 15 trades, extra loser, Sharpe 2.12
+314	0.832618	0.722392	0.002043	DISCARD	25th percentile ATM IV — shifts ratios, 22 trades, Sharpe 0.72
+315	1.701840	2.171098	0.002047	DISCARD	Cauchy tuning 1.345 — MAPE 0.2047, slightly worse
+316	1.701837	2.171098	0.002055	DISCARD	Cauchy tuning 1.6 — MAPE 0.2055
+317	1.701842	2.171098	0.002043	DISCARD	Short ret 0.04/0.035 — identical; 0.032 loses winner
+318	1.701830	2.171079	0.002043	DISCARD	Short strength 0.355 — combined 1.70183, marginally worse
+319	1.701783	2.171001	0.002043	DISCARD	Short strength 0.345 — combined 1.70178
+320	0.174913	-0.373783	0.002043	DISCARD	OTM put/call price ratio — puts always expensive (skew), 173 trades
+321	1.195170	1.326646	0.002043	DISCARD	Price range < 15% filter — only 4 trades, too restrictive
