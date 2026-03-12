@@ -184,12 +184,20 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
 
         skew_boost = min(0.2, max(0.0, put_skew * 2))
+        # IV term structure boost: short-term vs long-term ATM IV
+        short_T = T[atm_mask] < 30/252
+        long_T = T[atm_mask] > 60/252
+        if short_T.sum() > 0 and long_T.sum() > 0:
+            term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
+            term_boost = min(0.1, max(0.0, term_spread * 2))
+        else:
+            term_boost = 0.0
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
-            return (1.2 + skew_boost) * low_scale
+            return (1.2 + skew_boost + term_boost) * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
-            return (0.55 + skew_boost * 0.3) * low_scale
+            return (0.55 + skew_boost * 0.3 + term_boost * 0.3) * low_scale
         elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.01:
-            return (0.4 + skew_boost) * low_scale
+            return (0.4 + skew_boost + term_boost) * low_scale
         else:
             return 0.0
 
