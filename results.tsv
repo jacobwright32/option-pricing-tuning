@@ -298,3 +298,6 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 295	1.691262	2.171098	0.028494	DISCARD	Price floor 0.02 — MAPE 2.85%
 296	1.701842	2.171098	0.002043	DISCARD	IV guess OTM threshold 0.15 — identical
 297	1.701842	2.171098	0.002043	DISCARD	Long IV>0.35 filter — all longs already satisfy this
+298	0.670850	0.452778	0.002043	DISCARD	Neutral IV/RV mean reversion — 53 trades, Sharpe 0.45
+299	1.701842	2.171098	0.002043	DISCARD	Vol acceleration + IV/RV>1.3 long — never fires
+300	1.413672	1.690815	0.002043	DISCARD	Vol accel>2 + IV/RV>1 + ret<-4% — 25 trades, Sharpe 1.69
