@@ -434,3 +434,7 @@ n/a	2.032664	2.722442	0.002003	0.925926	27	discard	OTM put mean instead of media
 n/a	2.024338	2.708566	0.002003	0.925926	27	discard	skew asymmetry (put-call) worse and slow
 n/a	1.969418	2.617032	0.002003	0.925926	27	discard	IV dispersion confidence scaling
 c9d88a2	2.036930	2.729551	0.002003	0.925926	27	keep	OTM put IV solver 20->8 iters same score faster
+n/a	1.874269	2.458451	0.002003	0.916667	24	discard	30-day low instead of 20-day
+n/a	1.972316	2.621862	0.002003	0.866667	30	discard	15-day low instead of 20-day
+n/a	1.288920	1.482869	0.002003	0.545455	33	discard	EWMA RV lambda=0.94 way worse
+563d091	2.039419	2.733700	0.002003	0.925926	27	keep	IV term structure boost
