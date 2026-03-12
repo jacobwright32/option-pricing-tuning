@@ -455,3 +455,4 @@ n/a	2.055513	2.760524	0.002003	0.925926	27	discard	term_boost mult 50->100 overs
 n/a	2.055054	2.759759	0.002003	0.925926	27	discard	term_boost mult 50->70 overshoot
 n/a	2.045178	2.743299	0.002003	0.925926	27	discard	skew_boost no cap mult 5 too aggressive
 n/a	2.060247	2.768414	0.002003	0.925926	27	discard	skew_boost mult 2->3 cap 0.25
+37ce4c7	2.070578	2.785632	0.002003	0.925926	27	keep	term boundaries short<20d long>45d
