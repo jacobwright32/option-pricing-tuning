@@ -127,3 +127,7 @@ aa44650	1.843689	2.407500	0.002026	0.933333	15	keep	moderate strength 0.67 (scor
 578e2b8	1.843723	2.407555	0.002026	0.933333	15	keep	moderate strength 0.66 (score 1.8437)
 -	1.379659	1.634116	0.002026	0.857143	14	discard	consecutive down days instead of dist_from_low
 -	1.832698	2.389181	0.002026	0.875000	16	discard	acceleration-based 3rd tier
+-	1.843594	2.407555	0.002347	0.933333	15	discard	T basis term (MAPE slightly worse)
+-	1.843628	2.407555	0.002263	0.933333	15	discard	log_m linear basis (MAPE slightly worse)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	IV rank boost on extreme tier (no effect)
+-	1.843723	2.407555	0.002026	0.933333	15	discard	IRLS min good=5 (no change)
