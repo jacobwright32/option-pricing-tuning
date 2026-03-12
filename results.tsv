@@ -194,3 +194,22 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 189	1.356807	1.596044	0.002047	DISCARD	Log return momentum — identical to simple return
 190	1.166775	1.279323	0.002047	DISCARD	Vol-normalized momentum z-score — raw 5% filter works better
 191	1.348734	1.582589	0.002047	DISCARD	Min IV > 0.20 filter — removed a winning trade
+192	1.394617	1.659060	0.002047	KEPT	IV/RV lower bound 0.70 — filters extreme complacency loser, 90% win rate
+193	1.356807	1.596044	0.002047	DISCARD	Lower bound 0.69 — lets loser back in
+194	1.249372	1.416985	0.002047	DISCARD	Tighter IV/RV bounds — loses too many winners trying to find 1 loser
+195	1.341415	1.570390	0.002047	DISCARD	Non-uniform signal strength by IV/RV distance — worse Sharpe
+196	1.052890	1.089514	0.002047	DISCARD	Acceleration filter — too aggressive, 4 trades
+197	0.951958	0.921295	0.002047	DISCARD	Upper threshold 0.76 with lower bound — 11th trade is big loser
+198	1.348734	1.582589	0.002047	DISCARD	Vol surface intercept as IV — different trade set, worse
+199	1.307379	1.513664	0.002047	DISCARD	Max(5d,10d) momentum — too aggressive, 8 trades
+200	1.394621	1.659060	0.002039	DISCARD	MAD 1.3-1.4 — sub-noise improvements, not meaningful
+201	0.399181	0.000000	0.002047	DISCARD	IV decline tracking — fundamentally flawed with fixed vol surface
+202	1.394617	1.659060	0.002047	DISCARD	RV trend tracking — no-op due to overlapping windows
+203	1.394617	1.659060	0.002047	DISCARD	Calls-only ATM IV — identical results
+204	0.855856	0.761124	0.002047	DISCARD	Return skewness filter — too restrictive or no-op
+205	1.394617	1.659060	0.002047	DISCARD	Mean-corrected vol estimator — same as np.std
+206	1.388398	1.659060	0.017594	DISCARD	m²·√T interaction — overfitting, MAPE 1.76%
+207	1.394536	1.659060	0.002250	DISCARD	Ridge regression in IRLS — slight MAPE regression
+208	1.394617	1.659060	0.002047	DISCARD	(√T-0.3) vs √T — identical, affine shift absorbed by intercept
+209	1.394358	1.659060	0.002695	DISCARD	Fit-IV blend for deep OTM — MAPE worse, fit better everywhere
+210	1.372332	1.659060	0.057759	DISCARD	Per-expiry IRLS fits — overfitting, MAPE 5.78%
