@@ -5,3 +5,10 @@ f7a5e5d	1.416742	1.695920	0.002026	0.909091	11	keep	longs only IV/RV>1.85 + 5d m
 -	1.180459	1.302115	0.002026	0.0	7	discard	IV/RV threshold 1.87
 -	1.296209	1.495032	0.002026	0.846154	13	discard	IV/RV threshold 1.83
 dffc16b	1.514619	1.859049	0.002026	0.846154	13	keep	ret_5d threshold -0.015 (Sharpe 1.86, 13 trades)
+-	0.334545	-0.107741	0.002026	0.764706	17	discard	ret_5d threshold -0.01
+-	1.413191	1.690003	0.002026	0.833333	12	discard	ret_5d threshold -0.018
+-	1.514619	1.859049	0.002026	0.846154	13	discard	IV/RV threshold 1.84 (same)
+-	1.188302	1.315188	0.002026	0.800000	10	discard	add 3d return filter
+-	1.514619	1.859049	0.002026	0.846154	13	discard	20d return filter <0.05 (no effect)
+-	1.270243	1.451756	0.002026	0.857143	7	discard	IV>0.30 filter
+f38510d	1.682178	2.138314	0.002026	0.771429	35	keep	add moderate fear signal IV/RV>1.5 ret5d<-4% (Sharpe 2.14)
