@@ -129,7 +129,8 @@ class PricingModel:
             log_m ** 2,
             sqrt_T,
             log_m * sqrt_T,
-            log_T,           # additional term structure flexibility
+            log_T,
+            log_m * log_T,   # skew × term structure cross term
         ])
 
         def _irls_fit(X_sub, y_sub):
