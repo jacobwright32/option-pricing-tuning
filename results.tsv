@@ -145,3 +145,18 @@ init139	1.181500	1.303864	0.002047	discard	OTM init 0.40 (slower than 0.50)
 iter140	1.181500	1.303864	0.002047	keep	10 IV solver iterations (converges early)
 cpavg141	1.177924	1.303864	0.010985	discard	call-put IV averaging (loses info)
 ivtrend142	1.033616	1.057392	0.002047	discard	IV trend signal (added bad borderline trades)
+neld143	1.180839	1.303864	0.003698	discard	Nelder-Mead price optimization (worse, 10x slower)
+biw144	1.181385	1.303864	0.002333	discard	Tukey biweight (Cauchy better)
+negsk145	1.181500	1.303864	0.002047	discard	neg skew constraint (never activates)
+m15146	1.180144	1.303864	0.005435	discard	|m|^1.5 smile (overfit)
+fwd147	1.181264	1.303864	0.002636	discard	forward moneyness (ground truth uses spot)
+huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
+149	1.181495	1.303864	0.002060	DISCARD	Adaptive IRLS MAD (3→1.5 over 20 iters) — no improvement
+150	1.181500	1.303864	0.002047	DISCARD	Continuous signal strength proportional to (threshold-IV/RV) — same Sharpe
+151	0.165744	-0.389062	0.002047	DISCARD	EWMA realized vol (halflife=20) — 25 trades, Sharpe -0.39
+152	0.265709	-0.222454	0.002047	DISCARD	30-day RV window — 42 trades, Sharpe -0.22
+153	-0.057494	-0.761124	0.002047	DISCARD	Threshold 0.70 — only 1 trade
+154	0.092430	-0.511252	0.002047	DISCARD	Threshold 0.80 — 47 trades, Sharpe -0.51
+155	1.007174	1.013321	0.002047	DISCARD	Threshold 0.74 — 11 trades, Sharpe 1.01
+156	1.077982	1.131334	0.002047	DISCARD	Put-call skew filter on signal — removed good trades
+157	1.181500	1.303864	0.002047	DISCARD	Signal strength 1.0 — same Sharpe, higher return but score identical

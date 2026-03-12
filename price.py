@@ -195,13 +195,14 @@ class PricingModel:
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
 
-        # ── Simple IV vs RV signal ──
-        # When IV >> RV: market pricing more vol than realized → fearful → contrarian long
-        # When IV << RV: market complacent → potential vol expansion → short
+        # ── Price momentum (10-day return) ──
+        recent_ret = (price_history[-1] / price_history[-10]) - 1.0
+
+        # ── IV vs RV signal ──
         iv_rv_ratio = current_iv / max(realized_vol, 0.01)
 
-        # Short-only: low IV/RV → complacent → short
-        if iv_rv_ratio < self.short_iv_rv_threshold:
+        # Short when complacent AND price hasn't already dropped
+        if iv_rv_ratio < self.short_iv_rv_threshold and recent_ret < 0.05:
             signal = -self.signal_strength
         else:
             signal = 0.0
