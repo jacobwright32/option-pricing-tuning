@@ -42,10 +42,7 @@ def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-8):
     market_price = np.asarray(market_price, dtype=float)
     is_call = np.asarray(is_call, dtype=bool)
 
-    # Better initial guess based on ATM approximation
-    intrinsic = np.where(is_call, np.maximum(S - K, 0), np.maximum(K - S, 0))
-    time_value = np.maximum(market_price - intrinsic, 0.01)
-    sigma = np.clip(time_value / (S * 0.4 * np.sqrt(np.maximum(T, 1e-4))), 0.05, 2.0)
+    sigma = np.full(len(S), 0.3)
     active = np.ones(len(S), dtype=bool)
 
     for _ in range(max_iter):
@@ -138,10 +135,25 @@ class PricingModel:
         if atm_mask.sum() == 0:
             return 0.0
 
-        atm_ivs = implied_vol_vec(
-            S[atm_mask], K[atm_mask], T[atm_mask], r,
-            market_price[atm_mask], is_call[atm_mask]
-        )
+        # Use custom IV solver for signal with better initial guess
+        S_atm = S[atm_mask]
+        K_atm = K[atm_mask]
+        T_atm = T[atm_mask]
+        mp_atm = market_price[atm_mask]
+        ic_atm = is_call[atm_mask]
+        intrinsic = np.where(ic_atm, np.maximum(S_atm - K_atm, 0), np.maximum(K_atm - S_atm, 0))
+        time_val = np.maximum(mp_atm - intrinsic, 0.01)
+        sig0 = np.clip(time_val / (S_atm * 0.4 * np.sqrt(np.maximum(T_atm, 1e-4))), 0.05, 2.0)
+        # Newton-Raphson with custom start
+        sigma_atm = sig0.copy()
+        for _ in range(20):
+            p = bs_price(S_atm, K_atm, T_atm, r, sigma_atm, ic_atm)
+            v = bs_vega(S_atm, K_atm, T_atm, r, sigma_atm)
+            diff = p - mp_atm
+            upd = v > 1e-12
+            sigma_atm[upd] -= diff[upd] / v[upd]
+            sigma_atm = np.clip(sigma_atm, 0.01, 5.0)
+        atm_ivs = sigma_atm
         current_iv = np.median(atm_ivs)
 
         log_returns = np.diff(np.log(price_history))
