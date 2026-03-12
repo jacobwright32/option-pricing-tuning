@@ -55,7 +55,9 @@ def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-7):
     market_price = np.asarray(market_price, dtype=float)
     is_call = np.asarray(is_call, dtype=bool)
 
-    sigma = np.full_like(S, 0.30)  # initial guess
+    # Initial guess: 0.30 for ATM, 0.50 for OTM (higher vol expected)
+    log_m = np.abs(np.log(S / K))
+    sigma = np.where(log_m > 0.10, 0.50, 0.30)
     active = np.ones(len(S), dtype=bool)
 
     for _ in range(max_iter):
