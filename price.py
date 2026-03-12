@@ -125,7 +125,6 @@ class PricingModel:
             np.ones(len(log_m)),
             log_m ** 2,
             sqrt_T,
-            is_call_f,         # call/put offset
             log_m / sqrt_T,    # skew/sqrt(T) — matches ground truth skew term
         ])
 
