@@ -1,1 +1,3 @@
 commit	combined_score	sharpe	mape	win_rate	n_trades	status	description
+0c121c1	-0.606064	-1.517469	0.238957	0.421359	515	keep	baseline flat vol + simple IV/RV
+ef29a4c	-0.511292	-1.517469	0.002026	0.421359	515	keep	IRLS vol surface fit (MAPE 24% -> 0.2%)

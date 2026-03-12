@@ -9,12 +9,12 @@ signals using **real stock market data** from Yahoo Finance.
 
 | Metric | Value |
 |---|---|
-| Combined Score | 1.4167 |
-| Sharpe Ratio | 1.6959 |
+| Combined Score | -0.5113 |
+| Sharpe Ratio | -1.5175 |
 | MAPE | 0.002026 |
-| Win Rate | 90.9% |
-| Trades | 11 |
-| Experiments | 12 (12 kept) |
+| Win Rate | 42.1% |
+| Trades | 515 |
+| Experiments | 2 (2 kept) |
 
 ## How It Works
 
@@ -30,17 +30,6 @@ An AI agent (Claude) runs an experiment loop:
 - **20 real US stocks** from Yahoo Finance (~2 years of daily prices)
 - Synthetic options generated on real prices with realistic vol surfaces
 - CFD simulation with Trading 212 costs (0.1% spread, ~3% annual overnight financing)
-
-## Files
-
-| File | Purpose |
-|---|---|
-| `price.py` | **The only file the agent edits.** Pricing model + signal generator. |
-| `prepare.py` | Data pipeline (real prices + synthetic options), evaluation, CFD simulator. |
-| `program.md` | Agent instructions - the autonomous experiment protocol. |
-| `analysis.py` | Post-run visualization of experiment progress. |
-| `results.tsv` | Experiment log (tab-separated). |
-| `progress.png` | Auto-generated experiment progress chart. |
 
 ## Scoring
 
