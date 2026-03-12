@@ -720,3 +720,8 @@ n/a	2.221625	3.037377	0.002003	0.862069	29	discard	atm_conf feature (no effect)
 n/a	2.221187	3.036648	0.002003	0.862069	29	discard	near_atm mask 0.10->0.08
 n/a	2.213549	3.023917	0.002003	0.862069	29	discard	tier3 accel offset 0.3->0.4
 4511ac1	2.221687	3.037481	0.002003	0.862069	29	keep	tier2 base 0.33->0.31
+n/a	2.221435	3.037061	0.002003	0.862069	29	discard	tier2 base 0.31->0.29
+n/a	2.208700	3.015835	0.002003	0.862069	29	discard	skew_boost power 0.7
+n/a	2.219358	3.033599	0.002003	0.862069	29	discard	tier1 pc_boost sqrt
+n/a	2.221687	3.037481	0.002003	0.862069	29	discard	add capped term_boost to tier1 (no effect)
+70c7672	2.223723	3.040873	0.002003	0.862069	29	keep	range_boost thresh 0.03->0.04
