@@ -830,3 +830,23 @@ PENDING	2.252048	3.088082	0.002003	0.862069	29	keep	tier2 rv_spike weight 1.0->0
 n/a	2.251236	3.086728	0.002003	0.862069	29	discard	tier2 rv_spike 0.7->0.5
 n/a	2.251037	3.086397	0.002003	0.862069	29	discard	tier1 rv_spike weight 1.0->0.8
 PENDING	2.252405	3.088678	0.002003	0.862069	29	keep	pc_boost cap 0.70->0.68
+n/a	2.251950	3.087919	0.002003	0.862069	29	discard	pc_boost cap 0.68->0.66
+n/a	2.252251	3.088421	0.002003	0.862069	29	discard	pc_boost cap 0.68->0.69
+n/a	2.252048	3.088083	0.002003	0.862069	29	discard	tier2 base 0.18->0.17
+n/a	2.244119	3.074868	0.002003	0.888889	27	discard	remove skew_boost from tier3
+n/a	2.150453	2.918756	0.002003	0.862069	29	discard	remove term_boost from tier3
+n/a	2.250937	3.086231	0.002003	0.862069	29	discard	iv_premium multiplier on tier1
+n/a	2.252405	3.088678	0.002003	0.862069	29	discard	skew_boost cap 0.5->0.3 (same score)
+n/a	2.209657	3.017430	0.002003	0.812500	32	discard	low window 20d->15d
+n/a	2.221001	3.036338	0.002003	0.857143	28	discard	low window 20d->25d
+n/a	2.162774	2.939292	0.002003	0.862069	29	discard	remove pc_boost from tier2
+n/a	2.252405	3.088678	0.002004	0.862069	29	discard	good IV filter 0.08-0.95 (same score)
+n/a	2.245901	3.077837	0.002003	0.862069	29	discard	remove rv_spike from tier2
+n/a	2.252290	3.088486	0.002003	0.862069	29	discard	tier2 rv_spike 0.7->0.8
+n/a	2.251690	3.087486	0.002003	0.862069	29	discard	pc_boost mult 80->75
+n/a	2.177798	2.964332	0.002003	0.857143	28	discard	tier1 ret_5d -0.015->-0.018
+n/a	2.219390	3.033652	0.002003	0.838710	31	discard	tier3 ret_10d -0.06->-0.055
+n/a	2.251875	3.087794	0.002003	0.862069	29	discard	tier1 skew_boost weight 0.8
+n/a	2.251538	3.087232	0.002003	0.862069	29	discard	tier1 pc_boost weight 0.9
+n/a	2.241635	3.070727	0.002003	0.925926	27	discard	tier2 ret_5d -0.040->-0.045
+n/a	1.649534	2.083892	0.002003	0.764706	34	discard	atm_mask thresh 0.05->0.04
