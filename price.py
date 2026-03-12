@@ -203,7 +203,7 @@ class PricingModel:
         norm_skew = put_skew / (current_iv + 1e-8)
         skew_boost = min(0.5, max(0.0, norm_skew * 0.9))
         # IV coherence: penalize when ATM IVs are very dispersed
-        coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.25
+        coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.20
         # IV term structure boost: short-term vs long-term ATM IV
         short_T = T[atm_mask] < 25/252
         long_T = T[atm_mask] > 40/252
