@@ -124,10 +124,10 @@ class PricingModel:
             log_m / sqrt_T,    # skew/sqrt(T) — matches ground truth skew term
         ])
 
-        def _irls_fit(X_sub, y_sub, n_iter=20):
+        def _irls_fit(X_sub, y_sub):
             w = np.ones(len(y_sub))
             coeffs = None
-            for _ in range(n_iter):
+            for _ in range(20):
                 Xw = X_sub * w[:, None]
                 yw = y_sub * w
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
