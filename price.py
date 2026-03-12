@@ -194,9 +194,8 @@ class PricingModel:
         # When IV << RV: market complacent → potential vol expansion → short
         iv_rv_ratio = current_iv / max(realized_vol, 0.01)
 
-        if iv_rv_ratio > (1.0 + self.short_threshold):
-            signal = self.signal_strength
-        elif iv_rv_ratio < (1.0 - self.long_threshold):
+        # Short-only: low IV/RV → complacent → short
+        if iv_rv_ratio < (1.0 - self.long_threshold):
             signal = -self.signal_strength
         else:
             signal = 0.0
