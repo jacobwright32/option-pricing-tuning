@@ -130,7 +130,6 @@ class PricingModel:
             log_m,
             log_m ** 2,
             sqrt_T,
-            T_safe,
             log_m * sqrt_T,
             log_T,
             log_m * log_T,
