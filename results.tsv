@@ -321,3 +321,6 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 319	1.701783	2.171001	0.002043	DISCARD	Short strength 0.345 — combined 1.70178
 320	0.174913	-0.373783	0.002043	DISCARD	OTM put/call price ratio — puts always expensive (skew), 173 trades
 321	1.195170	1.326646	0.002043	DISCARD	Price range < 15% filter — only 4 trades, too restrictive
+322	1.261535	1.437253	0.002043	DISCARD	IV/RV>1.3 + dual-timeframe decline — 41 trades, Sharpe 1.44
+323	1.697932	2.164582	0.002043	DISCARD	IV/RV-scaled long strength — some longs get < 1.0
+324	1.701831	2.171098	0.002070	DISCARD	Two-pass IRLS + hard outlier removal — MAPE 0.207%, slower
