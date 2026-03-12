@@ -1,13 +1,1 @@
 commit	combined_score	sharpe	mape	win_rate	n_trades	status	description
-8cc16e9	-0.606064	-1.517469	0.238957	0.421359	515	keep	baseline (real data, flat vol)
-2c7ecf8	-0.511292	-1.517469	0.002027	0.421359	515	keep	vol surface fit with IRLS
-335307a	0.155555	-0.406057	0.002596	0.457143	70	keep	tighter IV/RV thresholds + momentum
-845ea68	0.797126	0.663228	0.002027	0.466667	30	keep	short filter: sideways market only
-b8f4411	0.924858	0.876115	0.002027	0.466667	30	keep	short strength -0.25
-e063103	0.990401	0.985353	0.002027	0.466667	30	keep	short strength -0.20
-41cc960	1.056203	1.095023	0.002027	0.466667	30	keep	short strength -0.15
-cb986d0	1.121513	1.203874	0.002027	0.466667	30	keep	short strength -0.10
-f319882	1.172873	1.289473	0.002027	0.466667	30	keep	short strength -0.06
-6774673	1.247462	1.413788	0.002027	0.785714	14	keep	remove shorts, longs only
-7a6fdf3	1.416741	1.695920	0.002027	0.909091	11	keep	long threshold 1.85
-18d3f45	1.416742	1.695920	0.002026	0.909091	11	keep	tighten IV pre-filter [0.05,2.0]
