@@ -309,3 +309,6 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 306	1.701743	2.171098	0.002289	DISCARD	Added linear m term — MAPE 0.229%, overfits
 307	1.701842	2.171098	0.002043	DISCARD	(√T-0.3) basis — mathematically equivalent to √T
 308	1.701300	2.171098	0.003398	DISCARD	Linear T instead of √T — MAPE 0.34%, poor fit
+310	1.699221	2.166730	0.002043	DISCARD	Vol-scaled short strength — slightly worse
+311	1.695670	2.160812	0.002043	DISCARD	Drawdown-scaled long strength — some longs get <1.0
+312	1.701842	2.171098	0.002043	DISCARD	ATM mask 15-35d — identical
