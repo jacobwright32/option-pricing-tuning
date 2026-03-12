@@ -477,3 +477,7 @@ n/a	2.071257	2.786764	0.002003	0.925926	27	discard	tier 1 ret_depth boost
 n/a	2.071314	2.786859	0.002003	0.925926	27	discard	rv_expand boost no effect
 n/a	2.071314	2.786859	0.002003	0.925926	27	discard	tier 1 dist 0.03->0.025 no change
 n/a	2.071314	2.786859	0.002003	0.925926	27	discard	tier 1 dist 0.03->0.035 no change
+n/a	1.646198	2.078332	0.002003	0.743590	39	discard	tier 3 OR condition ret_10d<-0.06 or ret_5d<-0.03
+n/a	2.071222	2.786706	0.002003	0.925926	27	discard	tier 1 base 1.2->1.15
+n/a	1.646198	2.078332	0.002003	0.743590	39	discard	duplicate exp 479 entry
+668731d	2.079640	2.800736	0.002003	0.925926	27	keep	normalized skew boost
