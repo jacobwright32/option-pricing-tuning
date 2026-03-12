@@ -142,15 +142,18 @@ class PricingModel:
                 resid = y_sub - X_sub @ coeffs
                 mad = np.median(np.abs(resid)) + 1e-8
                 w = 1.0 / (1.0 + (resid / (2.0 * mad)) ** 2)
-            return coeffs
+            return coeffs, w
 
         # Single fit with call/put indicator terms
         fitted_vol = np.copy(ivs)
         try:
-            coeffs = _irls_fit(X, ivs)
+            coeffs, final_w = _irls_fit(X, ivs)
             irls_vol = np.clip(X @ coeffs, 0.01, 5.0)
-            # Blend: 95% IRLS fit + 5% raw IV to capture local structure
-            fitted_vol = 0.95 * irls_vol + 0.05 * ivs
+            # Blend: 95% IRLS fit + 5% IRLS-weighted raw IV
+            # Use final weights to downweight outlier raw IVs
+            w_norm = final_w / final_w.sum() * len(final_w)  # normalize to mean=1
+            denoised_raw = ivs * w_norm + irls_vol * (1 - w_norm)
+            fitted_vol = 0.95 * irls_vol + 0.05 * denoised_raw
         except Exception:
             fitted_vol = ivs
 
