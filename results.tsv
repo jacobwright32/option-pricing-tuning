@@ -359,3 +359,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.846434	2.412058	0.002003	1.000000	14	discard	low_scale min 0.1 (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	Cholesky solve (same)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	OTM shrink toward raw IV (same)
+-	1.400958	1.669599	0.002003	1.000000	12	discard	per-strike avg call/put ATM IV
+-	1.846434	2.412058	0.002003	1.000000	14	discard	MAD 1.28 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	MAD 1.32 (same)
+-	1.769927	2.283879	0.002003	0.882353	17	discard	15-day low instead of 20
+-	1.846434	2.412058	0.002003	1.000000	14	discard	min history 20 (same)
