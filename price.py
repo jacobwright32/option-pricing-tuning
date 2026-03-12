@@ -122,8 +122,6 @@ class PricingModel:
         log_m = np.log(K / S)
         sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
 
-        # Fit 2D vol surface: σ(m, √T) = a + b·m + c·m² + d·√T + e·m·√T
-        # This captures skew, smile, AND term structure simultaneously
         X = np.column_stack([
             np.ones(len(log_m)),
             log_m,
@@ -131,17 +129,31 @@ class PricingModel:
             sqrt_T,
             log_m * sqrt_T,
         ])
-        try:
-            # IRLS: 2 rounds of reweighted least squares for robustness
-            w = np.ones(len(ivs))
+
+        def _irls_fit(X_sub, y_sub):
+            w = np.ones(len(y_sub))
+            coeffs = None
             for _ in range(10):
-                Xw = X * w[:, None]
-                yw = ivs * w
+                Xw = X_sub * w[:, None]
+                yw = y_sub * w
                 coeffs, _, _, _ = np.linalg.lstsq(Xw, yw, rcond=None)
-                resid = ivs - X @ coeffs
+                resid = y_sub - X_sub @ coeffs
                 mad = np.median(np.abs(resid)) + 1e-8
-                w = 1.0 / (1.0 + (resid / (3 * mad)) ** 2)  # Cauchy weights
-            fitted_vol = np.clip(X @ coeffs, 0.01, 5.0)
+                w = 1.0 / (1.0 + (resid / (3 * mad)) ** 2)
+            return coeffs
+
+        # Fit separate surfaces for calls and puts
+        fitted_vol = np.copy(ivs)
+        try:
+            call_mask = is_call
+            put_mask = ~is_call
+            if call_mask.sum() >= 5:
+                c_coeffs = _irls_fit(X[call_mask], ivs[call_mask])
+                fitted_vol[call_mask] = X[call_mask] @ c_coeffs
+            if put_mask.sum() >= 5:
+                p_coeffs = _irls_fit(X[put_mask], ivs[put_mask])
+                fitted_vol[put_mask] = X[put_mask] @ p_coeffs
+            fitted_vol = np.clip(fitted_vol, 0.01, 5.0)
         except Exception:
             fitted_vol = ivs
 
