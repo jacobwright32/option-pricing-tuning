@@ -117,10 +117,6 @@ class PricingModel:
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call)
         log_m = np.log(K / S)
         sqrt_T = np.sqrt(np.maximum(T, 1 / 252))
-        log_T = np.log(np.maximum(T, 1 / 252))
-
-        T_safe = np.maximum(T, 1 / 252)
-        is_call_f = is_call.astype(float)
         X = np.column_stack([
             np.ones(len(log_m)),
             log_m ** 2,
