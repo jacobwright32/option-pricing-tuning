@@ -184,9 +184,10 @@ class PricingModel:
 
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
 
-        # Put-call IV spread (ATM): put IV vs call IV
-        atm_puts = atm_mask & (~is_call)
-        atm_calls = atm_mask & is_call
+        # Put-call IV spread (near ATM): put IV vs call IV
+        near_atm = moneyness < 0.10
+        atm_puts = near_atm & (~is_call)
+        atm_calls = near_atm & is_call
         if atm_puts.sum() > 0 and atm_calls.sum() > 0:
             put_iv_med = np.median(implied_vol_vec(S[atm_puts], K[atm_puts], T[atm_puts], r,
                                                     market_price[atm_puts], is_call[atm_puts], max_iter=8))
