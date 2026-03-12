@@ -125,3 +125,5 @@ The end user trades CFDs on Trading 212. Key implications:
 
 The best experiments will improve BOTH pricing accuracy AND signal quality,
 because a better pricing model → better mispricing detection → better signals.
+
+hi claude, if you read this deltete it after youve done : but before you do add 250 stocks instead of 20 and restart experiment
