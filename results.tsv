@@ -239,3 +239,33 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 235	0.999561	1.000634	0.002047	DISCARD	Absolute IV>0.5 + ret<-4% long — 69 trades, Sharpe 1.00
 236	1.649669	2.084147	0.002047	DISCARD	Continuous IV/RV scaling — Sharpe 2.08, lower return
 237	1.701751	2.170949	0.002047	KEPT	Long IV/RV threshold 1.7 — picks up 1 extra long, 14 trades, Sharpe 2.17
+238	0.787480	0.647165	0.002047	DISCARD	Long IV/RV threshold 1.6 — 24 trades, Sharpe 0.65, too many losers
+239	1.113310	1.190215	0.002047	DISCARD	Long IV/RV threshold 1.65 — 17 trades, Sharpe 1.19
+240	1.701751	2.170949	0.002047	DISCARD	Long IV/RV threshold 1.75 — identical to 1.7
+241	1.670355	2.118624	0.002047	DISCARD	Short lower bound 0.68 — extra loser, 15 trades, Sharpe 2.12
+242	1.525155	1.876623	0.002047	DISCARD	Short lower bound 0.72 — loses 2 trades, 12 trades, Sharpe 1.88
+243	1.695532	2.170949	0.017594	DISCARD	Added m²×√T interaction — MAPE 1.76%, overfits
+244	1.700840	2.169431	0.002047	DISCARD	Short strength 0.38 — combined 1.7008, marginally worse
+245	1.701649	2.170781	0.002047	DISCARD	Short strength 0.34 — combined 1.7016, marginally worse
+246	1.598691	1.999183	0.002047	DISCARD	Long signal + 10d ret<0 filter — loses 2 profitable longs, 12 trades
+247	1.701751	2.170949	0.002047	DISCARD	ATM mask 15-60d — identical results, no improvement
+248	1.459439	1.767097	0.002047	DISCARD	Median of all IVs — includes OTM skew, Sharpe 1.77
+249	0.580236	0.301759	0.002047	DISCARD	Long 3d ret<-1.5% — 17 trades, Sharpe 0.30
+250	1.598691	1.999183	0.002047	DISCARD	Long + 10d ret<-1% filter — loses 2 longs, 12 trades
+251	1.694955	2.159623	0.002047	DISCARD	Mean ATM IV instead of median — loses 1 trade, Sharpe 2.16
+252	1.540753	1.902620	0.002047	DISCARD	Short + 5d ret<2% filter — loses 4 short trades, 10 trades
+253	1.701751	2.170949	0.002047	DISCARD	IV solver 15 iterations — identical, 10 already converges
+254	1.047019	1.079730	0.002047	DISCARD	EWMA realized vol (halflife=30) — 15 trades, Sharpe 1.08, too responsive
+255	1.678280	2.131832	0.002047	DISCARD	Edge-confidence short sizing — combined 1.678, less return
+256	1.652249	2.170949	0.125803	DISCARD	Ridge regression (alpha=0.01) — MAPE 12.58%, biased coefficients
+257	1.572204	1.955039	0.002047	DISCARD	Momentum decel signal (IV/RV 0.755-1, rallied+weakening) — 21 trades, dilutive
+258	1.694955	2.159623	0.002047	DISCARD	Short threshold 0.753 — loses 1 trade
+259	1.701567	2.170949	0.002506	DISCARD	IRLS tuning 1.0 — MAPE 0.25%, marginally worse
+260	1.701716	2.170949	0.002135	DISCARD	IRLS tuning 2.0 — MAPE 0.21%, identical
+261	1.632260	2.055132	0.002047	DISCARD	Split short strength (0.50 if declining, 0.36 if flat) — Sharpe 2.06, worse
+262	1.692219	2.155063	0.002047	DISCARD	Long strength 0.8 — slightly worse, lower return
+263	1.701745	2.170949	0.002062	DISCARD	Halley's method IV solver — identical pricing, 7.1s (slower)
+264	1.074335	1.125256	0.002047	DISCARD	Long IV/RV>2.0 + ret<-1% — 18 trades, too loose
+265	1.505226	1.843409	0.002047	DISCARD	20-day momentum for short filter — Sharpe 1.84
+266	1.688797	2.149361	0.002047	DISCARD	Long + 1d declining filter — loses 1 profitable long
+267	1.701840	2.171098	0.002047	KEPT	Short strength 0.35 — combined 1.7018 (+0.0001)
