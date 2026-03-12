@@ -391,3 +391,11 @@ n/a	1.990682	2.652473	0.002003	0.900000	30	discard	3rd tier remove ret_5d condit
 n/a	2.022787	2.705980	0.002003	0.925926	27	discard	tier 1 signal 1.2->1.4 over-sizing
 n/a	2.018190	2.698319	0.002003	0.925926	27	discard	tier 2 signal 0.66->0.8 over-sizing
 6373c0c	2.029002	2.716338	0.002003	0.925926	27	keep	low_scale denom 0.05->0.04
+n/a	2.010081	2.684804	0.002003	0.925926	27	discard	low_scale denom 0.04->0.03 too aggressive
+n/a	2.019904	2.701176	0.002003	0.925926	27	discard	quadratic low_scale worse than linear
+n/a	1.817043	2.363074	0.002003	0.909091	22	discard	3rd tier ret_15d<-0.08 instead of ret_10d<-0.06
+n/a	1.892797	2.489331	0.002003	0.913043	23	discard	tier 1 add ret_10d<-0.03 filter overfiltering
+n/a	1.105134	1.176560	0.002003	0.523256	86	discard	RV 10-day window instead of full history
+n/a	1.693479	2.157134	0.002003	0.941176	17	discard	max(full_rv, 20d_rv) too conservative
+n/a	1.925170	2.543285	0.002003	0.838710	31	discard	tier 1 iv_rv 1.85->1.80 too many losers
+n/a	1.885799	2.477668	0.002003	0.909091	22	discard	tier 1 iv_rv 1.85->1.90 too few trades
