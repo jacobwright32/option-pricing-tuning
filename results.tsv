@@ -775,3 +775,11 @@ n/a	2.229319	3.050200	0.002003	0.862069	29	discard	add rv_spike to tier3
 n/a	2.243586	3.073979	0.002003	0.862069	29	discard	rv_spike mult 0.5->0.7
 n/a	2.243950	3.074585	0.002003	0.862069	29	discard	rv_spike cap 0.3->0.2 (same score)
 PENDING	2.247892	3.081156	0.002003	0.862069	29	keep	remove accel1 from tier1 (redundant with rv_spike)
+n/a	2.237011	3.063021	0.002003	0.862069	29	discard	remove skew_boost from tier1
+n/a	2.133561	2.890604	0.002003	0.862069	29	discard	remove pc_boost from tier1
+n/a	2.247675	3.080794	0.002003	0.862069	29	discard	tier1 base 0.16->0.12
+n/a	2.232490	3.055485	0.002003	0.862069	29	discard	near_atm thresh 0.10->0.08
+n/a	2.245272	3.076790	0.002003	0.862069	29	discard	OTM put strike thresh 0.92->0.90
+n/a	2.243075	3.073127	0.002003	0.862069	29	discard	tier3 accel offset 0.3->0.4
+n/a	2.247280	3.080136	0.002003	0.862069	29	discard	add term_boost to tier1
+PENDING	2.248226	3.081711	0.002003	0.862069	29	keep	tier2 base 0.24->0.20
