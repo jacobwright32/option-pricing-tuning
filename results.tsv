@@ -244,3 +244,8 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.846429	2.412058	0.002016	1.000000	14	discard	cap fair value at 2x market
 -	1.846428	2.412058	0.002017	1.000000	14	discard	step-limited Newton IV solver
 -	1.846426	2.412058	0.002022	1.000000	14	discard	Halley method IV solver
+-	1.610185	2.018319	0.002016	0.705882	51	discard	absolute IV>0.45 tier
+-	0.647216	0.413370	0.002016	0.882353	17	discard	adaptive ret_5d threshold by IV/RV
+-	1.536412	1.895364	0.002016	0.909091	11	discard	3-day return for extreme tier
+-	1.844949	2.412058	0.005716	1.000000	14	discard	vega-weighted IRLS
+-	1.838672	2.399130	0.002016	1.000000	14	discard	sqrt low_scale for extreme tier
