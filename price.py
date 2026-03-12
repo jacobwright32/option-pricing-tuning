@@ -193,7 +193,7 @@ class PricingModel:
         else:
             term_boost = 0.0
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.03:
-            ivrv_boost = (iv_rv_ratio - 1.85) * 3
+            ivrv_boost = (iv_rv_ratio - 1.85) * 5
             return (1.2 + skew_boost + term_boost + ivrv_boost) * low_scale
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045 and dist_from_low < 0.03:
             return (0.55 + skew_boost * 0.3 + term_boost * 0.3) * low_scale
