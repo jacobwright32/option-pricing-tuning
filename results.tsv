@@ -492,3 +492,5 @@ n/a	2.083680	2.807469	0.002003	0.925926	27	discard	accel threshold 0.3->0.2 over
 n/a	2.092283	2.821807	0.002003	0.925926	27	discard	accel mult 0.7->1.0 overshoot
 n/a	2.089235	2.816727	0.002003	0.925926	27	discard	accel cap 0.2->0.3 overshoot
 e238e30	2.095499	2.827166	0.002003	0.925926	27	keep	tier 1 accel boost capped 0.15
+n/a	2.095321	2.826870	0.002003	0.925926	27	discard	tier 1 accel cap 0.15->0.2 mult 0.5->0.7
+22d6b7f	2.096034	2.828059	0.002003	0.925926	27	keep	tier 2 accel boost capped 0.1
