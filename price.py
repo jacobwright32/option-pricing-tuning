@@ -167,7 +167,7 @@ class PricingModel:
         # OTM put skew
         otm_put = (~is_call) & (K < spot * 0.92)
         if otm_put.sum() > 2:
-            otm_ivs = implied_vol_vec(S[otm_put], K[otm_put], T[otm_put], r, market_price[otm_put], is_call[otm_put])
+            otm_ivs = implied_vol_vec(S[otm_put], K[otm_put], T[otm_put], r, market_price[otm_put], is_call[otm_put], max_iter=8)
             put_skew = np.median(otm_ivs) - current_iv
         else:
             put_skew = 0.0
