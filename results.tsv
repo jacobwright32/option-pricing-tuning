@@ -432,3 +432,5 @@ n/a	2.035929	2.727884	0.002003	0.925926	27	discard	OTM put 0.92->0.90 too deep
 n/a	2.036930	2.729551	0.002003	0.925926	27	discard	OTM put min count 2->3 no change
 n/a	2.032664	2.722442	0.002003	0.925926	27	discard	OTM put mean instead of median
 n/a	2.024338	2.708566	0.002003	0.925926	27	discard	skew asymmetry (put-call) worse and slow
+n/a	1.969418	2.617032	0.002003	0.925926	27	discard	IV dispersion confidence scaling
+c9d88a2	2.036930	2.729551	0.002003	0.925926	27	keep	OTM put IV solver 20->8 iters same score faster
