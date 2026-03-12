@@ -763,3 +763,10 @@ n/a	2.236826	3.062712	0.002003	0.862069	29	discard	tier1 base 0.16->0.14
 PENDING	2.236950	3.062919	0.002003	0.862069	29	keep	tier2 base 0.26->0.24
 n/a	2.236551	3.062254	0.002003	0.862069	29	discard	tier2 base 0.24->0.22
 PENDING	2.239954	3.067925	0.002003	0.862069	29	keep	low_scale divisor 0.04->0.05
+n/a	2.238810	3.066018	0.002003	0.862069	29	discard	low_scale divisor 0.05->0.06
+n/a	2.226043	3.044741	0.002003	0.862069	29	discard	add skew_boost to tier2
+n/a	2.239814	3.067692	0.002003	0.862069	29	discard	accel1 offset 0.4->0.5
+n/a	2.181666	2.970779	0.002003	0.812500	32	discard	tier1 iv_rv thresh 1.85->1.80
+n/a	2.118746	2.865913	0.002003	0.833333	24	discard	tier1 iv_rv thresh 1.85->1.90
+n/a	2.229402	3.050339	0.002003	0.833333	30	discard	dist_from_low thresh 0.035->0.04 tiers 1&2
+PENDING	2.242338	3.071900	0.002003	0.862069	29	keep	add rv_spike boost to tier1 (5d RV / full RV)
