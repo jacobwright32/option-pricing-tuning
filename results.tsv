@@ -214,3 +214,15 @@ a32708e	1.846424	2.412058	0.002026	1.000000	14	keep	signal IV 10 iter (same scor
 -	1.845683	2.412058	0.003880	1.000000	14	discard	log_T basis instead of sqrt_T
 -	1.846428	2.412058	0.002016	1.000000	14	discard	sqrt_T-0.3 centering (same score)
 ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0]
+-	1.846429	2.412058	0.002016	1.000000	14	discard	IV filter [0.08, 1.2]
+-	1.846429	2.412058	0.002016	1.000000	14	discard	min count threshold 10
+-	1.843727	2.407555	0.002016	0.933333	15	discard	signal IV init guess scaling 0.35
+-	1.846429	2.412058	0.002016	1.000000	14	discard	signal IV init guess scaling 0.45
+-	1.843727	2.407555	0.002016	0.933333	15	discard	damped Newton for signal IV
+-	1.553283	1.923482	0.002016	0.842105	19	discard	weighted median ATM IV
+-	1.435697	1.727505	0.002016	0.916667	12	discard	near-term only ATM IV
+-	1.756122	2.261548	0.002016	1.000000	13	discard	extreme ret_5d threshold -0.016
+-	1.846429	2.412058	0.002016	1.000000	14	discard	ret_5d threshold -0.014/-0.0149
+-	1.845780	2.410977	0.002016	1.000000	14	discard	moderate strength 0.70
+-	1.846429	2.412058	0.002016	1.000000	14	discard	good-data count threshold 6
+-	1.553283	1.923482	0.002016	0.842105	19	discard	ATM moneyness 0.04
