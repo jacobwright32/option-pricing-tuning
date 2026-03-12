@@ -340,3 +340,12 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	0.493701	0.157504	0.002003	0.533333	45	discard	short signal (IV/RV<0.8 + extended up)
 -	1.846434	2.412058	0.002003	1.000000	14	discard	fitted_vol clip [0.02, 3.0] (same)
 -	1.778349	2.298583	0.002003	0.882353	17	discard	RV rank 3rd tier (losers added)
+-	1.846432	2.412058	0.002008	1.000000	14	discard	lambda=1e-4 with 13iter+1.3MAD
+-	1.846397	2.412058	0.002094	1.000000	14	discard	Gaussian IRLS weights
+-	1.846434	2.412058	0.002003	1.000000	14	discard	good threshold > 10 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	IV step clamp +-0.5 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	ret_5d < -0.0148 (same)
+-	1.677727	2.130545	0.002003	0.833333	18	discard	3-day return for moderate tier
+-	1.846412	2.412058	0.002057	1.000000	14	discard	moneyness-weighted IRLS
+-	1.846434	2.412058	0.002003	1.000000	14	discard	lambda=1.8e-4 (same)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	lambda=1.6e-4 (same)
