@@ -16,3 +16,6 @@ f38510d	1.682178	2.138314	0.002026	0.771429	35	keep	add moderate fear signal IV/
 -	1.528047	1.881428	0.002026	0.769231	26	discard	moderate signal ret5d<-5%
 -	1.652545	2.088925	0.002026	0.771429	35	discard	moderate signal strength 0.2
 8eb1838	1.692047	2.154763	0.002026	0.771429	35	keep	moderate signal strength 0.4 (Sharpe 2.15)
+-	1.688027	2.148062	0.002026	0.771429	35	discard	moderate signal strength 0.5
+-	1.232903	1.389523	0.002026	0.680000	50	discard	moderate IV/RV threshold 1.4
+bc710ef	1.703787	2.174329	0.002026	0.761905	21	keep	moderate IV/RV threshold 1.6 (Sharpe 2.17, 21 trades)
