@@ -497,3 +497,5 @@ n/a	2.095321	2.826870	0.002003	0.925926	27	discard	tier 1 accel cap 0.15->0.2 mu
 n/a	1.876493	2.462157	0.002003	0.857143	28	discard	vega-weighted ATM IV worse
 n/a	2.096021	2.828037	0.002003	0.925926	27	discard	ret_20d drawdown boost tier 1
 3eead32	2.097005	2.829677	0.002003	0.925926	27	keep	IV coherence scaling
+n/a	2.096754	2.829259	0.002003	0.925926	27	discard	coherence floor 0.8->0.7
+2455751	2.097137	2.829897	0.002003	0.925926	27	keep	coherence floor 0.8->0.85
