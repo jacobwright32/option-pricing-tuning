@@ -301,3 +301,8 @@ c0ddba7	1.846431	2.412058	0.002009	1.000000	14	keep	tighter MAD scaling 1.2x in 
 -	1.845793	2.410993	0.002006	1.000000	14	discard	low_scale denom 0.045
 -	1.448289	1.748486	0.002006	0.916667	12	discard	1/T weighted median ATM IV
 9797f99	1.846434	2.412058	0.002003	1.000000	14	keep	15 IRLS iterations (was 20)
+-	1.846433	2.412058	0.002006	1.000000	14	discard	12 IRLS iterations
+-	1.846434	2.412058	0.002003	1.000000	14	discard	13 IRLS iters (same as 15)
+-	1.846434	2.412058	0.002003	1.000000	14	discard	14 IRLS iters (same)
+-	1.846411	2.412058	0.002059	1.000000	14	discard	10 IRLS iters (too few)
+-	1.846428	2.412058	0.002017	1.000000	14	discard	11 IRLS iters (still not enough)
