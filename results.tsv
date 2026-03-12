@@ -269,3 +269,15 @@ huber148	1.181278	1.303864	0.002601	discard	Huber loss (Cauchy better)
 265	1.505226	1.843409	0.002047	DISCARD	20-day momentum for short filter — Sharpe 1.84
 266	1.688797	2.149361	0.002047	DISCARD	Long + 1d declining filter — loses 1 profitable long
 267	1.701840	2.171098	0.002047	KEPT	Short strength 0.35 — combined 1.7018 (+0.0001)
+268	1.701149	2.169946	0.002047	DISCARD	Short strength 0.33 — combined 1.7011, slightly worse
+270	0.652038	0.421428	0.002047	DISCARD	Downside semi-deviation — 370 trades, totally wrong IV/RV distribution
+271	1.701840	2.171098	0.002047	DISCARD	IV-RV diff filter on shorts — no effect, same trades
+272	1.701840	2.171098	0.002047	DISCARD	Recent rv filter on shorts — no effect
+273	1.701840	2.171098	0.002047	DISCARD	Call/put IV ratio signal — never fires differently, 8.1s
+274	1.701840	2.171098	0.002047	DISCARD	Short momentum 0.06 — identical, no trades in gap
+275	1.701840	2.171098	0.002047	DISCARD	ATM moneyness 0.03 — identical
+276	1.701589	2.171098	0.002676	DISCARD	IRLS 10 iters — MAPE 0.27%, slightly worse
+277	1.701787	2.171098	0.002181	DISCARD	ATM-weighted IRLS — MAPE 0.22%, biases OTM
+278	1.688671	2.149150	0.002047	DISCARD	Long ret threshold -0.025 — loses 1 long
+279	1.596318	1.995229	0.002047	DISCARD	Short + 5d>-1% filter — 100% win rate but loses 3 trades
+280	1.623334	2.040255	0.002047	DISCARD	Short + 5d>-3% filter — loses 1 winner
