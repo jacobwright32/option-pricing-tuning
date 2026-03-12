@@ -152,7 +152,7 @@ class PricingModel:
         if iv_rv_ratio > 1.85 and ret_5d < -0.015:
             return 1.0
         elif iv_rv_ratio > 1.6 and ret_5d < -0.045:
-            return 0.45
+            return 0.50
         else:
             return 0.0
 
