@@ -866,3 +866,11 @@ n/a	2.252456	3.088763	0.002003	0.862069	29	discard	tier2 pc_boost weight 0.9
 n/a	2.254112	3.091522	0.002003	0.862069	29	discard	rv window 5d->4d
 PENDING	2.255178	3.093299	0.002003	0.862069	29	keep	tier1 base 0.16->0.17
 PENDING	2.255197	3.093331	0.002003	0.862069	29	keep	tier1 base 0.17->0.18
+n/a	2.255157	3.093264	0.002003	0.862069	29	discard	tier1 base 0.18->0.19
+n/a	2.254556	3.092262	0.002003	0.862069	29	discard	rv_spike mult 0.6->0.55
+n/a	2.255089	3.093150	0.002003	0.862069	29	discard	tier2 base 0.18->0.19
+n/a	2.254790	3.092653	0.002003	0.862069	29	discard	tier2 rv_spike 0.7->0.65
+n/a	2.255197	3.093331	0.002003	0.862069	29	discard	tier3 accel trigger -0.01->-0.015 (same)
+n/a	2.255195	3.093331	0.002010	0.862069	29	discard	ridge lambda 2e-4->3e-4
+n/a	2.251694	3.087492	0.002003	0.862069	29	discard	add iv_short_div to tier1
+PENDING	2.257686	3.097480	0.002003	0.862069	29	keep	remove low_scale from tier3 (dist_from_low already tight)
