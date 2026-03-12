@@ -215,7 +215,7 @@ class PricingModel:
         # Short-term RV spike boost: recent vol > longer-term vol
         rv_spike = min(0.3, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.6))
         # IV convexity: how much the vol surface curves (high = tail risk premium)
-        otm_call = is_call & (K > spot * 1.08)
+        otm_call = is_call & (K > spot * 1.10)
         if otm_put.sum() > 1 and otm_call.sum() > 1:
             otm_call_ivs = implied_vol_vec(S[otm_call], K[otm_call], T[otm_call], r, market_price[otm_call], is_call[otm_call], max_iter=8)
             iv_convex = max(0.0, (np.median(otm_ivs) + np.median(otm_call_ivs)) / 2 - current_iv)
