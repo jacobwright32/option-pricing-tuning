@@ -793,3 +793,14 @@ n/a	2.246807	3.079346	0.002003	0.862069	29	discard	add ret_asym to tier1
 n/a	2.247770	3.080952	0.002003	0.862069	29	discard	rv window 5d->3d
 n/a	1.140050	1.234753	0.002003	0.833333	30	discard	tier3 dist_from_low 0.02->0.025
 PENDING	2.249590	3.083986	0.002003	0.862069	29	keep	pc_boost cap 0.75->0.70
+n/a	2.249530	3.083885	0.002003	0.862069	29	discard	pc_boost cap 0.70->0.65
+n/a	2.249133	3.083224	0.002003	0.862069	29	discard	skew_boost cap 0.5->0.4
+n/a	2.160601	2.935670	0.002003	0.862069	29	discard	replace tier3 accel with rv_spike
+n/a	2.153719	2.924201	0.002003	0.862069	29	discard	add pc_boost to tier3
+n/a	2.249590	3.083986	0.002003	0.862069	29	discard	IRLS 13->15 iterations (same score)
+n/a	2.249588	3.083986	0.002008	0.862069	29	discard	ridge lambda 2e-4->1e-4
+n/a	2.249491	3.083986	0.002251	0.862069	29	discard	add log_m linear basis
+n/a	2.249526	3.083879	0.002003	0.862069	29	discard	tier1 base 0.16->0.15
+n/a	1.898351	2.498587	0.002003	0.806452	31	discard	tier2 ret_5d -0.040->-0.035
+n/a	2.248259	3.081766	0.002003	0.862069	29	discard	rv_spike mult 0.5->0.4
+PENDING	2.249603	3.084008	0.002003	0.862069	29	keep	rv_spike mult 0.5->0.6

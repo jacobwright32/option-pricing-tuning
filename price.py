@@ -213,7 +213,7 @@ class PricingModel:
         else:
             term_boost = 0.0
         # Short-term RV spike boost: recent vol > longer-term vol
-        rv_spike = min(0.3, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.5))
+        rv_spike = min(0.3, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.6))
         if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.035:
             return (0.16 + skew_boost + pc_boost + rv_spike) * low_scale * coherence
         elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.035:
