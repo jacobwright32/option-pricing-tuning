@@ -239,3 +239,8 @@ ae9ab58	1.846429	2.412058	0.002016	1.000000	14	keep	tighter IV filter [0.10, 1.0
 -	1.769922	2.284547	0.002016	0.882353	17	discard	15-day low instead of 20-day
 -	1.771149	2.286592	0.002016	1.000000	12	discard	call-only ATM IV for signal
 -	1.674734	2.125901	0.002016	1.000000	10	discard	bias-corrected RV (ddof=1)
+-	1.846429	2.412058	0.002016	1.000000	14	discard	IRLS early stopping (same score, slower)
+-	1.827662	2.412058	0.048932	1.000000	14	discard	bias correction on IRLS residuals
+-	1.846429	2.412058	0.002016	1.000000	14	discard	cap fair value at 2x market
+-	1.846428	2.412058	0.002017	1.000000	14	discard	step-limited Newton IV solver
+-	1.846426	2.412058	0.002022	1.000000	14	discard	Halley method IV solver
