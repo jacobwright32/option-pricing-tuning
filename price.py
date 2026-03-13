@@ -153,7 +153,7 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         dist_from_high = (price_history[-1] / np.max(price_history[-20:])) - 1.0
 
-        if iv_rv_ratio > 1.5 and ret_5d < -0.025 and ret_10d < -0.01 and dist_from_high < -0.03:
+        if iv_rv_ratio > 1.5 and ret_5d < -0.025 and ret_10d < -0.01 and dist_from_high < -0.04:
             return 1.0
 
         return 0.0
