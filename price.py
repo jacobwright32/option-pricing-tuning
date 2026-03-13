@@ -163,7 +163,7 @@ class PricingModel:
         dist_from_low = (price_history[-1] / np.min(price_history[-20:])) - 1.0
 
         # Tier 1: high IV premium + dip
-        if iv_rv_ratio > 1.5 and ret_5d < -0.025 and ret_10d < 0:
+        if iv_rv_ratio > 1.5 and ret_5d < -0.025 and ret_10d < -0.01:
             return 1.0
 
         return 0.0
