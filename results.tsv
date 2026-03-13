@@ -31,3 +31,4 @@ ff3e926	0.828814	0.716744	0.003082	0.549296	71	discard	short signal hurts
 85fb668	1.268224	1.449094	0.003082	0.707317	41	keep	use implied_vol_vec (simpler)
 9a37d88	1.268224	1.449094	0.003082	0.707317	41	keep	signal IV solver 6 iters (faster)
 d404c4e	1.268226	1.449094	0.003077	0.707317	41	keep	widen IV filter 0.05-1.50 (tiny MAPE improve)
+a61dbe5	1.268271	1.449094	0.002965	0.707317	41	keep	minimal IV filter (MAPE improves)
