@@ -181,11 +181,11 @@ class PricingModel:
         rv_spike = min(0.2, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.5))
 
         # Tier 1: extreme IV premium + dip
-        if iv_rv_ratio > 1.5 and ret_5d < -0.01 and dist_from_low < 0.04:
+        if iv_rv_ratio > 1.5 and ret_5d < -0.01 and dist_from_low < 0.03:
             return (0.30 + term_boost + rv_spike) * low_scale * coherence
 
         # Tier 2: moderate IV premium + strong dip
-        if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.04:
+        if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.03:
             return (0.20 + rv_spike) * low_scale * coherence
 
         # Tier 3: extended selloff with any IV premium
