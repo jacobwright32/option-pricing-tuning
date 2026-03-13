@@ -486,3 +486,93 @@ with tab_track:
             trades_data["scans"].pop(selected_idx)
             save_trades(trades_data)
             st.rerun()
+
+        # ─── All Scans Summary (completed scans only) ────────────────────────
+        completed_scans = [
+            s for s in scans
+            if datetime.now() >= datetime.strptime(s["exit_date"], "%Y-%m-%d")
+        ]
+        if completed_scans:
+            st.markdown("---")
+            st.subheader("📊 Completed Scans Summary")
+
+            # Fetch exit prices for all completed scans
+            if st.button("🔄 Load summary for all completed scans"):
+                all_tickers = list({t["ticker"] for s in completed_scans for t in s["tickers"]})
+                with st.spinner(f"Fetching price data for {len(all_tickers)} tickers..."):
+                    hist_data = yf.download(all_tickers, period="3mo", auto_adjust=True,
+                                            threads=True, progress=False)
+
+                summary_rows = []
+                all_returns = []
+                for s in completed_scans:
+                    exit_dt_s = datetime.strptime(s["exit_date"], "%Y-%m-%d")
+                    scan_winners = 0
+                    scan_losers = 0
+                    scan_total_pnl = 0
+                    scan_trades = 0
+
+                    for t in s["tickers"]:
+                        ticker = t["ticker"]
+                        entry = t["entry_price"]
+                        try:
+                            if len(all_tickers) == 1:
+                                prices = hist_data["Close"].dropna()
+                            else:
+                                prices = hist_data["Close"][ticker].dropna()
+                            # Get price closest to exit date
+                            exit_prices = prices[prices.index <= pd.Timestamp(exit_dt_s + timedelta(days=3))]
+                            if len(exit_prices) > 0:
+                                exit_price = exit_prices.iloc[-1]
+                                pnl = (exit_price / entry) - 1.0
+                                all_returns.append(pnl)
+                                scan_total_pnl += pnl
+                                scan_trades += 1
+                                if pnl > 0:
+                                    scan_winners += 1
+                                else:
+                                    scan_losers += 1
+                        except Exception:
+                            continue
+
+                    if scan_trades > 0:
+                        summary_rows.append({
+                            "Scan Date": s["scan_date"],
+                            "Exit Date": s["exit_date"],
+                            "Trades": scan_trades,
+                            "Winners": scan_winners,
+                            "Losers": scan_losers,
+                            "Win Rate": scan_winners / scan_trades,
+                            "Avg P&L": scan_total_pnl / scan_trades,
+                            "Total P&L": scan_total_pnl,
+                        })
+
+                if summary_rows:
+                    df_summary = pd.DataFrame(summary_rows)
+                    st.dataframe(
+                        df_summary.style.format({
+                            "Win Rate": "{:.0%}",
+                            "Avg P&L": "{:+.2%}",
+                            "Total P&L": "{:+.2%}",
+                        }),
+                        use_container_width=True,
+                        hide_index=True,
+                    )
+
+                    # Aggregate stats
+                    total_trades = sum(r["Trades"] for r in summary_rows)
+                    total_winners = sum(r["Winners"] for r in summary_rows)
+                    overall_avg = np.mean(all_returns) if all_returns else 0
+                    overall_total = sum(all_returns)
+
+                    col1, col2, col3, col4 = st.columns(4)
+                    with col1:
+                        st.metric("Total Trades", total_trades)
+                    with col2:
+                        st.metric("Overall Win Rate", f"{total_winners/total_trades:.0%}" if total_trades > 0 else "—")
+                    with col3:
+                        st.metric("Avg Return", f"{overall_avg:+.2%}")
+                    with col4:
+                        st.metric("Total Return (sum)", f"{overall_total:+.2%}")
+                else:
+                    st.info("Could not fetch exit prices for completed scans.")
