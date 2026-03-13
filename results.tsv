@@ -108,3 +108,7 @@ e0e81d9	1.637750	2.064377	0.002190	0.769231	26	keep	dist lower -0.17 (score 1.63
 ---	1.069248	1.116873	0.002190	0.620690	29	discard	EWMA RV lambda 0.94 (much worse, changes IV/RV dynamics)
 ---	1.637730	2.064377	0.002240	0.769231	26	discard	log_m^2*sqrt_T interaction (MAPE slightly worse)
 ---	1.637750	2.064377	0.002190	0.769231	26	discard	call-weighted ATM IV 0.6/0.4 (no change)
+---	1.461160	1.770060	0.002190	0.636364	33	discard	IV/RV 1.45 (adds 7 bad trades)
+---	1.332402	1.555463	0.002190	0.722222	18	discard	IV/RV 1.55 (too few trades)
+---	1.637750	2.064377	0.002190	0.769231	26	discard	RV>0.12 filter (no change, all trades already pass)
+---	1.610138	2.018356	0.002190	0.760000	25	discard	RV<0.40 cap (removes 1 good trade)

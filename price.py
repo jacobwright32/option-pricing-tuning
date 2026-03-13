@@ -8,60 +8,106 @@ The agent should iterate on both pricing accuracy and signal quality.
 """
 
 import numpy as np
-from scipy.stats import norm
+from numba import njit, prange
+import math
 
 
-# ─── Black-Scholes Formulas ──────────────────────────────────────────────────
+# ─── Numba-accelerated math ─────────────────────────────────────────────────
 
+_SQRT2 = math.sqrt(2.0)
+_SQRT2PI = math.sqrt(2.0 * math.pi)
+
+
+@njit(cache=True)
+def _norm_cdf(x):
+    """Standard normal CDF using erfc approximation."""
+    return 0.5 * math.erfc(-x / _SQRT2)
+
+
+@njit(cache=True)
+def _norm_pdf(x):
+    """Standard normal PDF."""
+    return math.exp(-0.5 * x * x) / _SQRT2PI
+
+
+# ─── Black-Scholes Formulas (Numba JIT) ─────────────────────────────────────
+
+@njit(cache=True, parallel=True)
 def bs_price(S, K, T, r, sigma, is_call):
-    """Vectorized Black-Scholes European option price."""
-    T = np.maximum(T, 1e-10)
-    sigma = np.maximum(sigma, 1e-10)
-    d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
-    d2 = d1 - sigma * np.sqrt(T)
-    call = S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-    put = K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
-    return np.where(is_call, call, put)
+    """Numba-accelerated Black-Scholes European option price."""
+    n = len(S)
+    result = np.empty(n)
+    for i in prange(n):
+        t = max(T[i], 1e-10)
+        s = max(sigma[i], 1e-10)
+        sqrt_t = math.sqrt(t)
+        d1 = (math.log(S[i] / K[i]) + (r + 0.5 * s * s) * t) / (s * sqrt_t)
+        d2 = d1 - s * sqrt_t
+        disc = math.exp(-r * t)
+        if is_call[i]:
+            result[i] = S[i] * _norm_cdf(d1) - K[i] * disc * _norm_cdf(d2)
+        else:
+            result[i] = K[i] * disc * _norm_cdf(-d2) - S[i] * _norm_cdf(-d1)
+    return result
 
 
+@njit(cache=True, parallel=True)
 def bs_vega(S, K, T, r, sigma):
-    """Black-Scholes vega (sensitivity to vol)."""
-    T = np.maximum(T, 1e-10)
-    sigma = np.maximum(sigma, 1e-10)
-    d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
-    return S * norm.pdf(d1) * np.sqrt(T)
+    """Numba-accelerated Black-Scholes vega."""
+    n = len(S)
+    result = np.empty(n)
+    for i in prange(n):
+        t = max(T[i], 1e-10)
+        s = max(sigma[i], 1e-10)
+        sqrt_t = math.sqrt(t)
+        d1 = (math.log(S[i] / K[i]) + (r + 0.5 * s * s) * t) / (s * sqrt_t)
+        result[i] = S[i] * _norm_pdf(d1) * sqrt_t
+    return result
 
 
-# ─── Implied Volatility Solver ───────────────────────────────────────────────
+# ─── Implied Volatility Solver (Numba JIT) ──────────────────────────────────
 
+@njit(cache=True)
 def implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=20, tol=1e-8):
-    """Fully vectorized Newton-Raphson IV solver with bisection fallback."""
-    S = np.asarray(S, dtype=float)
-    K = np.asarray(K, dtype=float)
-    T = np.asarray(T, dtype=float)
-    market_price = np.asarray(market_price, dtype=float)
-    is_call = np.asarray(is_call, dtype=bool)
-
-    sigma = np.full(len(S), 0.3)
-    active = np.ones(len(S), dtype=bool)
+    """Numba-accelerated Newton-Raphson IV solver."""
+    n = len(S)
+    sigma = np.full(n, 0.3)
+    active = np.ones(n, dtype=np.bool_)
 
     for _ in range(max_iter):
-        if not active.any():
-            break
-        price = bs_price(S[active], K[active], T[active], r, sigma[active], is_call[active])
-        vega = bs_vega(S[active], K[active], T[active], r, sigma[active])
-        diff = price - market_price[active]
-        updatable = vega > 1e-12
-        converged = np.abs(diff) < tol
-        step = np.zeros_like(diff)
-        step[updatable] = diff[updatable] / vega[updatable]
-        new_sigma = sigma[active] - step
-        sigma[active] = np.clip(new_sigma, 0.01, 5.0)
-        done_mask = converged | ~updatable
-        idx = np.where(active)[0]
-        active[idx[done_mask]] = False
+        any_active = False
+        for i in range(n):
+            if not active[i]:
+                continue
+            any_active = True
+            t = max(T[i], 1e-10)
+            s = max(sigma[i], 1e-10)
+            sqrt_t = math.sqrt(t)
+            d1 = (math.log(S[i] / K[i]) + (r + 0.5 * s * s) * t) / (s * sqrt_t)
+            d2 = d1 - s * sqrt_t
+            disc = math.exp(-r * t)
 
-    return np.clip(sigma, 0.01, 5.0)
+            if is_call[i]:
+                price = S[i] * _norm_cdf(d1) - K[i] * disc * _norm_cdf(d2)
+            else:
+                price = K[i] * disc * _norm_cdf(-d2) - S[i] * _norm_cdf(-d1)
+
+            vega = S[i] * _norm_pdf(d1) * sqrt_t
+            diff = price - market_price[i]
+
+            if abs(diff) < tol or vega < 1e-12:
+                active[i] = False
+                continue
+
+            new_s = sigma[i] - diff / vega
+            sigma[i] = min(max(new_s, 0.01), 5.0)
+
+        if not any_active:
+            break
+
+    for i in range(n):
+        sigma[i] = min(max(sigma[i], 0.01), 5.0)
+    return sigma
 
 
 # ─── Pricing Model ───────────────────────────────────────────────────────────
