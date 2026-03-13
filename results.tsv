@@ -29,3 +29,4 @@ bb57941	1.137782	1.231015	0.002067	0.680851	47	discard	ret_5d -0.02 dilutes qual
 8d77b63	1.268224	1.449094	0.003082	0.707317	41	keep	IRLS 13->8 iters (faster, same score)
 ff3e926	0.828814	0.716744	0.003082	0.549296	71	discard	short signal hurts
 85fb668	1.268224	1.449094	0.003082	0.707317	41	keep	use implied_vol_vec (simpler)
+9a37d88	1.268224	1.449094	0.003082	0.707317	41	keep	signal IV solver 6 iters (faster)

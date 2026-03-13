@@ -140,7 +140,7 @@ class PricingModel:
 
         # ATM IV
         atm_ivs = implied_vol_vec(S[atm_mask], K[atm_mask], T[atm_mask], r,
-                                   market_price[atm_mask], is_call[atm_mask], max_iter=10)
+                                   market_price[atm_mask], is_call[atm_mask], max_iter=6)
         current_iv = np.median(atm_ivs)
 
         log_returns = np.diff(np.log(price_history))
