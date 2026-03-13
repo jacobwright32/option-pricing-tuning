@@ -33,3 +33,4 @@ ff3e926	0.828814	0.716744	0.003082	0.549296	71	discard	short signal hurts
 d404c4e	1.268226	1.449094	0.003077	0.707317	41	keep	widen IV filter 0.05-1.50 (tiny MAPE improve)
 a61dbe5	1.268271	1.449094	0.002965	0.707317	41	keep	minimal IV filter (MAPE improves)
 e8861f4	1.268519	1.449094	0.002345	0.707317	41	keep	ridge lambda 5e-4 (MAPE improves)
+edd00da	1.268541	1.449094	0.002290	0.707317	41	keep	ridge lambda 1e-3 (MAPE improves)
