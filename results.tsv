@@ -37,3 +37,4 @@ edd00da	1.268541	1.449094	0.002290	0.707317	41	keep	ridge lambda 1e-3 (MAPE impr
 7bccd63	1.268568	1.449094	0.002220	0.707317	41	keep	IRLS scale 1.5 MAD (MAPE improves)
 a73aa07	1.268570	1.449094	0.002215	0.707317	41	keep	IRLS scale 2.0 MAD (MAPE improves)
 0110866	1.268581	1.449094	0.002190	0.707317	41	keep	IRLS 12 iters (MAPE improves)
+fa19f29	1.291037	1.486521	0.002190	0.700000	40	keep	add dist_from_high<-0.03 filter (score 1.291)
