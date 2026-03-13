@@ -91,7 +91,24 @@ def save_trades(data):
     TRADES_FILE.write_text(json.dumps(data, indent=2, default=str))
 
 
-# ─── Signal Logic (from optimized price.py — Exp 105, score 1.578) ──────────
+# ─── Company Names ──────────────────────────────────────────────────────────
+
+COMPANY_NAMES = {}
+
+def get_company_name(ticker):
+    """Get company name, cached in module-level dict."""
+    if ticker in COMPANY_NAMES:
+        return COMPANY_NAMES[ticker]
+    try:
+        info = yf.Ticker(ticker).info
+        name = info.get("shortName") or info.get("longName") or ticker
+        COMPANY_NAMES[ticker] = name
+    except Exception:
+        COMPANY_NAMES[ticker] = ticker
+    return COMPANY_NAMES[ticker]
+
+
+# ─── Signal Logic (from optimized price.py — Exp 119, score 1.638) ──────────
 
 def compute_signal_metrics(prices_60d):
     if len(prices_60d) < 30:
@@ -161,11 +178,11 @@ with tab_scan:
     Hold for **7 calendar days**, then exit.
     """)
 
-    # Fixed thresholds from optimization (Exp 105, score 1.578)
+    # Fixed thresholds from optimization (Exp 119, score 1.638)
     min_iv_rv = 1.5
-    ret_5d_range = (-0.06, -0.02)
+    ret_5d_range = (-0.07, -0.02)
     ret_10d_range = (-0.08, -0.01)
-    dist_high_range = (-0.15, -0.05)
+    dist_high_range = (-0.17, -0.05)
 
     # Persist scan results across reruns so Save button works
     if "buy_signals" not in st.session_state:
@@ -359,20 +376,29 @@ with tab_track:
                             if len(p) > 0:
                                 current_prices[t] = p.iloc[-1]
 
+                # Get company names
+                names = {}
+                for t in tracked_tickers:
+                    names[t] = get_company_name(t)
+
             rows = []
+            pnl_list = []
             total_pnl = 0
             for t in scan["tickers"]:
                 ticker = t["ticker"]
                 entry = t["entry_price"]
                 current = current_prices.get(ticker)
+                name = names.get(ticker, ticker)
                 if current is not None:
                     pnl_pct = (current / entry) - 1.0
                     pnl_dollar = pnl_pct * 1000  # Per $1000 position
                     total_pnl += pnl_pct
+                    pnl_list.append({"Ticker": ticker, "Name": name, "P&L %": pnl_pct})
                     status = "🟢" if pnl_pct > 0 else "🔴"
                     rows.append({
                         "": status,
                         "Ticker": ticker,
+                        "Company": name,
                         "Entry": entry,
                         "Current": round(current, 2),
                         "P&L %": pnl_pct,
@@ -383,6 +409,7 @@ with tab_track:
                     rows.append({
                         "": "⚪",
                         "Ticker": ticker,
+                        "Company": name,
                         "Entry": entry,
                         "Current": None,
                         "P&L %": None,
@@ -416,6 +443,27 @@ with tab_track:
                     st.metric("Winners", f"{n_winners}/{n_total}")
                 with col3:
                     st.metric("Days Left", f"{days_remaining}")
+
+                # Returns distribution chart
+                if len(pnl_list) > 0:
+                    st.subheader("Returns Distribution")
+                    df_pnl = pd.DataFrame(pnl_list).sort_values("P&L %")
+                    import matplotlib
+                    matplotlib.use("Agg")
+                    import matplotlib.pyplot as plt
+
+                    fig, ax = plt.subplots(figsize=(10, max(3, len(df_pnl) * 0.4)))
+                    colors = ["#2ecc71" if v >= 0 else "#e74c3c" for v in df_pnl["P&L %"]]
+                    labels = [f"{r['Ticker']} ({r['Name'][:20]})" for _, r in df_pnl.iterrows()]
+                    ax.barh(labels, df_pnl["P&L %"] * 100, color=colors)
+                    ax.axvline(x=0, color="gray", linewidth=0.8)
+                    ax.set_xlabel("Return (%)")
+                    ax.set_title("P&L by Position")
+                    for i, (_, r) in enumerate(df_pnl.iterrows()):
+                        ax.text(r["P&L %"] * 100, i, f" {r['P&L %']:+.1%}", va="center", fontsize=9)
+                    plt.tight_layout()
+                    st.pyplot(fig)
+                    plt.close(fig)
 
         else:
             # Show entry info without current prices
