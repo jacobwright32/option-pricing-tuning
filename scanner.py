@@ -165,7 +165,7 @@ def get_atm_iv(ticker, spot):
 
 st.set_page_config(page_title="CFD Signal Scanner", page_icon="📊", layout="wide")
 
-tab_scan, tab_track = st.tabs(["📡 Scanner", "📈 Trade Tracker"])
+tab_scan, tab_track, tab_completed = st.tabs(["📡 Scanner", "📈 Trade Tracker", "✅ Completed Scans"])
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 1: SCANNER
@@ -487,92 +487,134 @@ with tab_track:
             save_trades(trades_data)
             st.rerun()
 
-        # ─── All Scans Summary (completed scans only) ────────────────────────
-        completed_scans = [
-            s for s in scans
-            if datetime.now() >= datetime.strptime(s["exit_date"], "%Y-%m-%d")
-        ]
-        if completed_scans:
-            st.markdown("---")
-            st.subheader("📊 Completed Scans Summary")
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 3: COMPLETED SCANS
+# ═══════════════════════════════════════════════════════════════════════════════
 
-            # Fetch exit prices for all completed scans
-            if st.button("🔄 Load summary for all completed scans"):
-                all_tickers = list({t["ticker"] for s in completed_scans for t in s["tickers"]})
-                with st.spinner(f"Fetching price data for {len(all_tickers)} tickers..."):
-                    hist_data = yf.download(all_tickers, period="3mo", auto_adjust=True,
-                                            threads=True, progress=False)
+with tab_completed:
+    st.title("✅ Completed Trade Scans")
 
-                summary_rows = []
-                all_returns = []
-                for s in completed_scans:
-                    exit_dt_s = datetime.strptime(s["exit_date"], "%Y-%m-%d")
-                    scan_winners = 0
-                    scan_losers = 0
-                    scan_total_pnl = 0
-                    scan_trades = 0
+    trades_data_c = load_trades()
+    all_scans = trades_data_c.get("scans", [])
+    completed_scans = [
+        s for s in all_scans
+        if datetime.now() >= datetime.strptime(s["exit_date"], "%Y-%m-%d")
+    ]
 
-                    for t in s["tickers"]:
-                        ticker = t["ticker"]
-                        entry = t["entry_price"]
-                        try:
-                            if len(all_tickers) == 1:
-                                prices = hist_data["Close"].dropna()
+    if not completed_scans:
+        st.info("No completed scans yet. Scans appear here after their 7-day hold period ends.")
+    else:
+        st.write(f"**{len(completed_scans)}** completed scan(s)")
+
+        if st.button("🔄 Load results", type="primary", key="load_completed"):
+            all_tickers = list({t["ticker"] for s in completed_scans for t in s["tickers"]})
+            with st.spinner(f"Fetching price history for {len(all_tickers)} tickers..."):
+                hist_data = yf.download(all_tickers, period="6mo", auto_adjust=True,
+                                        threads=True, progress=False)
+
+            summary_rows = []
+            all_returns = []
+
+            for s in completed_scans:
+                exit_dt_s = datetime.strptime(s["exit_date"], "%Y-%m-%d")
+                scan_winners = 0
+                scan_losers = 0
+                scan_total_pnl = 0
+                scan_trades = 0
+                ticker_details = []
+
+                for t in s["tickers"]:
+                    ticker = t["ticker"]
+                    entry = t["entry_price"]
+                    try:
+                        if len(all_tickers) == 1:
+                            prices = hist_data["Close"].dropna()
+                        else:
+                            prices = hist_data["Close"][ticker].dropna()
+                        exit_prices = prices[prices.index <= pd.Timestamp(exit_dt_s + timedelta(days=3))]
+                        if len(exit_prices) > 0:
+                            exit_price = float(exit_prices.iloc[-1])
+                            pnl = (exit_price / entry) - 1.0
+                            all_returns.append(pnl)
+                            scan_total_pnl += pnl
+                            scan_trades += 1
+                            if pnl > 0:
+                                scan_winners += 1
                             else:
-                                prices = hist_data["Close"][ticker].dropna()
-                            # Get price closest to exit date
-                            exit_prices = prices[prices.index <= pd.Timestamp(exit_dt_s + timedelta(days=3))]
-                            if len(exit_prices) > 0:
-                                exit_price = exit_prices.iloc[-1]
-                                pnl = (exit_price / entry) - 1.0
-                                all_returns.append(pnl)
-                                scan_total_pnl += pnl
-                                scan_trades += 1
-                                if pnl > 0:
-                                    scan_winners += 1
-                                else:
-                                    scan_losers += 1
-                        except Exception:
-                            continue
+                                scan_losers += 1
+                            ticker_details.append(f"{ticker} ({pnl:+.1%})")
+                    except Exception:
+                        continue
 
-                    if scan_trades > 0:
-                        summary_rows.append({
-                            "Scan Date": s["scan_date"],
-                            "Exit Date": s["exit_date"],
-                            "Trades": scan_trades,
-                            "Winners": scan_winners,
-                            "Losers": scan_losers,
-                            "Win Rate": scan_winners / scan_trades,
-                            "Avg P&L": scan_total_pnl / scan_trades,
-                            "Total P&L": scan_total_pnl,
-                        })
+                if scan_trades > 0:
+                    summary_rows.append({
+                        "Scan Date": s["scan_date"],
+                        "Exit Date": s["exit_date"],
+                        "Tickers": ", ".join(ticker_details),
+                        "Trades": scan_trades,
+                        "Winners": scan_winners,
+                        "Losers": scan_losers,
+                        "Win Rate": scan_winners / scan_trades,
+                        "Avg P&L": scan_total_pnl / scan_trades,
+                        "Total P&L": scan_total_pnl,
+                    })
 
-                if summary_rows:
-                    df_summary = pd.DataFrame(summary_rows)
-                    st.dataframe(
-                        df_summary.style.format({
-                            "Win Rate": "{:.0%}",
-                            "Avg P&L": "{:+.2%}",
-                            "Total P&L": "{:+.2%}",
-                        }),
-                        use_container_width=True,
-                        hide_index=True,
-                    )
+            if summary_rows:
+                df_summary = pd.DataFrame(summary_rows)
+                st.dataframe(
+                    df_summary.style.format({
+                        "Win Rate": "{:.0%}",
+                        "Avg P&L": "{:+.2%}",
+                        "Total P&L": "{:+.2%}",
+                    }),
+                    use_container_width=True,
+                    hide_index=True,
+                )
 
-                    # Aggregate stats
-                    total_trades = sum(r["Trades"] for r in summary_rows)
-                    total_winners = sum(r["Winners"] for r in summary_rows)
-                    overall_avg = np.mean(all_returns) if all_returns else 0
-                    overall_total = sum(all_returns)
+                # Aggregate stats
+                total_trades = sum(r["Trades"] for r in summary_rows)
+                total_winners = sum(r["Winners"] for r in summary_rows)
+                overall_avg = np.mean(all_returns) if all_returns else 0
+                overall_total = sum(all_returns)
 
-                    col1, col2, col3, col4 = st.columns(4)
-                    with col1:
-                        st.metric("Total Trades", total_trades)
-                    with col2:
-                        st.metric("Overall Win Rate", f"{total_winners/total_trades:.0%}" if total_trades > 0 else "—")
-                    with col3:
-                        st.metric("Avg Return", f"{overall_avg:+.2%}")
-                    with col4:
-                        st.metric("Total Return (sum)", f"{overall_total:+.2%}")
-                else:
-                    st.info("Could not fetch exit prices for completed scans.")
+                st.markdown("---")
+                st.subheader("Overall Performance")
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.metric("Total Trades", total_trades)
+                with col2:
+                    st.metric("Win Rate", f"{total_winners/total_trades:.0%}" if total_trades > 0 else "—")
+                with col3:
+                    st.metric("Avg Return/Trade", f"{overall_avg:+.2%}")
+                with col4:
+                    st.metric("Total P&L (sum)", f"{overall_total:+.2%}")
+
+                # Returns distribution across all completed trades
+                if len(all_returns) > 1:
+                    st.subheader("Returns Distribution (All Completed Trades)")
+                    import matplotlib
+                    matplotlib.use("Agg")
+                    import matplotlib.pyplot as plt
+
+                    fig, ax = plt.subplots(figsize=(8, 4))
+                    colors_hist = ["#2ecc71" if r >= 0 else "#e74c3c" for r in sorted(all_returns)]
+                    ax.hist(np.array(all_returns) * 100, bins=max(5, len(all_returns) // 2),
+                            color="#3498db", edgecolor="white", alpha=0.8)
+                    ax.axvline(x=0, color="gray", linewidth=1, linestyle="--")
+                    ax.axvline(x=np.mean(all_returns) * 100, color="#2ecc71", linewidth=2,
+                               label=f"Mean: {np.mean(all_returns):+.2%}")
+                    ax.set_xlabel("Return (%)")
+                    ax.set_ylabel("Count")
+                    ax.set_title("Distribution of Trade Returns")
+                    ax.legend()
+                    plt.tight_layout()
+                    st.pyplot(fig)
+                    plt.close(fig)
+            else:
+                st.warning("Could not fetch exit prices for completed scans.")
+        else:
+            # Show basic info without fetching prices
+            for s in completed_scans:
+                tickers = ", ".join(t["ticker"] for t in s["tickers"])
+                st.write(f"**{s['scan_date']}** — {len(s['tickers'])} trade(s): {tickers} — exited {s['exit_date']}")
+

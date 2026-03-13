@@ -84,3 +84,5 @@ d5cb59d	1.423511	1.707311	0.002190	0.700000	30	keep	cap dist_from_high -15% (sco
 0e090c7	1.588363	1.982065	0.002190	0.750000	24	keep	mean IV instead of median (score 1.588)
 435a36f	1.610138	2.018356	0.002190	0.760000	25	keep	ret_5d lower -0.07 (score 1.610, Sharpe 2.02!)
 e0e81d9	1.637750	2.064377	0.002190	0.769231	26	keep	dist lower -0.17 (score 1.638, Sharpe 2.06!)
+---	1.449898	1.751289	0.002190	0.777778	27	discard	dist lower -0.20 (more trades, lower Sharpe)
+---	1.428292	1.715280	0.002190	0.604651	43	discard	IV/RV 1.4 (too many bad trades)
