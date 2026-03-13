@@ -138,19 +138,10 @@ class PricingModel:
         if atm_mask.sum() == 0:
             return 0.0
 
-        # ATM IV via fast Newton from intrinsic-based initial guess
-        S_atm, K_atm, T_atm = S[atm_mask], K[atm_mask], T[atm_mask]
-        mp_atm, ic_atm = market_price[atm_mask], is_call[atm_mask]
-        intrinsic = np.where(ic_atm, np.maximum(S_atm - K_atm, 0), np.maximum(K_atm - S_atm, 0))
-        time_val = np.maximum(mp_atm - intrinsic, 0.01)
-        sigma_atm = np.clip(time_val / (S_atm * 0.4 * np.sqrt(np.maximum(T_atm, 1e-4))), 0.05, 2.0)
-        for _ in range(8):
-            p = bs_price(S_atm, K_atm, T_atm, r, sigma_atm, ic_atm)
-            v = bs_vega(S_atm, K_atm, T_atm, r, sigma_atm)
-            upd = v > 1e-12
-            sigma_atm[upd] -= (p[upd] - mp_atm[upd]) / v[upd]
-            sigma_atm = np.clip(sigma_atm, 0.01, 5.0)
-        current_iv = np.median(sigma_atm)
+        # ATM IV
+        atm_ivs = implied_vol_vec(S[atm_mask], K[atm_mask], T[atm_mask], r,
+                                   market_price[atm_mask], is_call[atm_mask], max_iter=10)
+        current_iv = np.median(atm_ivs)
 
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
