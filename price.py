@@ -163,7 +163,7 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         low_20d = np.min(price_history[-20:])
         dist_from_low = (price_history[-1] / low_20d) - 1.0
-        low_scale = max(0.0, 1.0 - dist_from_low / 0.06)
+        low_scale = max(0.0, 1.0 - dist_from_low / 0.04)
 
         # IV coherence: penalize dispersed ATM IVs
         coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.2
