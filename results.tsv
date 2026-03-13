@@ -81,3 +81,4 @@ d5cb59d	1.423511	1.707311	0.002190	0.700000	30	keep	cap dist_from_high -15% (sco
 ---	1.295358	1.493724	0.002190	0.705882	17	discard	IV/RV 1.55 (too few trades)
 ---	1.577859	1.964559	0.002190	0.739130	23	discard	ATM mask 0.05 (no change)
 05eaa77	1.268224	1.449094	0.003082	0.707317	41	discard	wider ATM mask no benefit
+0e090c7	1.588363	1.982065	0.002190	0.750000	24	keep	mean IV instead of median (score 1.588)
