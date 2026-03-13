@@ -5,3 +5,5 @@ commit	combined_score	sharpe	mape	win_rate	n_trades	status	description
 177c45b	0.984331	0.975263	0.002067	0.605263	152	keep	tier1 strength 0.60->0.70
 b4f2a1d	0.986542	0.978949	0.002067	0.605263	152	keep	tier1 strength 0.70->0.85
 5ff561b	0.993451	0.990463	0.002067	0.605263	152	keep	tier1 strength 0.85->1.00
+136e576	0.975138	0.959942	0.002067	0.605263	152	discard	tier2 0.35 worse
+3407266	1.011623	1.020750	0.002067	0.605263	152	keep	remove coherence, cap tier1 at 1.0
