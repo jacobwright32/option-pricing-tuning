@@ -121,7 +121,7 @@ class PricingModel:
         return np.maximum(fair_values, 0.01)
 
     def generate_signal(self, chain, price_history):
-        """Multi-factor contrarian signal with vol surface features."""
+        """Contrarian signal: buy dips when IV premium is high."""
         S = chain["S"]
         K = chain["K"]
         T = chain["T"]
@@ -129,110 +129,70 @@ class PricingModel:
         is_call = chain["is_call"]
         market_price = chain["market_price"]
 
-        if len(S) == 0 or len(price_history) < 10:
+        if len(S) == 0 or len(price_history) < 20:
             return 0.0
 
         spot = S[0]
         moneyness = np.abs(np.log(K / spot))
-        atm_mask = moneyness < 0.05
-        if atm_mask.sum() == 0:
-            atm_mask = moneyness < 0.10
+        atm_mask = moneyness < 0.07
         if atm_mask.sum() == 0:
             return 0.0
 
-        # Use custom IV solver for signal with better initial guess
-        S_atm = S[atm_mask]
-        K_atm = K[atm_mask]
-        T_atm = T[atm_mask]
-        mp_atm = market_price[atm_mask]
-        ic_atm = is_call[atm_mask]
+        # ATM IV via fast Newton from intrinsic-based initial guess
+        S_atm, K_atm, T_atm = S[atm_mask], K[atm_mask], T[atm_mask]
+        mp_atm, ic_atm = market_price[atm_mask], is_call[atm_mask]
         intrinsic = np.where(ic_atm, np.maximum(S_atm - K_atm, 0), np.maximum(K_atm - S_atm, 0))
         time_val = np.maximum(mp_atm - intrinsic, 0.01)
-        sig0 = np.clip(time_val / (S_atm * 0.4 * np.sqrt(np.maximum(T_atm, 1e-4))), 0.05, 2.0)
-        # Newton-Raphson with custom start
-        sigma_atm = sig0.copy()
-        for _ in range(10):
+        sigma_atm = np.clip(time_val / (S_atm * 0.4 * np.sqrt(np.maximum(T_atm, 1e-4))), 0.05, 2.0)
+        for _ in range(8):
             p = bs_price(S_atm, K_atm, T_atm, r, sigma_atm, ic_atm)
             v = bs_vega(S_atm, K_atm, T_atm, r, sigma_atm)
-            diff = p - mp_atm
             upd = v > 1e-12
-            sigma_atm[upd] -= diff[upd] / v[upd]
+            sigma_atm[upd] -= (p[upd] - mp_atm[upd]) / v[upd]
             sigma_atm = np.clip(sigma_atm, 0.01, 5.0)
-        atm_ivs = sigma_atm
-        current_iv = np.median(atm_ivs)
-        iv_std = np.std(atm_ivs)
+        current_iv = np.median(sigma_atm)
+        iv_std = np.std(sigma_atm)
 
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
-        rv_5d = np.std(log_returns[-5:]) * np.sqrt(252) if len(log_returns) >= 5 else realized_vol
-
-        # OTM put skew
-        otm_put = (~is_call) & (K < spot * 0.92)
-        if otm_put.sum() > 2:
-            otm_ivs = implied_vol_vec(S[otm_put], K[otm_put], T[otm_put], r, market_price[otm_put], is_call[otm_put], max_iter=8)
-            put_skew = np.median(otm_ivs) - current_iv
-        else:
-            put_skew = 0.0
-
         if realized_vol < 0.01:
             return 0.0
+
         iv_rv_ratio = current_iv / realized_vol
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
+        ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         low_20d = np.min(price_history[-20:])
         dist_from_low = (price_history[-1] / low_20d) - 1.0
+        low_scale = max(0.0, 1.0 - dist_from_low / 0.06)
 
-        low_scale = max(0.0, 1.0 - dist_from_low / 0.05)
+        # IV coherence: penalize dispersed ATM IVs
+        coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.2
 
-        ret_10d = (price_history[-1] / price_history[-10]) - 1.0
-
-        # Put-call IV spread (near ATM): put IV vs call IV
-        near_atm = moneyness < 0.10
-        atm_puts = near_atm & (~is_call)
-        atm_calls = near_atm & is_call
-        if atm_puts.sum() > 0 and atm_calls.sum() > 0:
-            put_iv_med = np.median(implied_vol_vec(S[atm_puts], K[atm_puts], T[atm_puts], r,
-                                                    market_price[atm_puts], is_call[atm_puts], max_iter=8))
-            call_iv_med = np.median(implied_vol_vec(S[atm_calls], K[atm_calls], T[atm_calls], r,
-                                                     market_price[atm_calls], is_call[atm_calls], max_iter=8))
-            pc_spread = (put_iv_med - call_iv_med) / (current_iv + 1e-8)
-            pc_boost = min(0.68, max(0.0, pc_spread * 78.0))
-        else:
-            pc_boost = 0.0
-
-        # Normalized skew: put_skew / current_iv captures relative fear level
-        norm_skew = put_skew / (current_iv + 1e-8)
-        skew_boost = min(0.30, max(0.0, norm_skew * 0.9))
-        # IV coherence: penalize when ATM IVs are very dispersed
-        coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.20
-        # IV term structure boost: short-term vs long-term ATM IV
-        short_T = T[atm_mask] < 25/252
-        long_T = T[atm_mask] > 40/252
+        # Term structure: short > long = fear
+        short_T = T[atm_mask] < 25 / 252
+        long_T = T[atm_mask] > 40 / 252
+        term_boost = 0.0
         if short_T.sum() > 0 and long_T.sum() > 0:
-            term_spread = np.median(atm_ivs[short_T]) - np.median(atm_ivs[long_T])
-            term_boost = min(1.0, max(0.0, term_spread * 95))
-        else:
-            term_boost = 0.0
-        # Short-term RV spike boost: recent vol > longer-term vol
-        rv_spike = min(0.3, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.6))
-        # IV convexity: how much the vol surface curves (high = tail risk premium)
-        otm_call = is_call & (K > spot * 1.15)
-        if otm_put.sum() > 1 and otm_call.sum() > 1:
-            otm_call_ivs = implied_vol_vec(S[otm_call], K[otm_call], T[otm_call], r, market_price[otm_call], is_call[otm_call], max_iter=8)
-            iv_convex = max(0.0, (np.median(otm_ivs) + np.median(otm_call_ivs)) / 2 - current_iv)
-            convex_boost = min(0.2, iv_convex * 1.5)
-        else:
-            convex_boost = 0.0
+            term_spread = np.median(sigma_atm[short_T]) - np.median(sigma_atm[long_T])
+            term_boost = min(0.5, max(0.0, term_spread * 50))
 
-        if iv_rv_ratio > 1.85 and ret_5d < -0.015 and dist_from_low < 0.035:
-            return (0.15 + skew_boost + pc_boost + rv_spike + convex_boost * 1.5) * low_scale * coherence
-        elif iv_rv_ratio > 1.6 and ret_5d < -0.040 and dist_from_low < 0.035:
-            return (0.18 + pc_boost + rv_spike * 0.7) * low_scale * coherence
-        elif iv_rv_ratio > 1.5 and ret_10d < -0.06 and dist_from_low < 0.02 and ret_5d < -0.005:
-            # Acceleration: if most of the 10d loss is in last 5d, more recent = better
-            accel = min(0.35, max(0.0, ret_5d / (ret_10d + 1e-8) - 0.3) * 1.15) if ret_10d < -0.01 else 0.0
-            return (skew_boost * 0.75 + term_boost + accel + convex_boost * 0.5) * coherence
-        else:
-            return 0.0
+        # RV spike: recent vol elevated vs full history
+        rv_5d = np.std(log_returns[-5:]) * np.sqrt(252) if len(log_returns) >= 5 else realized_vol
+        rv_spike = min(0.2, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.5))
+
+        # Tier 1: extreme IV premium + dip
+        if iv_rv_ratio > 1.5 and ret_5d < -0.01 and dist_from_low < 0.04:
+            return (0.20 + term_boost + rv_spike) * low_scale * coherence
+
+        # Tier 2: moderate IV premium + strong dip
+        if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.04:
+            return (0.15 + rv_spike) * low_scale * coherence
+
+        # Tier 3: extended selloff with any IV premium
+        if iv_rv_ratio > 1.2 and ret_10d < -0.05 and ret_5d < -0.01:
+            return 0.12 * coherence
+
+        return 0.0
 
 
 # ─── Plot & README Update ────────────────────────────────────────────────────
