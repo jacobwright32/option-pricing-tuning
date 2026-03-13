@@ -167,6 +167,12 @@ with tab_scan:
     ret_10d_range = (-0.08, -0.01)
     dist_high_range = (-0.15, -0.05)
 
+    # Persist scan results across reruns so Save button works
+    if "buy_signals" not in st.session_state:
+        st.session_state.buy_signals = None
+        st.session_state.near_miss = None
+        st.session_state.scan_time = None
+
     if st.button("🔍 Run Scan", type="primary", use_container_width=True):
         tickers = SP500_TICKERS
 
@@ -205,7 +211,9 @@ with tab_scan:
         price_progress.empty()
 
         if not prefilter_results:
-            st.info("No stocks pass the price pre-filter. Market may not be in a dip regime.")
+            st.session_state.buy_signals = []
+            st.session_state.near_miss = []
+            st.session_state.scan_time = datetime.now()
         else:
             df_pre = pd.DataFrame(prefilter_results)
             fmt = {"Price": "${:.2f}", "5d Ret": "{:.1%}", "10d Ret": "{:.1%}",
@@ -236,47 +244,58 @@ with tab_scan:
             iv_progress.empty()
             status_text.empty()
 
-            st.markdown("---")
-            if buy_signals:
-                st.subheader(f"🟢 BUY SIGNALS ({len(buy_signals)})")
-                st.markdown("**Open LONG CFD. Hold 7 calendar days. Close next Friday.**")
-                df_buy = pd.DataFrame(buy_signals).sort_values("IV/RV", ascending=False)
-                fmt2 = {**fmt, "ATM IV": "{:.1%}", "IV/RV": "{:.2f}"}
-                st.dataframe(df_buy.style.format(fmt2), use_container_width=True, hide_index=True)
+            st.session_state.buy_signals = buy_signals
+            st.session_state.near_miss = near_miss
+            st.session_state.scan_time = datetime.now()
 
-                # Save scan button
-                scan_date = datetime.now().strftime("%Y-%m-%d %H:%M")
-                exit_date = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
-                if st.button("💾 Save scan & start tracking", type="secondary"):
-                    trades_data = load_trades()
-                    scan_entry = {
-                        "scan_date": scan_date,
-                        "exit_date": exit_date,
-                        "tickers": [],
-                    }
-                    for _, r in df_buy.iterrows():
-                        scan_entry["tickers"].append({
-                            "ticker": r["Ticker"],
-                            "entry_price": round(r["Price"], 2),
-                            "iv_rv": round(r["IV/RV"], 2),
-                            "iv": round(r["ATM IV"], 4),
-                            "rv": round(r["RV"], 4),
-                            "ret_5d": round(r["5d Ret"], 4),
-                            "ret_10d": round(r["10d Ret"], 4),
-                            "dist_high": round(r["Dist High"], 4),
-                        })
-                    trades_data["scans"].append(scan_entry)
-                    save_trades(trades_data)
-                    st.success(f"Saved {len(scan_entry['tickers'])} trades. Exit by {exit_date}.")
-            else:
-                st.subheader("⚪ No Buy Signals")
-                st.info("No stocks meet ALL criteria. Strategy is selective (~1 trade/month).")
+    # Display results from session state (persists across reruns for Save button)
+    fmt = {"Price": "${:.2f}", "5d Ret": "{:.1%}", "10d Ret": "{:.1%}",
+           "Dist High": "{:.1%}", "RV": "{:.1%}"}
 
-            if near_miss:
-                st.subheader(f"🟡 Near-Miss ({len(near_miss)})")
-                df_near = pd.DataFrame(near_miss).sort_values("IV/RV", ascending=False)
-                fmt2 = {**fmt, "ATM IV": "{:.1%}", "IV/RV": "{:.2f}"}
-                st.dataframe(df_near.style.format(fmt2), use_container_width=True, hide_index=True)
+    if st.session_state.buy_signals is not None:
+        buy_signals = st.session_state.buy_signals
+        near_miss = st.session_state.near_miss
+
+        st.markdown("---")
+        if buy_signals:
+            st.subheader(f"🟢 BUY SIGNALS ({len(buy_signals)})")
+            st.markdown("**Open LONG CFD. Hold 7 calendar days. Close next Friday.**")
+            df_buy = pd.DataFrame(buy_signals).sort_values("IV/RV", ascending=False)
+            fmt2 = {**fmt, "ATM IV": "{:.1%}", "IV/RV": "{:.2f}"}
+            st.dataframe(df_buy.style.format(fmt2), use_container_width=True, hide_index=True)
+
+            scan_date = st.session_state.scan_time.strftime("%Y-%m-%d %H:%M")
+            exit_date = (st.session_state.scan_time + timedelta(days=7)).strftime("%Y-%m-%d")
+            if st.button("💾 Save scan & start tracking", type="secondary"):
+                trades_data = load_trades()
+                scan_entry = {
+                    "scan_date": scan_date,
+                    "exit_date": exit_date,
+                    "tickers": [],
+                }
+                for _, r in df_buy.iterrows():
+                    scan_entry["tickers"].append({
+                        "ticker": r["Ticker"],
+                        "entry_price": round(float(r["Price"]), 2),
+                        "iv_rv": round(float(r["IV/RV"]), 2),
+                        "iv": round(float(r["ATM IV"]), 4),
+                        "rv": round(float(r["RV"]), 4),
+                        "ret_5d": round(float(r["5d Ret"]), 4),
+                        "ret_10d": round(float(r["10d Ret"]), 4),
+                        "dist_high": round(float(r["Dist High"]), 4),
+                    })
+                trades_data["scans"].append(scan_entry)
+                save_trades(trades_data)
+                st.success(f"Saved {len(scan_entry['tickers'])} trades. Exit by {exit_date}.")
+        else:
+            st.subheader("⚪ No Buy Signals")
+            st.info("No stocks meet ALL criteria. Strategy is selective (~1 trade/month).")
+
+        if near_miss:
+            st.subheader(f"🟡 Near-Miss ({len(near_miss)})")
+            df_near = pd.DataFrame(near_miss).sort_values("IV/RV", ascending=False)
+            fmt2 = {**fmt, "ATM IV": "{:.1%}", "IV/RV": "{:.2f}"}
+            st.dataframe(df_near.style.format(fmt2), use_container_width=True, hide_index=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 2: TRADE TRACKER
