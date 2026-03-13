@@ -34,3 +34,4 @@ d404c4e	1.268226	1.449094	0.003077	0.707317	41	keep	widen IV filter 0.05-1.50 (t
 a61dbe5	1.268271	1.449094	0.002965	0.707317	41	keep	minimal IV filter (MAPE improves)
 e8861f4	1.268519	1.449094	0.002345	0.707317	41	keep	ridge lambda 5e-4 (MAPE improves)
 edd00da	1.268541	1.449094	0.002290	0.707317	41	keep	ridge lambda 1e-3 (MAPE improves)
+7bccd63	1.268568	1.449094	0.002220	0.707317	41	keep	IRLS scale 1.5 MAD (MAPE improves)
