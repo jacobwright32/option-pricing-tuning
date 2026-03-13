@@ -166,10 +166,6 @@ class PricingModel:
         if iv_rv_ratio > 1.5 and ret_5d < -0.025:
             return 1.0
 
-        # Tier 2: moderate IV premium + strong dip near lows
-        if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.03:
-            return 0.30
-
         return 0.0
 
 
