@@ -4,3 +4,4 @@ commit	combined_score	sharpe	mape	win_rate	n_trades	status	description
 33169b7	0.978660	0.965811	0.002067	0.605263	152	keep	tier1 strength 0.50->0.60
 177c45b	0.984331	0.975263	0.002067	0.605263	152	keep	tier1 strength 0.60->0.70
 b4f2a1d	0.986542	0.978949	0.002067	0.605263	152	keep	tier1 strength 0.70->0.85
+5ff561b	0.993451	0.990463	0.002067	0.605263	152	keep	tier1 strength 0.85->1.00
