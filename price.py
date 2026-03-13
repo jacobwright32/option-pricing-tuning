@@ -182,7 +182,7 @@ class PricingModel:
 
         # Tier 1: extreme IV premium + dip
         if iv_rv_ratio > 1.5 and ret_5d < -0.025:
-            return min(1.0, (1.00 + term_boost + rv_spike))
+            return 1.0
 
         # Tier 2: moderate IV premium + strong dip
         if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.03:
