@@ -161,30 +161,13 @@ class PricingModel:
         iv_rv_ratio = current_iv / realized_vol
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
-        low_20d = np.min(price_history[-20:])
-        dist_from_low = (price_history[-1] / low_20d) - 1.0
-        low_scale = max(0.0, 1.0 - dist_from_low / 0.04)
+        dist_from_low = (price_history[-1] / np.min(price_history[-20:])) - 1.0
 
-        # IV coherence: penalize dispersed ATM IVs
-        coherence = max(0.0, 1.0 - iv_std / (current_iv + 1e-8)) ** 1.2
-
-        # Term structure: short > long = fear
-        short_T = T[atm_mask] < 25 / 252
-        long_T = T[atm_mask] > 40 / 252
-        term_boost = 0.0
-        if short_T.sum() > 0 and long_T.sum() > 0:
-            term_spread = np.median(sigma_atm[short_T]) - np.median(sigma_atm[long_T])
-            term_boost = min(0.5, max(0.0, term_spread * 50))
-
-        # RV spike: recent vol elevated vs full history
-        rv_5d = np.std(log_returns[-5:]) * np.sqrt(252) if len(log_returns) >= 5 else realized_vol
-        rv_spike = min(0.2, max(0.0, (rv_5d / (realized_vol + 1e-8) - 1.0) * 0.5))
-
-        # Tier 1: extreme IV premium + dip
+        # Tier 1: high IV premium + dip
         if iv_rv_ratio > 1.5 and ret_5d < -0.025:
             return 1.0
 
-        # Tier 2: moderate IV premium + strong dip
+        # Tier 2: moderate IV premium + strong dip near lows
         if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.03:
             return 0.30
 
