@@ -45,3 +45,4 @@ edbbed7	1.337587	1.564105	0.002190	0.727273	33	keep	ret_5d -0.02 (same score, si
 d5cb59d	1.423511	1.707311	0.002190	0.700000	30	keep	cap dist_from_high -15% (score 1.424!)
 0c55b06	1.507693	1.847614	0.002190	0.714286	28	keep	cap ret_5d -8% avoid crashes (score 1.508!)
 155df8d	1.572172	1.955080	0.002190	0.730769	26	keep	ret_5d cap -6% (score 1.572!)
+40eb4bc	1.577859	1.964559	0.002190	0.739130	23	keep	cap ret_10d -8% (score 1.578)
