@@ -118,3 +118,6 @@ fde09b1	2.176277	2.961995	0.002301	0.684211	19	keep	Exp 16: dist lower -0.08 (Sh
 2.395658	3.327592	0.002243	0.700000	10	discard	Exp 116: put-call skew filter >1.05 (no change, all pass)
 2.342767	3.239441	0.002243	0.666667	15	discard	Exp 117: skew-confirmed tier 2 wider (15 trades worse)
 2.401894	3.337986	0.002243	0.727273	11	keep	Exp 122: RSI<30 tier 2 with tighter RV<0.45 ret_10d ret_dist bounds
+2.402099	3.338327	0.002243	0.727273	11	discard	Exp 123: tier 2 signal 0.4 (marginal vs 0.35)
+2.401460	3.337261	0.002243	0.727273	11	discard	Exp 124: tier 2 signal 0.5 (worse)
+2.402106	3.338338	0.002243	0.727273	11	keep	Exp 125: tier 2 signal 0.35 (best position size)
