@@ -35,3 +35,4 @@ a61dbe5	1.268271	1.449094	0.002965	0.707317	41	keep	minimal IV filter (MAPE impr
 e8861f4	1.268519	1.449094	0.002345	0.707317	41	keep	ridge lambda 5e-4 (MAPE improves)
 edd00da	1.268541	1.449094	0.002290	0.707317	41	keep	ridge lambda 1e-3 (MAPE improves)
 7bccd63	1.268568	1.449094	0.002220	0.707317	41	keep	IRLS scale 1.5 MAD (MAPE improves)
+a73aa07	1.268570	1.449094	0.002215	0.707317	41	keep	IRLS scale 2.0 MAD (MAPE improves)
