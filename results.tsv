@@ -3,3 +3,4 @@ commit	combined_score	sharpe	mape	win_rate	n_trades	status	description
 1e0334d	0.970767	0.952656	0.002067	0.605263	152	keep	remove low_scale from tier1/2
 33169b7	0.978660	0.965811	0.002067	0.605263	152	keep	tier1 strength 0.50->0.60
 177c45b	0.984331	0.975263	0.002067	0.605263	152	keep	tier1 strength 0.60->0.70
+b4f2a1d	0.986542	0.978949	0.002067	0.605263	152	keep	tier1 strength 0.70->0.85
