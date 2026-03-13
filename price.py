@@ -186,7 +186,7 @@ class PricingModel:
 
         # Tier 2: moderate IV premium + strong dip
         if iv_rv_ratio > 1.3 and ret_5d < -0.03 and dist_from_low < 0.03:
-            return (0.20 + rv_spike)
+            return 0.30
 
         # Tier 3: extended selloff with any IV premium
         if iv_rv_ratio > 1.2 and ret_10d < -0.05 and ret_5d < -0.01:
