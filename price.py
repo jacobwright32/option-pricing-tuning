@@ -187,7 +187,7 @@ class PricingModel:
         # ATM IV
         atm_ivs = implied_vol_vec(S[atm_mask], K[atm_mask], T[atm_mask], r,
                                    market_price[atm_mask], is_call[atm_mask], max_iter=6)
-        current_iv = np.mean(atm_ivs)
+        current_iv = np.median(atm_ivs)
 
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
@@ -199,7 +199,7 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         dist_from_high = (price_history[-1] / np.max(price_history[-30:])) - 1.0
 
-        if iv_rv_ratio > 2.0 and -0.035 < ret_5d < -0.025 and -0.06 < ret_10d < -0.01 and -0.08 < dist_from_high < -0.03:
+        if iv_rv_ratio > 2.0 and realized_vol < 0.50 and -0.035 < ret_5d < -0.025 and -0.06 < ret_10d < -0.01 and -0.08 < dist_from_high < -0.03:
             return 1.0
 
         return 0.0
