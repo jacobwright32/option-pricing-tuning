@@ -94,7 +94,7 @@ class PricingModel:
             coeffs = None
             lam = 1e-3  # Ridge penalty
             n_feat = X_sub.shape[1]
-            for _ in range(8):
+            for _ in range(12):
                 Xw = X_sub * w[:, None]
                 yw = y_sub * w
                 # Ridge: (X'X + λI)^-1 X'y
