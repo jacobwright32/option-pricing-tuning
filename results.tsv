@@ -41,3 +41,4 @@ fa19f29	1.291037	1.486521	0.002190	0.700000	40	keep	add dist_from_high<-0.03 fil
 7e08317	1.324713	1.542647	0.002190	0.694444	36	keep	dist_from_high -0.04 (score 1.325)
 74df7cf	1.336661	1.562561	0.002190	0.718750	32	keep	dist_from_high -0.05 (score 1.337)
 6bf6118	1.337587	1.564105	0.002190	0.727273	33	keep	dist_from_high 30d window (score 1.338)
+edbbed7	1.337587	1.564105	0.002190	0.727273	33	keep	ret_5d -0.02 (same score, simpler)
