@@ -178,11 +178,11 @@ with tab_scan:
     Hold for **7 calendar days**, then exit.
     """)
 
-    # Fixed thresholds from optimization (Exp 119, score 1.638)
-    min_iv_rv = 1.5
-    ret_5d_range = (-0.07, -0.02)
-    ret_10d_range = (-0.08, -0.01)
-    dist_high_range = (-0.17, -0.05)
+    # Fixed thresholds from optimization (Exp 53, score 2.396)
+    min_iv_rv = 2.0
+    ret_5d_range = (-0.035, -0.025)
+    ret_10d_range = (-0.06, -0.01)
+    dist_high_range = (-0.08, -0.03)
 
     # Persist scan results across reruns so Save button works
     if "buy_signals" not in st.session_state:
@@ -215,6 +215,7 @@ with tab_scan:
                 ret_5d_range[0] < metrics["ret_5d"] < ret_5d_range[1]
                 and ret_10d_range[0] < metrics["ret_10d"] < ret_10d_range[1]
                 and dist_high_range[0] < metrics["dist_from_high"] < dist_high_range[1]
+                and metrics["rv"] < 0.50
             )
             if passes:
                 prefilter_results.append({
