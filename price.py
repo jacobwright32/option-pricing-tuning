@@ -151,7 +151,6 @@ class PricingModel:
             sigma_atm[upd] -= (p[upd] - mp_atm[upd]) / v[upd]
             sigma_atm = np.clip(sigma_atm, 0.01, 5.0)
         current_iv = np.median(sigma_atm)
-        iv_std = np.std(sigma_atm)
 
         log_returns = np.diff(np.log(price_history))
         realized_vol = np.std(log_returns) * np.sqrt(252)
