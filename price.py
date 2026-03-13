@@ -151,7 +151,7 @@ class PricingModel:
         iv_rv_ratio = current_iv / realized_vol
         ret_5d = (price_history[-1] / price_history[-5]) - 1.0
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
-        dist_from_high = (price_history[-1] / np.max(price_history[-20:])) - 1.0
+        dist_from_high = (price_history[-1] / np.max(price_history[-30:])) - 1.0
 
         if iv_rv_ratio > 1.5 and ret_5d < -0.025 and ret_10d < -0.01 and dist_from_high < -0.05:
             return 1.0
