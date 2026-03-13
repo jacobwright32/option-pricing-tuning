@@ -199,8 +199,26 @@ class PricingModel:
         ret_10d = (price_history[-1] / price_history[-10]) - 1.0
         dist_from_high = (price_history[-1] / np.max(price_history[-30:])) - 1.0
 
+        # RSI(14) calculation
+        if len(price_history) >= 15:
+            deltas = np.diff(price_history)
+            gains = np.maximum(deltas[-14:], 0)
+            losses = np.maximum(-deltas[-14:], 0)
+            avg_gain = np.mean(gains)
+            avg_loss = np.mean(losses)
+            if avg_loss > 1e-10:
+                rsi = 100.0 - 100.0 / (1.0 + avg_gain / avg_loss)
+            else:
+                rsi = 100.0
+        else:
+            rsi = 50.0
+
         if iv_rv_ratio > 2.0 and realized_vol < 0.50 and -0.035 < ret_5d < -0.025 and -0.06 < ret_10d < -0.01 and -0.08 < dist_from_high < -0.03:
             return 1.0
+
+        # RSI-based tier: extremely oversold + IV premium + all price conditions
+        if rsi < 30 and iv_rv_ratio > 2.0 and realized_vol < 0.45 and -0.04 < ret_5d < -0.02 and -0.055 < ret_10d < -0.015 and -0.075 < dist_from_high < -0.03:
+            return 0.3
 
         return 0.0
 
