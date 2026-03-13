@@ -154,7 +154,7 @@ class PricingModel:
 
         fitted_vol = np.copy(ivs)
         try:
-            good = ivs > 0.01
+            good = ivs > 0.005
             if good.sum() > 8:
                 coeffs = _irls_fit(X[good], ivs[good])
             else:
