@@ -43,3 +43,4 @@ fa19f29	1.291037	1.486521	0.002190	0.700000	40	keep	add dist_from_high<-0.03 fil
 6bf6118	1.337587	1.564105	0.002190	0.727273	33	keep	dist_from_high 30d window (score 1.338)
 edbbed7	1.337587	1.564105	0.002190	0.727273	33	keep	ret_5d -0.02 (same score, simpler)
 d5cb59d	1.423511	1.707311	0.002190	0.700000	30	keep	cap dist_from_high -15% (score 1.424!)
+0c55b06	1.507693	1.847614	0.002190	0.714286	28	keep	cap ret_5d -8% avoid crashes (score 1.508!)
