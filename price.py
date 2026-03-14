@@ -226,8 +226,8 @@ class PricingModel:
         otm_call = is_call & (K / spot > 1.07)
         if otm_put.sum() > 0 and otm_call.sum() > 0 and atm_mask.sum() > 0:
             wing_iv = 0.5 * (np.median(ivs[otm_put]) + np.median(ivs[otm_call]))
-            convexity = wing_iv / max(current_iv, 0.01)  # >1 = smile, higher = more fear
-            if convexity > 1.15 and iv_rv_ratio > 1.5 and realized_vol < 0.50 and rsi < 40 and ret_5d < -0.01 and dist_from_high < -0.02:
+            convexity = wing_iv / max(current_iv, 0.01)
+            if convexity > 1.15 and iv_rv_ratio > 1.5 and realized_vol < 0.50 and rsi < 40 and ret_5d < -0.02 and dist_from_high < -0.02:
                 return 0.9
 
         return 0.0
