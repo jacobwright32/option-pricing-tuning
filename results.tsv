@@ -121,3 +121,14 @@ fde09b1	2.176277	2.961995	0.002301	0.684211	19	keep	Exp 16: dist lower -0.08 (Sh
 2.402099	3.338327	0.002243	0.727273	11	discard	Exp 123: tier 2 signal 0.4 (marginal vs 0.35)
 2.401460	3.337261	0.002243	0.727273	11	discard	Exp 124: tier 2 signal 0.5 (worse)
 2.402106	3.338338	0.002243	0.727273	11	keep	Exp 125: tier 2 signal 0.35 (best position size)
+0.272236	-0.211445	0.002243	0.390000	100	discard	Exp 118: RSI<35 loose tier 2 (100 trades, negative Sharpe)
+2.027579	2.714126	0.002243	0.666667	12	discard	Exp 119: RSI<28 tighter tier 2 (12 trades, worse)
+2.395658	3.327592	0.002243	0.700000	10	discard	Exp 120: RSI<25 tier 2 (no extra trades)
+2.402106	3.338338	0.002243	0.727273	11	discard	Exp 126: RSI<32 (same as RSI<30)
+2.275892	3.127982	0.002243	0.666667	12	discard	Exp 127: wider ret_5d 0.042-0.018 (extra loser)
+2.402106	3.338338	0.002243	0.727273	11	discard	Exp 128: wider ret_10d in tier 2 (no change)
+2.180957	2.969758	0.002243	0.666667	12	discard	Exp 129: wider dist_from_high (extra loser)
+2.402094	3.338338	0.002273	0.727273	11	discard	Exp 130: ridge lambda 1e-4 (MAPE worse)
+2.402115	3.338338	0.002220	0.727273	11	keep	Exp 131: ridge lambda 5e-4 (MAPE improved)
+2.402108	3.338338	0.002236	0.727273	11	discard	Exp 132: ridge lambda 3e-4
+2.402114	3.338338	0.002221	0.727273	11	discard	Exp 133: ridge lambda 7e-4
