@@ -220,6 +220,16 @@ class PricingModel:
         if rsi < 30 and iv_rv_ratio > 2.0 and realized_vol < 0.45 and -0.04 < ret_5d < -0.02 and -0.055 < ret_10d < -0.015 and -0.075 < dist_from_high < -0.03:
             return 0.35
 
+        # Tier 3: IV convexity (smile curvature) as fear gauge
+        ivs = implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=6)
+        otm_put = (~is_call) & (K / spot < 0.93)
+        otm_call = is_call & (K / spot > 1.07)
+        if otm_put.sum() > 0 and otm_call.sum() > 0 and atm_mask.sum() > 0:
+            wing_iv = 0.5 * (np.median(ivs[otm_put]) + np.median(ivs[otm_call]))
+            convexity = wing_iv / max(current_iv, 0.01)  # >1 = smile, higher = more fear
+            if convexity > 1.15 and iv_rv_ratio > 1.5 and realized_vol < 0.50 and rsi < 40 and ret_5d < -0.01 and dist_from_high < -0.02:
+                return 0.2
+
         return 0.0
 
 
