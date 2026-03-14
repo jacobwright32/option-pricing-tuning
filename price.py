@@ -149,7 +149,7 @@ class PricingModel:
                 coeffs = np.linalg.solve(XtX, Xty)
                 resid = y_sub - X_sub @ coeffs
                 mad = np.median(np.abs(resid)) + 1e-8
-                w = 1.0 / (1.0 + (resid / (1.5 * mad)) ** 2)
+                w = 1.0 / (1.0 + (resid / (1.3 * mad)) ** 2)
             return coeffs
 
         fitted_vol = np.copy(ivs)

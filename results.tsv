@@ -135,3 +135,5 @@ fde09b1	2.176277	2.961995	0.002301	0.684211	19	keep	Exp 16: dist lower -0.08 (Sh
 2.402121	3.338338	0.002204	0.727273	11	discard	Exp 134: 16 IRLS iterations (marginal)
 2.402123	3.338338	0.002199	0.727273	11	keep	Exp 135: 20 IRLS iterations (best MAPE)
 2.402124	3.338338	0.002197	0.727273	11	discard	Exp 136: 25 IRLS iterations (86s too slow)
+2.402124	3.338338	0.002197	0.727273	11	keep	Exp 137: Cauchy scale 1.3 (tiny MAPE improvement)
+2.402121	3.338338	0.002204	0.727273	11	discard	Exp 138: Cauchy scale 1.2 (slightly worse)
