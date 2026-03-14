@@ -138,3 +138,19 @@ fde09b1	2.176277	2.961995	0.002301	0.684211	19	keep	Exp 16: dist lower -0.08 (Sh
 2.402124	3.338338	0.002197	0.727273	11	keep	Exp 137: Cauchy scale 1.3 (tiny MAPE improvement)
 2.402121	3.338338	0.002204	0.727273	11	discard	Exp 138: Cauchy scale 1.2 (slightly worse)
 2.405504	3.343971	0.002197	0.750000	12	keep	Exp 144: IV convexity tier 3 (1 extra winning trade)
+2.388116	3.314992	0.002197	0.727273	11	discard	Exp 141: graduated tier 1 by IV/RV (weaker)
+2.402105	3.338338	0.002244	0.727273	11	discard	Exp 142: add log_m^2*sqrt_T feature (MAPE worse)
+2.324663	3.209236	0.002197	0.666667	12	discard	Exp 139: IV term structure tier 3 (loser trade)
+2.402124	3.338338	0.002197	0.727273	11	discard	Exp 140: tighter term structure (no trades)
+2.405504	3.343971	0.002197	0.750000	12	discard	Exp 144b: convexity 0.2 (now superseded)
+2.406202	3.345134	0.002197	0.750000	12	discard	Exp 145: convexity 0.25
+2.406842	3.346201	0.002197	0.750000	12	discard	Exp 146: convexity 0.3
+2.407425	3.347174	0.002197	0.750000	12	discard	Exp 147: convexity 0.35
+2.407953	3.348053	0.002197	0.750000	12	discard	Exp 148: convexity 0.4
+2.408425	3.348840	0.002197	0.750000	12	discard	Exp 149: convexity 0.45
+2.408843	3.349536	0.002197	0.750000	12	discard	Exp 150: convexity 0.5
+2.409518	3.350661	0.002197	0.750000	12	discard	Exp 151: convexity 0.6
+2.409983	3.351436	0.002197	0.750000	12	discard	Exp 152: convexity 0.7
+2.410245	3.351872	0.002197	0.750000	12	discard	Exp 153: convexity 0.8
+2.410309	3.351979	0.002197	0.750000	12	keep	Exp 154: convexity tier 0.9 (optimal position size)
+2.410181	3.351767	0.002197	0.750000	12	discard	Exp 155: convexity 1.0 (slightly worse)
