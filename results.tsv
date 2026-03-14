@@ -175,3 +175,5 @@ e9b387f	2.402124	3.338338	0.002197	0.727273	11	keep	Exp 137: Cauchy scale 1.3 (t
 ---	2.411157	3.353425	0.002197	0.750000	12	discard	Exp 176: tier 2 at 0.52
 ---	2.411227	3.353509	0.002197	0.750000	12	discard	Exp 177: convexity tier 0.95
 3a184e3	2.411232	3.353517	0.002197	0.750000	12	keep	Exp 178: convexity tier 1.0 (full position, both tiers strong)
+---	2.410959	3.352063	0.002197	0.750000	12	discard	Exp 179: tier 2 at 0.60 (worse than 0.50)
+d6be7c5	2.411233	3.353519	0.002197	0.750000	12	keep	Exp 180: IV filter > 0.01 (tiny MAPE improvement)
