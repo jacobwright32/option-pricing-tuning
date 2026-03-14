@@ -3,11 +3,14 @@ Live Stock Scanner Dashboard
 =============================
 Scans S&P 500 + Russell 2000 stocks for buy signals using the optimized contrarian strategy.
 
-Signal: Buy when ALL conditions are met:
-  1. IV/RV ratio > 1.5  (fear premium is elevated)
-  2. -6% < 5-day return < -2%  (dip but not crash)
-  3. -8% < 10-day return < -1%  (medium-term weakness, not freefall)
-  4. -15% < Distance from 30-day high < -5%  (pullback, not collapse)
+Tier 1 (full position): IV/RV > 2.0, RV < 0.50,
+  -3.5% < ret_5d < -2.5%, -6% < ret_10d < -1%, -8% < dist_high < -3%
+
+Tier 2 (RSI-confirmed, 0.35 position): RSI < 30, IV/RV > 2.0, RV < 0.45,
+  -4% < ret_5d < -2%, -5.5% < ret_10d < -1.5%, -7.5% < dist_high < -3%
+
+Tier 3 (IV convexity, 0.9 position): convexity > 1.15, IV/RV > 1.5, RV < 0.50,
+  RSI < 40, ret_5d < -1%, dist_high < -2%
 
 Usage:  streamlit run scanner.py
 """
@@ -114,7 +117,7 @@ def get_company_name(ticker):
     return COMPANY_NAMES[ticker]
 
 
-# ─── Signal Logic (from optimized price.py — Exp 119, score 1.638) ──────────
+# ─── Signal Logic (from optimized price.py — Exp 154, score 2.410) ──────────
 
 def compute_signal_metrics(prices_60d):
     if len(prices_60d) < 30:
@@ -128,9 +131,19 @@ def compute_signal_metrics(prices_60d):
     ret_10d = (prices_60d[-1] / prices_60d[-10]) - 1.0
     high_30d = np.max(prices_60d[-30:])
     dist_from_high = (prices_60d[-1] / high_30d) - 1.0
+    # RSI(14)
+    if len(prices_60d) >= 15:
+        deltas = np.diff(prices_60d)
+        gains = np.maximum(deltas[-14:], 0)
+        losses = np.maximum(-deltas[-14:], 0)
+        avg_gain = np.mean(gains)
+        avg_loss = np.mean(losses)
+        rsi = 100.0 - 100.0 / (1.0 + avg_gain / max(avg_loss, 1e-10))
+    else:
+        rsi = 50.0
     return {
         "spot": spot, "rv": rv, "ret_5d": ret_5d, "ret_10d": ret_10d,
-        "high_30d": high_30d, "dist_from_high": dist_from_high,
+        "high_30d": high_30d, "dist_from_high": dist_from_high, "rsi": rsi,
     }
 
 
@@ -184,11 +197,22 @@ with tab_scan:
     Hold for **7 calendar days**, then exit.
     """)
 
-    # Fixed thresholds from optimization (Exp 53, score 2.396)
-    min_iv_rv = 2.0
-    ret_5d_range = (-0.035, -0.025)
-    ret_10d_range = (-0.06, -0.01)
-    dist_high_range = (-0.08, -0.03)
+    # Fixed thresholds from optimization (Exp 154, score 2.410)
+    # Tier 1: tight conditions, full position
+    t1_iv_rv = 2.0
+    t1_ret_5d = (-0.035, -0.025)
+    t1_ret_10d = (-0.06, -0.01)
+    t1_dist_high = (-0.08, -0.03)
+    # Tier 2: RSI-confirmed, 0.35 position
+    t2_rsi = 30
+    t2_iv_rv = 2.0
+    t2_rv_max = 0.45
+    t2_ret_5d = (-0.04, -0.02)
+    t2_ret_10d = (-0.055, -0.015)
+    t2_dist_high = (-0.075, -0.03)
+    # Tier 3: IV convexity, 0.9 position (needs live options data)
+    t3_iv_rv = 1.5
+    t3_rsi = 40
 
     # Persist scan results across reruns so Save button works
     if "buy_signals" not in st.session_state:
@@ -230,20 +254,36 @@ with tab_scan:
             metrics = compute_signal_metrics(prices_60d)
             if metrics is None:
                 continue
-            passes = (
-                ret_5d_range[0] < metrics["ret_5d"] < ret_5d_range[1]
-                and ret_10d_range[0] < metrics["ret_10d"] < ret_10d_range[1]
-                and dist_high_range[0] < metrics["dist_from_high"] < dist_high_range[1]
-                and metrics["rv"] < 0.50
+            # Check all tiers — use widest bounds as pre-filter
+            m = metrics
+            tier1 = (
+                t1_ret_5d[0] < m["ret_5d"] < t1_ret_5d[1]
+                and t1_ret_10d[0] < m["ret_10d"] < t1_ret_10d[1]
+                and t1_dist_high[0] < m["dist_from_high"] < t1_dist_high[1]
+                and m["rv"] < 0.50
             )
-            if passes:
+            tier2 = (
+                m["rsi"] < t2_rsi and m["rv"] < t2_rv_max
+                and t2_ret_5d[0] < m["ret_5d"] < t2_ret_5d[1]
+                and t2_ret_10d[0] < m["ret_10d"] < t2_ret_10d[1]
+                and t2_dist_high[0] < m["dist_from_high"] < t2_dist_high[1]
+            )
+            tier3_price = (
+                m["rsi"] < t3_rsi and m["rv"] < 0.50
+                and m["ret_5d"] < -0.01
+                and m["dist_from_high"] < -0.02
+            )
+            if tier1 or tier2 or tier3_price:
+                tier_label = "T1" if tier1 else ("T2" if tier2 else "T3")
                 prefilter_results.append({
                     "Ticker": ticker,
+                    "Tier": tier_label,
                     "Price": metrics["spot"],
                     "5d Ret": metrics["ret_5d"],
                     "10d Ret": metrics["ret_10d"],
                     "Dist High": metrics["dist_from_high"],
                     "RV": metrics["rv"],
+                    "RSI": metrics["rsi"],
                 })
         price_progress.empty()
 
@@ -272,9 +312,21 @@ with tab_scan:
                     continue
                 iv_rv = iv / row["RV"]
                 result = {**row, "ATM IV": iv, "IV/RV": iv_rv}
-                if iv_rv > min_iv_rv:
+                # Determine which tier this passes
+                tier = row.get("Tier", "")
+                passes = False
+                if tier == "T1" and iv_rv > t1_iv_rv:
+                    result["Signal"] = "Tier 1 (1.0)"
+                    passes = True
+                elif tier == "T2" and iv_rv > t2_iv_rv:
+                    result["Signal"] = "Tier 2 (0.35)"
+                    passes = True
+                elif tier == "T3" and iv_rv > t3_iv_rv:
+                    result["Signal"] = "Tier 3 (0.9) - needs IV convexity confirm"
+                    passes = True
+                if passes:
                     buy_signals.append(result)
-                elif iv_rv > min_iv_rv * 0.85:
+                elif iv_rv > t3_iv_rv * 0.85:
                     near_miss.append(result)
                 time.sleep(0.2)
 
@@ -287,7 +339,7 @@ with tab_scan:
 
     # Display results from session state (persists across reruns for Save button)
     fmt = {"Price": "${:.2f}", "5d Ret": "{:.1%}", "10d Ret": "{:.1%}",
-           "Dist High": "{:.1%}", "RV": "{:.1%}"}
+           "Dist High": "{:.1%}", "RV": "{:.1%}", "RSI": "{:.1f}"}
 
     if st.session_state.buy_signals is not None:
         buy_signals = st.session_state.buy_signals
