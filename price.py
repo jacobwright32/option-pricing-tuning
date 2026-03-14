@@ -218,7 +218,7 @@ class PricingModel:
 
         # RSI-based tier: extremely oversold + IV premium + all price conditions
         if rsi < 30 and iv_rv_ratio > 2.0 and realized_vol < 0.45 and -0.04 < ret_5d < -0.02 and -0.055 < ret_10d < -0.015 and -0.075 < dist_from_high < -0.03:
-            return 0.35
+            return 0.50
 
         # Tier 3: IV convexity (smile curvature) as fear gauge
         ivs = implied_vol_vec(S, K, T, r, market_price, is_call, max_iter=6)
