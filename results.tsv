@@ -132,3 +132,6 @@ fde09b1	2.176277	2.961995	0.002301	0.684211	19	keep	Exp 16: dist lower -0.08 (Sh
 2.402115	3.338338	0.002220	0.727273	11	keep	Exp 131: ridge lambda 5e-4 (MAPE improved)
 2.402108	3.338338	0.002236	0.727273	11	discard	Exp 132: ridge lambda 3e-4
 2.402114	3.338338	0.002221	0.727273	11	discard	Exp 133: ridge lambda 7e-4
+2.402121	3.338338	0.002204	0.727273	11	discard	Exp 134: 16 IRLS iterations (marginal)
+2.402123	3.338338	0.002199	0.727273	11	keep	Exp 135: 20 IRLS iterations (best MAPE)
+2.402124	3.338338	0.002197	0.727273	11	discard	Exp 136: 25 IRLS iterations (86s too slow)
