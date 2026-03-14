@@ -228,7 +228,7 @@ class PricingModel:
             wing_iv = 0.5 * (np.median(ivs[otm_put]) + np.median(ivs[otm_call]))
             convexity = wing_iv / max(current_iv, 0.01)
             if convexity > 1.15 and iv_rv_ratio > 1.5 and realized_vol < 0.50 and rsi < 40 and ret_5d < -0.02 and dist_from_high < -0.02:
-                return 0.9
+                return 1.0
 
         return 0.0
 
