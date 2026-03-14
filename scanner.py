@@ -6,11 +6,11 @@ Scans S&P 500 + Russell 2000 stocks for buy signals using the optimized contrari
 Tier 1 (full position): IV/RV > 2.0, RV < 0.50,
   -3.5% < ret_5d < -2.5%, -6% < ret_10d < -1%, -8% < dist_high < -3%
 
-Tier 2 (RSI-confirmed, 0.35 position): RSI < 30, IV/RV > 2.0, RV < 0.45,
+Tier 2 (RSI-confirmed, 0.50 position): RSI < 30, IV/RV > 2.0, RV < 0.45,
   -4% < ret_5d < -2%, -5.5% < ret_10d < -1.5%, -7.5% < dist_high < -3%
 
-Tier 3 (IV convexity, 0.9 position): convexity > 1.15, IV/RV > 1.5, RV < 0.50,
-  RSI < 40, ret_5d < -1%, dist_high < -2%
+Tier 3 (IV convexity, full position): convexity > 1.15, IV/RV > 1.5, RV < 0.50,
+  RSI < 40, ret_5d < -2%, dist_high < -2%
 
 Usage:  streamlit run scanner.py
 """
@@ -197,20 +197,20 @@ with tab_scan:
     Hold for **7 calendar days**, then exit.
     """)
 
-    # Fixed thresholds from optimization (Exp 154, score 2.410)
-    # Tier 1: tight conditions, full position
+    # Fixed thresholds from optimization (Exp 180, score 2.411)
+    # Tier 1: tight conditions, full position (1.0)
     t1_iv_rv = 2.0
     t1_ret_5d = (-0.035, -0.025)
     t1_ret_10d = (-0.06, -0.01)
     t1_dist_high = (-0.08, -0.03)
-    # Tier 2: RSI-confirmed, 0.35 position
+    # Tier 2: RSI-confirmed, half position (0.50)
     t2_rsi = 30
     t2_iv_rv = 2.0
     t2_rv_max = 0.45
     t2_ret_5d = (-0.04, -0.02)
     t2_ret_10d = (-0.055, -0.015)
     t2_dist_high = (-0.075, -0.03)
-    # Tier 3: IV convexity, 0.9 position (needs live options data)
+    # Tier 3: IV convexity, full position (1.0) — needs live options data
     t3_iv_rv = 1.5
     t3_rsi = 40
 
@@ -319,10 +319,10 @@ with tab_scan:
                     result["Signal"] = "Tier 1 (1.0)"
                     passes = True
                 elif tier == "T2" and iv_rv > t2_iv_rv:
-                    result["Signal"] = "Tier 2 (0.35)"
+                    result["Signal"] = "Tier 2 (0.50)"
                     passes = True
                 elif tier == "T3" and iv_rv > t3_iv_rv:
-                    result["Signal"] = "Tier 3 (0.9) - needs IV convexity confirm"
+                    result["Signal"] = "Tier 3 (1.0) - needs IV convexity confirm"
                     passes = True
                 if passes:
                     buy_signals.append(result)
