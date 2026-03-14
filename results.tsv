@@ -179,3 +179,8 @@ e9b387f	2.402124	3.338338	0.002197	0.727273	11	keep	Exp 137: Cauchy scale 1.3 (t
 d6be7c5	2.411233	3.353519	0.002197	0.750000	12	keep	Exp 180: IV filter > 0.01 (tiny MAPE improvement)
 ---	2.411233	3.353519	0.002197	0.750000	12	discard	Exp 183: min good > 12 (no change)
 ---	2.214642	3.024312	0.002197	0.733333	15	discard	Exp 184: IV dispersion tier (3 extra losers)
+---	2.411233	3.353517	0.002193	0.750000	12	discard	Exp 185: SNAPSHOT_EVERY=4 baseline (same score)
+---	2.207169	3.013410	0.002193	0.750000	20	discard	Exp 186: wider ret_5d with SNAP=4 (20 trades worse)
+---	2.248205	3.081804	0.002193	0.769231	13	discard	Exp 186b: ret_5d 0.036-0.024 (1 bad extra)
+---	0.199052	-0.333452	0.002193	0.531915	47	discard	Exp 187: z-score tier (47 trades)
+---	1.874713	2.459289	0.002193	0.692308	13	discard	Exp 188: tight z-score (1 very bad trade)

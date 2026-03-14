@@ -261,7 +261,7 @@ TICKERS = [
 TICKERS = list(dict.fromkeys(TICKERS))
 N_ASSETS = len(TICKERS)
 N_DAYS = 504            # ~2 trading years
-SNAPSHOT_EVERY = 20     # option snapshots every 20 days (was 5, scaled for ~2500 stocks)
+SNAPSHOT_EVERY = 4      # option snapshots every 4 days
 LOOKBACK = 60           # price history provided to signal generator
 
 STRIKES_PCT = np.array(
